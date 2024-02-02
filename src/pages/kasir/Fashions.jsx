@@ -15,7 +15,6 @@ import messaging from "../../lib/FirebaseConfigure";
 import { subscribeToTopic } from "../../lib/FirebaseConfigure";
 
 export default function FashionsKasir() {
-  console.log("MESEMEMME", messaging, subscribeToTopic);
   // FETCHHHH
   const [isLoadingFetch, setIsLoadingFetch] = useState(true);
   // FETCH FASHION
@@ -154,25 +153,20 @@ export default function FashionsKasir() {
     subscribeToTopic();
   }, []);
 
+  function requestPermission() {
+    console.log("Requesting permission...");
+    Notification.requestPermission().then((permission) => {
+      if (permission === "granted") {
+        console.log("Notification permission granted.");
+      } else {
+        console.log("Unable to get permission to notify.");
+      }
+    });
+  }
   const handleBuy = async () => {
     console.log("BUUYY", formData);
-    getToken(messaging, {
-      vapidKey:
-        "BFn7WimjcSHwWnLjW0ff-DJG2r9ecuEs7GNNjw7sOcs1Zn_LIkS7DemsBNuECqBZScUbNLXXdFpvRNY2e1yXNV0",
-    })
-      .then((currentToken) => {
-        if (currentToken) {
-          console.log("Got registration token:", currentToken);
-          // Kirim token ini ke server Anda
-        } else {
-          console.log(
-            "No registration token available. Request permission to generate one."
-          );
-        }
-      })
-      .catch((err) => {
-        console.log("An error occurred while retrieving token. ", err);
-      });
+
+    requestPermission();
     // setIsLoading(true);
     // await axios
     //   .post("http://localhost:3000/api/transactions", formData, {
