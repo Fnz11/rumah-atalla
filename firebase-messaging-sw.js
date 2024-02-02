@@ -1,6 +1,7 @@
-console.log("THIS IS FROM SW")
+console.log("THIS IS FROM SW");
 
 import { getToken, getMessaging } from "firebase/messaging";
+import { registerMessaging } from "firebase/messaging";
 
 const messaging = getMessaging();
 
@@ -30,3 +31,5 @@ messaging.setBackgroundMessageHandler(function (payload) {
   const option = { body: payload.data.status };
   return self.registration.showNotification(title, option);
 });
+
+registerMessaging(messaging);

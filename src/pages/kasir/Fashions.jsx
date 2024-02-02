@@ -11,8 +11,8 @@ import CustomToast from "../../components/CustomToast";
 import Title from "../../components/Title";
 import ShowMore from "../../components/Kasir/ShowMore";
 import { getToken } from "firebase/messaging";
-import messaging from "./../../lib/FirebaseConfigure.js";
-import subscribeToTopic from "./../../lib/FirebaseConfigure.js";
+import messaging from "./FirebaseConfigure";
+import { subscribeToTopic } from "./FirebaseConfigure";
 
 export default function FashionsKasir() {
   // console.log("MESEMEMME", messaging);
@@ -150,12 +150,13 @@ export default function FashionsKasir() {
   }, [productsForm, buyer]);
 
   useEffect(() => {
-    subscribeToTopic.subscribeToTopic();
+    messaging.subscribeToTopic("notifications");
+    subscribeToTopic();
   }, []);
 
   const handleBuy = async () => {
     console.log("BUUYY", formData);
-    getToken(messaging.messaging, {
+    getToken(messaging, {
       vapidKey:
         "BFn7WimjcSHwWnLjW0ff-DJG2r9ecuEs7GNNjw7sOcs1Zn_LIkS7DemsBNuECqBZScUbNLXXdFpvRNY2e1yXNV0",
     })
