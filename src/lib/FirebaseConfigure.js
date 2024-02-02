@@ -18,7 +18,7 @@ const messaging = getMessaging(app);
 // Function untuk subscribe topic
 const subscribeToTopic = () => {
   console.log("TES");
-  getMessaging().subscribeToTopic("owner_notifications");
+  messaging.subscribeToTopic("owner_notifications");
 };
 
 export default messaging;

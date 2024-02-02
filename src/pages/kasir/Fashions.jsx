@@ -11,11 +11,11 @@ import CustomToast from "../../components/CustomToast";
 import Title from "../../components/Title";
 import ShowMore from "../../components/Kasir/ShowMore";
 import { getToken } from "firebase/messaging";
-import messaging from "./FirebaseConfigure";
-import { subscribeToTopic } from "./FirebaseConfigure";
+import messaging from "../../lib/FirebaseConfigure";
+import { subscribeToTopic } from "../../lib/FirebaseConfigure";
 
 export default function FashionsKasir() {
-  // console.log("MESEMEMME", messaging);
+  console.log("MESEMEMME", messaging, subscribeToTopic);
   // FETCHHHH
   const [isLoadingFetch, setIsLoadingFetch] = useState(true);
   // FETCH FASHION
@@ -150,7 +150,7 @@ export default function FashionsKasir() {
   }, [productsForm, buyer]);
 
   useEffect(() => {
-    messaging.subscribeToTopic("notifications");
+    // messaging.subscribeToTopic("notifications");
     subscribeToTopic();
   }, []);
 
