@@ -5,6 +5,7 @@ import Footer from "./Footer";
 import { useEffect, useState } from "react";
 import Sidebar from "./admin/Sidebar";
 import axios from "axios";
+import AdminNavbar from "./AdminNavbar";
 
 export default function Navbar() {
   const DBURL = import.meta.env.VITE_APP_DB_URL;
@@ -15,7 +16,9 @@ export default function Navbar() {
   const location = useLocation();
   const adminPage = location.pathname.startsWith("/admin");
 
-  const User = JSON.parse(localStorage.getItem("user"));
+  const User = localStorage?.getItem("user")
+    ? JSON.parse(localStorage?.getItem("user"))
+    : null;
   const [userData, setUserData] = useState(null);
   const fetchUserData = async () => {
     await axios
@@ -442,11 +445,19 @@ export default function Navbar() {
         </div>
         <div
           className={`${
-            adminPage ? "w-[97%] lg:w-[88%] pl-[3.8rem] " : "w-full"
+            adminPage ? "w-[93%] lg:w-[88%] pl-[3.8rem] " : "w-full"
           }`}
         >
-          <Outlet />
-          <Footer />
+          <div className="w-full flex flex-col pr-2 sm:px-8 lg:px-16">
+            {/* <AdminNavbar /> */}
+            <div className="w-full flex flex-col justify-center items-center">
+              <div className="bg-section-dark w-full h-[4rem] rounded-2xl shadow-lg mt-5 flex items-center px-5 py-3 text-white">
+                AdminNavbar
+              </div>
+            </div>
+            <Outlet />
+            <Footer />
+          </div>
         </div>
       </div>
     </>

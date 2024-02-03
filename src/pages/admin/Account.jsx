@@ -194,7 +194,7 @@ export default function Account() {
 
   return (
     <>
-      <div className="w-full pl-12 pr-2 sm:px-8 lg:px-16 pb-20 pt-10 bg-thirdyThin">
+      <div className="w-full  pb-20 pt-10 bg-thirdyThin">
         {/* TITTLE */}
         <Title title={"Dashboard"} className={"mt-0"} />
 

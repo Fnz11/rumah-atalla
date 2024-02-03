@@ -15,6 +15,9 @@ import SearchBar from "../../components/SearchBar";
 import Checkbox from "../../components/Checkbox";
 
 export default function PromoControl() {
+  const DBURL = import.meta.env.VITE_APP_DB_URL;
+  console.log(DBURL + "/promos/");
+
   // OWNER
   const navigate = useNavigate();
   const userRole = JSON.parse(localStorage.getItem("user")).role;
@@ -32,7 +35,7 @@ export default function PromoControl() {
   const [isLoading, setIsLoading] = useState(true);
   const fetchPromos = async () => {
     await axios
-      .get("http://localhost:3000/api/promos/", {
+      .get(DBURL + "/promos/", {
         headers: {
           Authorization: `${localStorage.getItem("token")}`,
         },
@@ -103,8 +106,8 @@ export default function PromoControl() {
     try {
       const downloadUrl =
         page === "foods"
-          ? "http://localhost:3000/api/promos/foods/download"
-          : "http://localhost:3000/api/promos/fashions/download";
+          ? DBURL + "/promos/foods/download"
+          : DBURL + "/promos/fashions/download";
       const response = await axios.get(downloadUrl, {
         responseType: "blob",
       });
@@ -139,7 +142,7 @@ export default function PromoControl() {
         refetch={fetchPromos}
       />
 
-      <div className="w-full pl-12 pr-2 sm:px-20 lg:px-32 pb-20 pt-10 bg-thirdyThin">
+      <div className="w-full  pb-20 pt-10 bg-thirdyThin">
         {/* FILTER */}
         <div className="h-auto  w-full bg-white rounded-2xl shadow-lg p-7 ">
           {/* TOP */}

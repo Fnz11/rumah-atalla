@@ -289,7 +289,7 @@ export default function ProductControl() {
           />
         )}
 
-        <div className="w-full pl-12 pr-2 sm:px-20 lg:px-32 pb-20 pt-10 bg-thirdyThin">
+        <div className="w-full  pb-20 pt-10 bg-thirdyThin">
           {/* FILTER */}
           <div className="h-auto  w-full bg-white flex flex-col rounded-2xl shadow-lg p-7 ">
             {/* TOP */}

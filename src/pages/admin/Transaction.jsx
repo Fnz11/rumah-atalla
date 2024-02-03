@@ -548,7 +548,7 @@ export default function Transactions() {
       />
 
       {/* CONTENT */}
-      <div className="w-full min-h-screen pl-12 pr-2 sm:px-20 lg:px-32 pb-20 pt-10 bg-thirdyThin">
+      <div className="w-full min-h-screen  pb-20 pt-10 bg-thirdyThin">
         {/* CHART */}
         <div className="w-full h-auto bg-white border-b-2 border-x-2 rounded-2xl shadow-lg p-7 mb-10 relative overflow-hidden">
           {/* TOP */}

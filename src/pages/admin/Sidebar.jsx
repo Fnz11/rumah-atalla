@@ -16,10 +16,10 @@ export default function Sidebar() {
   return (
     <>
       <div className="w-[3rem] lg:w-[15%]   text-sm fixed h-[94.5vh] bg-section-dark rounded-r-2xl sm:rounded-2xl  shadow-md z-[100] flex flex-col justify-between  transition-all duration-300">
-        <div>
+        <div className="flex flex-col max-sm:items-center">
           <Link
             to={"/"}
-            className="flex w-full -ml-2  mt-4 sm:mt-7 mb-5 justify-center drop-shadow items-center "
+            className="flex w-full -ml-5 sm:-ml-2  mt-4 sm:mt-7 mb-5 justify-center drop-shadow items-center "
           >
             <img
               src="/LogoWhite.png"
@@ -83,7 +83,7 @@ export default function Sidebar() {
 
           {/* KASIR FASHIONS */}
           <LinkSide path={"/admin/fashions"} name={"Fashions"}>
-            <i className="fa-solid -mr-1 fa-shirt scale-[0.8] fa-lg"></i>
+            <i className="fa-solid -ml-1 fa-shirt scale-[0.8] fa-lg"></i>
           </LinkSide>
         </div>
 

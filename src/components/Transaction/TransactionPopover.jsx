@@ -11,6 +11,7 @@ import LogoPopover from "../LogoPopover";
 import PopoverDetail from "./PopoverDetail";
 import Button from "../Button";
 import Title from "../Title";
+import TransactionHeadPopoverSection from "./TransactionHeadPopoverSection";
 
 /* eslint-disable react/prop-types */
 export default function TransactionPopover(props) {
@@ -169,20 +170,15 @@ export default function TransactionPopover(props) {
               <div className="w-full h-[15rem] sm:h-[20rem] overflow-y-scroll overflow-x-hidden">
                 {props.products.length > 0 && (
                   <>
-                    <div className="flex w-full text-[0.7rem] sm:text-base bg-secondary h-[3rem] font-semibold shadow-md inset-[0.2rem] relative text-white items-center rounded-2xl px-4 ">
-                      <div className="w-[45%]">Nama Barang </div>
-                      <div className="w-[22.5%]">Harga</div>
-                      <div className="w-[22.5%]">Jumlah</div>
-                      <div className="w-[10%]">QTY</div>
-                    </div>
+                    <TransactionHeadPopoverSection />
 
                     {props.data.products.map((item) => (
-                      <div key={item?.id}>
+                      <>
                         <TransactionPopoverSection
                           promos={props.promos}
                           item={item}
                         />
-                      </div>
+                      </>
                     ))}
                   </>
                 )}

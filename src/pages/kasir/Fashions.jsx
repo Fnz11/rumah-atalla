@@ -460,7 +460,7 @@ export default function FashionsKasir() {
 
       <Toaster />
 
-      <div className="bg-thirdyThin w-full pl-12 pr-2 sm:px-20 lg:px-32 pb-20 pt-10  min-h-screen text-gray-600">
+      <div className="bg-thirdyThin w-full  pb-20 pt-10  min-h-screen text-gray-600">
         {/* BUY BUTTON */}
         <BuyButton
           onClick={() => togglePopover()}
