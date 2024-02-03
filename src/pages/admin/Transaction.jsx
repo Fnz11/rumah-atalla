@@ -592,7 +592,7 @@ export default function Transactions() {
                       ?.value || 0;
 
                   return (
-                    <div className="bg-white font-semibold py-4 px-6 rounded-2xl drop-shadow-md text-gray-600 flex flex-col gap-2 text-sm">
+                    <div className="bg-section-dark font-semibold py-9 px-6 rounded-2xl drop-shadow-md text-white flex flex-col gap-2 text-sm">
                       <p className="flex items-center gap-2">
                         <i className="fa-regular fa-calendar-days mb-1 fa-lg"></i>
                         {label}

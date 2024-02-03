@@ -25,8 +25,8 @@ export default function ChangePageButton({
         <div
           className={`absolute   ${
             page === text
-              ? "opacity-[0.7] bg-[rgba(255,255,255,0.2)]"
-              : "group-hover:opacity-[0.7] bg-[rgba(0,0,0,0.7)] group-hover:bg-[rgba(255,255,255,0.2)]"
+              ? "opacity-[0.5] bg-[rgba(255,255,255,0.2)]"
+              : "group-hover:opacity-[0.1] opacity-[0.7] bg-section-dark"
           } w-full h-full z-[1]  transition-all duration-300`}
         ></div>
         <h1

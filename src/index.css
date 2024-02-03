@@ -30,6 +30,25 @@ html {
 }
 
 .bg-section {
-  background: rgb(239,245,255);
-  background: linear-gradient(54deg, rgba(239,245,255,1) 0%, rgba(255,255,255,1) 15%, rgba(255,255,255,1) 48%, rgba(235,245,255,1) 61%, rgba(255,255,255,1) 84%);
+  background: rgb(239, 245, 255);
+  background: linear-gradient(
+    54deg,
+    rgba(239, 245, 255, 1) 0%,
+    rgba(255, 255, 255, 1) 15%,
+    rgba(255, 255, 255, 1) 48%,
+    rgba(235, 245, 255, 1) 61%,
+    rgba(255, 255, 255, 1) 84%
+  );
+}
+
+.bg-section-dark {
+  background: rgb(15, 23, 42);
+  background: linear-gradient(
+    54deg,
+    rgba(15, 23, 42, 1) 0%,
+    rgba(39, 47, 64, 1) 25%,
+    rgba(29, 39, 60, 1) 48%,
+    rgba(15, 23, 42, 1) 73%,
+    rgba(26, 33, 49, 1) 82%
+  );
 }

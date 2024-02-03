@@ -3,7 +3,7 @@ import SkeletonBar from "../SkeletonBar";
 export default function UserControllerSectionSkeleton() {
   return (
     <>
-      <div className="my-2 w-full relative animate-pulse opacity-[0.5]  bg-white shadow-xl border-b-2 min-h-[7.5rem] inset-[0.2rem]">
+      <div className="my-2 w-full relative animate-pulse opacity-[0.5]  bg-section rounded-2xl shadow-xl border-b-2 min-h-[7.5rem] inset-[0.2rem]">
         <div className="flex items-center min-h-[7.5rem] z-[10] relative w-full">
           <h1 className="items-center flex justify-center w-[10%] py-6 ">
             <SkeletonBar width={"0.75rem"} />

@@ -281,7 +281,7 @@ export default function Account() {
                           ?.value || 0;
 
                       return (
-                        <div className="bg-white font-semibold py-4 px-6 rounded-2xl drop-shadow-md text-gray-600 flex flex-col gap-2 text-sm">
+                        <div className="bg-section-dark font-semibold py-9 px-6 rounded-2xl drop-shadow-md text-white flex flex-col gap-2 text-sm">
                           <p className="flex items-center gap-2">
                             <i className="fa-regular fa-calendar-days mb-1 fa-lg"></i>
                             {label}
@@ -317,16 +317,19 @@ export default function Account() {
             </div>
 
             {/* RIGHT */}
-            <div className="flex flex-col w-full sm:w-[25%] h-[10rem] sm:h-[29rem] bg-white rounded-2xl shadow-lg gap-5 p-4 items-center justify-center">
+            <div className="flex flex-col w-full sm:w-[25%] h-[10rem] sm:h-[29rem] bg-section-dark text-white rounded-2xl shadow-lg gap-5 p-4 items-center justify-center">
               <h1 className="text-2xl font-semibold">Transaction</h1>
               <div className="flex sm:flex-col  gap-3">
-                <div className="flex items-center justify-center text-center drop-shadow-lg text-white font-semibold bg-green-400 w-full aspect-[12/10] relative rounded-2xl shadow-lg p-3">
+                <div className="flex items-center justify-center text-center drop-shadow-lg text-white font-semibold bg-green-400 w-full aspect-[12/10] relative rounded-2xl shadow-lg p-3 overflow-hidden">
+                  <div className="absolute w-full h-full z-[-1] opacity-[0.1] bg-section-dark"></div>
                   Successed: {userData?.transactions?.successed}
                 </div>
-                <div className="flex items-center justify-center text-center drop-shadow-lg text-white font-semibold bg-red-400 w-full aspect-[12/10] relative rounded-2xl shadow-lg p-3">
+                <div className="flex items-center justify-center text-center drop-shadow-lg text-white font-semibold bg-red-400 w-full aspect-[12/10] relative rounded-2xl shadow-lg p-3 overflow-hidden">
+                  <div className="absolute w-full h-full z-[-1] opacity-[0.1] bg-section-dark"></div>
                   Canceled: {userData?.transactions?.canceled}
                 </div>
-                <div className="flex items-center justify-center text-center drop-shadow-lg text-white font-semibold bg-yellow-400 w-full aspect-[12/10] relative rounded-2xl shadow-lg p-3">
+                <div className="flex items-center justify-center text-center drop-shadow-lg text-white font-semibold bg-yellow-400 w-full aspect-[12/10] relative rounded-2xl shadow-lg p-3 overflow-hidden">
+                  <div className="absolute w-full h-full z-[-1] opacity-[0.1] bg-section-dark"></div>
                   Pending: {userData?.transactions?.pending}
                 </div>
               </div>
@@ -376,7 +379,7 @@ export default function Account() {
                             ?.value || 0;
 
                         return (
-                          <div className="bg-white py-4 px-6 rounded-2xl drop-shadow-md text-gray-600 flex flex-col gap-2 text-sm font-semibold">
+                          <div className="bg-section-dark py-9 px-6 rounded-2xl drop-shadow-md text-white flex flex-col gap-2 text-sm font-semibold">
                             <p className="">{label}</p>
                             <p className="text-[#EF5336] flex gap-2 items-center">
                               <img
@@ -398,7 +401,7 @@ export default function Account() {
                               <i className="fa-solid fa-store scale-[1.1] mb-1  mx-[0.2rem]"></i>
                               Web: Rp. {Web?.toLocaleString()}
                             </p>
-                            <p className="text-gray-600 mt-2">
+                            <p className="mt-2">
                               Total: Rp. {Total?.toLocaleString()}
                             </p>
                           </div>

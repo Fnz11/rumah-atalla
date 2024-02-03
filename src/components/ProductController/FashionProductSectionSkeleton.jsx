@@ -4,7 +4,7 @@ export default function FashionProductSectionSkeleton() {
   return (
     <>
       <div
-        className={`cursor-pointer group hover:shadow-xl hover:inset-0 transition-all duration-300 rounded-2xl  w-full relative  bg-white text-gray-600 text-[0.7rem] leading-5 sm:leading-normal md:text-base shadow-md border-b-2 inset-[0.2rem] mt-2 p-3`}
+        className={`cursor-pointer group hover:shadow-xl hover:inset-0 transition-all duration-300 rounded-2xl  w-full relative  bg-section text-gray-600 text-[0.7rem] leading-5 sm:leading-normal md:text-base shadow-md border-b-2 inset-[0.2rem] mt-2 p-3`}
       >
         <div className="flex items-center z-[10] relative">
           <h1 className="flex items-center justify-center  sm:w-[20%] aspect-square w-[35%]">

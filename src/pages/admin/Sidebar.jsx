@@ -15,7 +15,7 @@ export default function Sidebar() {
 
   return (
     <>
-      <div className="w-[3rem] lg:w-[15%]   text-sm fixed h-[94.5vh] bg-primaryNormal rounded-r-2xl sm:rounded-2xl  shadow-md z-[100] flex flex-col justify-between  transition-all duration-300">
+      <div className="w-[3rem] lg:w-[15%]   text-sm fixed h-[94.5vh] bg-section-dark rounded-r-2xl sm:rounded-2xl  shadow-md z-[100] flex flex-col justify-between  transition-all duration-300">
         <div>
           <Link
             to={"/"}
@@ -91,19 +91,16 @@ export default function Sidebar() {
           <div className="lg:mx-4 flex items-center h-[0.1px] w-auto bg-white opacity-[0.6]  drop-shadow-xl"></div>
 
           {/* LOGOUT */}
-          <button className=" flex items-center gap-2 text-thirdyThin drop-shadow-sm  px-4 py-5 lg:py-3 justify-start ">
+          <LinkSide
+            onClick={() => {
+              localStorage.removeItem("token");
+              localStorage.removeItem("user");
+              navigate("/login");
+            }}
+            name={"Log Out"}
+          >
             <i className="fa-solid fa-arrow-right-from-bracket scale-[0.8] fa-lg"></i>
-            <h1
-              onClick={() => {
-                localStorage.removeItem("token");
-                localStorage.removeItem("user");
-                navigate("/login");
-              }}
-              className=" lg:flex hidden"
-            >
-              Log Out
-            </h1>
-          </button>
+          </LinkSide>
         </div>
       </div>
     </>

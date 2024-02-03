@@ -3,7 +3,7 @@ import SkeletonBar from "../SkeletonBar";
 export default function PromoSectionSkeleton() {
   return (
     <>
-      <div className="my-2 opacity-[0.5] cursor-pointer w-full relative bg-white animate-pulse p-2 rounded-2xl shadow-lg inset-[0.2rem]">
+      <div className="my-2 opacity-[0.5] cursor-pointer w-full relative bg-section animate-pulse p-2 rounded-2xl shadow-lg inset-[0.2rem]">
         <div className="w-full bg-thirdyNormal shadow-md   z-[0] opacity-0 transition-all duration-100 -m-2 absolute h-full "></div>
         <div className="flex items-center z-[10] relative w-full">
           <h1 className="text-center w-[10%] ">
