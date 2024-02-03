@@ -18,7 +18,7 @@ import {
 } from "recharts";
 
 export default function Account() {
-  const DBURL = import.meta.env.REACT_APP_DB_URL;
+  const DBURL = import.meta.env.VITE_APP_DB_URL;
 
   const [userData, setUserData] = useState([]);
 

@@ -24,7 +24,7 @@ import UserControllerSectionSkeleton from "../../components/UserController/UserC
 import Title2 from "../../components/Title2";
 
 export default function UserControl() {
-  const DBURL = import.meta.env.REACT_APP_DB_URL;
+  const DBURL = import.meta.env.VITE_APP_DB_URL;
 
   // OWNER
   const navigate = useNavigate();

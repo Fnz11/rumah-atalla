@@ -25,7 +25,7 @@ import SearchBar from "../../components/SearchBar";
 import BuyButton from "../../components/Kasir/BuyButton";
 
 export default function FashionsKasir() {
-  const DBURL = import.meta.env.REACT_APP_DB_URL;
+  const DBURL = import.meta.env.VITE_APP_DB_URL;
 
   // FETCHHHH
   const [isLoadingFetch, setIsLoadingFetch] = useState(true);

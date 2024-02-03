@@ -27,7 +27,7 @@ import TransactionFashionHeadSection from "../../components/Transaction/Transact
 import TransactionFoodHeadSection from "../../components/Transaction/TransactionFoodHeadSection";
 
 export default function Transactions() {
-  const DBURL = import.meta.env.REACT_APP_DB_URL;
+  const DBURL = import.meta.env.VITE_APP_DB_URL;
 
   // OWNER
   const user = JSON.parse(localStorage.getItem("user"));

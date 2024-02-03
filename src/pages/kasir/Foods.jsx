@@ -21,7 +21,7 @@ import FoodsKasirSection from "../../components/Kasir/FoodsKasirSection";
 import ChangePageButton from "../../components/ChangePageButton";
 
 export default function FoodsKasir() {
-  const DBURL = import.meta.env.REACT_APP_DB_URL;
+  const DBURL = import.meta.env.VITE_APP_DB_URL;
 
   // FETCHHHH
   const [isLoadingFetch, setIsLoadingFetch] = useState(true);

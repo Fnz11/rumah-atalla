@@ -7,7 +7,8 @@ import toast, { Toaster } from "react-hot-toast";
 import CustomToast from "../components/CustomToast";
 
 export default function SignIn() {
-  const DBURL = import.meta.env.REACT_APP_DB_URL;
+  const DBURL = import.meta.env.VITE_APP_DB_URL;
+  console.log("DBURL", DBURL);
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -18,7 +19,7 @@ export default function SignIn() {
   const handleLogin = async () => {
     setIsLoading(true);
     await axios
-      .post("/users/signin", {
+      .post(DBURL + "/users/signin", {
         email: email,
         password: password,
       })

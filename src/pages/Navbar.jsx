@@ -7,7 +7,7 @@ import Sidebar from "./admin/Sidebar";
 import axios from "axios";
 
 export default function Navbar() {
-  const DBURL = import.meta.env.REACT_APP_DB_URL;
+  const DBURL = import.meta.env.VITE_APP_DB_URL;
 
   const navigate = useNavigate();
   const [userOpen, setUserOpen] = useState(false);
