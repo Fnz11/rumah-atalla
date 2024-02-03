@@ -19,6 +19,8 @@ import FoodHeadSection from "../../components/ProductController/FoodsHeadSection
 import Checkbox from "../../components/Checkbox";
 
 export default function ProductControl() {
+  const DBURL = import.meta.env.REACT_APP_DB_URL;
+
   // const Products = [
   //   {
   //     store: "tokopedia",
@@ -109,7 +111,7 @@ export default function ProductControl() {
   const [isLoading, setIsLoading] = useState(true);
   const fetchWebProducts = async () => {
     await axios
-      .get("http://localhost:3000/api/products/")
+      .get(DBURL + "/products/")
       .then((res) => {
         setWebFashionProducts(res.data);
         setFashionProducts(res.data);
@@ -124,7 +126,7 @@ export default function ProductControl() {
   const fetchFoodsProducts = async () => {
     console.log("FEETTTTTTTFOOODD");
     await axios
-      .get("http://localhost:3000/api/foods")
+      .get(DBURL + "/foods")
       .then((res) => {
         setFoodsProducts(res.data);
       })
@@ -233,8 +235,8 @@ export default function ProductControl() {
     try {
       const downloadUrl =
         page === "foods"
-          ? "http://localhost:3000/api/foods/data/download"
-          : "http://localhost:3000/api/products/data/download";
+          ? DBURL + "/foods/data/download"
+          : DBURL + "/products/data/download";
       const response = await axios.get(downloadUrl, {
         responseType: "blob",
       });

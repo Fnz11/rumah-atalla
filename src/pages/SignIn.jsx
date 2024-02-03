@@ -7,6 +7,7 @@ import toast, { Toaster } from "react-hot-toast";
 import CustomToast from "../components/CustomToast";
 
 export default function SignIn() {
+  const DBURL = import.meta.env.REACT_APP_DB_URL;
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -17,7 +18,7 @@ export default function SignIn() {
   const handleLogin = async () => {
     setIsLoading(true);
     await axios
-      .post("http://localhost:3000/api/users/signin", {
+      .post("/users/signin", {
         email: email,
         password: password,
       })
@@ -27,7 +28,7 @@ export default function SignIn() {
           "Authorization"
         ] = `Bearer ${res1.data.token}`;
         axios
-          .post("http://localhost:3000/api/users/check/" + res1.data.token)
+          .post(DBURL + "/users/check/" + res1.data.token)
           .then((res) => {
             console.log(res.data.decodedToken);
             localStorage.setItem("token", res1.data.token);
@@ -51,7 +52,7 @@ export default function SignIn() {
   const User = JSON.parse(localStorage.getItem("user"));
   const fetchUserData = async () => {
     await axios
-      .get("http://localhost:3000/api/users/" + User?.userId)
+      .get(DBURL + "/users/" + User?.userId)
       .then((res) => {
         navigate("/admin/dashboard");
         setUserData(res.data);

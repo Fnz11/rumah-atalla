@@ -21,13 +21,15 @@ import FoodsKasirSection from "../../components/Kasir/FoodsKasirSection";
 import ChangePageButton from "../../components/ChangePageButton";
 
 export default function FoodsKasir() {
+  const DBURL = import.meta.env.REACT_APP_DB_URL;
+
   // FETCHHHH
   const [isLoadingFetch, setIsLoadingFetch] = useState(true);
   // FETCH FOODS
   const [foodsProducts, setFoodsProducts] = useState([]);
   const [triger, setTriger] = useState(1);
   const fetchFoodsProducts = async () => {
-    await axios.get("http://localhost:3000/api/foods").then((res) => {
+    await axios.get(DBURL + "/foods").then((res) => {
       if (foodsProducts.length === 0) {
         setFoodsProducts(res.data);
       }
@@ -39,7 +41,7 @@ export default function FoodsKasir() {
   const [promos, setPromos] = useState([]);
   const fetchPromos = async () => {
     await axios
-      .get("http://localhost:3000/api/promos/", {
+      .get(DBURL + "/promos/", {
         headers: {
           Authorization: `${localStorage.getItem("token")}`,
         },
@@ -55,7 +57,7 @@ export default function FoodsKasir() {
   const user = JSON.parse(localStorage.getItem("user"));
   const fetchTransactions = async () => {
     await axios
-      .get("http://localhost:3000/api/transactions/", {
+      .get(DBURL + "/transactions/", {
         headers: {
           Authorization: token,
         },
@@ -133,7 +135,7 @@ export default function FoodsKasir() {
     console.log("DIUPDATEE", transactionsData);
     await axios
       .patch(
-        `http://localhost:3000/api/users/` + user.userId,
+        DBURL + `/users/` + user.userId,
         { transactions: transactionsData },
         {
           headers: {
@@ -175,7 +177,7 @@ export default function FoodsKasir() {
   const handleBuy = async () => {
     setIsLoading(true);
     await axios
-      .post("http://localhost:3000/api/transactions", formData, {
+      .post(DBURL + "/transactions", formData, {
         headers: {
           Authorization: token,
         },

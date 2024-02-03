@@ -24,6 +24,8 @@ import UserControllerSectionSkeleton from "../../components/UserController/UserC
 import Title2 from "../../components/Title2";
 
 export default function UserControl() {
+  const DBURL = import.meta.env.REACT_APP_DB_URL;
+
   // OWNER
   const navigate = useNavigate();
   const userRole = JSON.parse(localStorage.getItem("user")).role;
@@ -38,7 +40,7 @@ export default function UserControl() {
   const [userData, setUserData] = useState([]);
   const fetchUser = async () => {
     await axios
-      .get("http://localhost:3000/api/users/", {
+      .get(DBURL + "/users/", {
         headers: {
           Authorization: `${localStorage.getItem("token")}`,
         },
@@ -119,12 +121,9 @@ export default function UserControl() {
   // DOWNLOAD DATA
   const handleDownload = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:3000/api/users/data/download/",
-        {
-          responseType: "blob",
-        }
-      );
+      const response = await axios.get(DBURL + "/users/data/download/", {
+        responseType: "blob",
+      });
 
       console.log(response.data);
       const url = window.URL.createObjectURL(new Blob([response.data]));
@@ -235,7 +234,7 @@ export default function UserControl() {
           {/* FILTER */}
           <div className="h-auto  w-full bg-white rounded-2xl shadow-lg p-7">
             {/* TOP */}
-            <Title2 title="Filter" /> 
+            <Title2 title="Filter" />
             <div className="flex gap-3">
               {/* SEARCH */}
               <div className="relative shadow-sm w-full">

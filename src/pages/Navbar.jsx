@@ -7,6 +7,8 @@ import Sidebar from "./admin/Sidebar";
 import axios from "axios";
 
 export default function Navbar() {
+  const DBURL = import.meta.env.REACT_APP_DB_URL;
+
   const navigate = useNavigate();
   const [userOpen, setUserOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -17,7 +19,7 @@ export default function Navbar() {
   const [userData, setUserData] = useState(null);
   const fetchUserData = async () => {
     await axios
-      .get("http://localhost:3000/api/users/" + User?.userId)
+      .get(DBURL + "/users/" + User?.userId)
       .then((res) => {
         setUserData(res.data);
       })

@@ -18,6 +18,8 @@ import {
 } from "recharts";
 
 export default function Account() {
+  const DBURL = import.meta.env.REACT_APP_DB_URL;
+
   const [userData, setUserData] = useState([]);
 
   const User = JSON.parse(localStorage.getItem("user"));
@@ -25,7 +27,7 @@ export default function Account() {
 
   const fetchUserData = async () => {
     await axios
-      .get("http://localhost:3000/api/users/" + User?.userId)
+      .get(DBURL + "/users/" + User?.userId)
       .then((res) => {
         console.log("USERDATA", res.data);
         setUserData(res.data);
@@ -37,7 +39,7 @@ export default function Account() {
   const [transactionsData, setTransactionsData] = useState([]);
   const fetchTransactions = async () => {
     await axios
-      .get("http://localhost:3000/api/transactions/", {
+      .get(DBURL + "/transactions/", {
         headers: {
           Authorization: token,
         },

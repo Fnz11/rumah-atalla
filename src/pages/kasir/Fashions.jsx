@@ -25,6 +25,8 @@ import SearchBar from "../../components/SearchBar";
 import BuyButton from "../../components/Kasir/BuyButton";
 
 export default function FashionsKasir() {
+  const DBURL = import.meta.env.REACT_APP_DB_URL;
+
   // FETCHHHH
   const [isLoadingFetch, setIsLoadingFetch] = useState(true);
   // FETCH FASHION
@@ -33,7 +35,7 @@ export default function FashionsKasir() {
 
   const fetchFashionProducts = async () => {
     await axios
-      .get("http://localhost:3000/api/products/")
+      .get(DBURL + "/products/")
       .then((res) => {
         setTriger((prevData) => prevData + 1);
         setFashionProducts(res.data);
@@ -47,7 +49,7 @@ export default function FashionsKasir() {
   const [promos, setPromos] = useState([]);
   const fetchPromos = async () => {
     await axios
-      .get("http://localhost:3000/api/promos/", {
+      .get(DBURL + "/promos/", {
         headers: {
           Authorization: `${localStorage.getItem("token")}`,
         },
@@ -64,14 +66,11 @@ export default function FashionsKasir() {
   const user = JSON.parse(localStorage.getItem("user"));
   const fetchTransactions = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:3000/api/transactions/",
-        {
-          headers: {
-            Authorization: token,
-          },
-        }
-      );
+      const response = await axios.get(DBURL + "/transactions/", {
+        headers: {
+          Authorization: token,
+        },
+      });
 
       const transactions = response.data;
       const initialCounts = { successed: 0, pending: 0, canceled: 0 };
@@ -125,7 +124,7 @@ export default function FashionsKasir() {
   const [isLoading, setIsLoading] = useState(false);
   const updateUser = async () => {
     await axios.patch(
-      `http://localhost:3000/api/users/` + user.userId,
+      DBURL + `/users/` + user.userId,
       { transactions: transactionsData },
       {
         headers: {
@@ -178,7 +177,7 @@ export default function FashionsKasir() {
     requestPermission();
     // setIsLoading(true);
     // await axios
-    //   .post("http://localhost:3000/api/transactions", formData, {
+    //   .post(DBURL + "/transactions", formData, {
     //     headers: {
     //       Authorization: token,
     //     },

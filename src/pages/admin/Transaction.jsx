@@ -27,6 +27,8 @@ import TransactionFashionHeadSection from "../../components/Transaction/Transact
 import TransactionFoodHeadSection from "../../components/Transaction/TransactionFoodHeadSection";
 
 export default function Transactions() {
+  const DBURL = import.meta.env.REACT_APP_DB_URL;
+
   // OWNER
   const user = JSON.parse(localStorage.getItem("user"));
 
@@ -179,7 +181,7 @@ export default function Transactions() {
   const [kasir, setKasir] = useState([]);
   const fetchKasir = async () => {
     await axios
-      .get("http://localhost:3000/api/users/", {
+      .get(DBURL + "/users/", {
         headers: {
           Authorization: `${localStorage.getItem("token")}`,
         },
@@ -210,7 +212,7 @@ export default function Transactions() {
   const [webProductsData, setWebProductsData] = useState([]);
   const fetchWebProducts = async () => {
     await axios
-      .get("http://localhost:3000/api/products/")
+      .get(DBURL + "/products/")
       .then((res) => {
         setWebProductsData(res.data);
         setAllProducts((prevData) => [...prevData, ...res.data]);
@@ -229,7 +231,7 @@ export default function Transactions() {
   const token = localStorage.getItem("token");
   const fetchTransactions = async () => {
     await axios
-      .get("http://localhost:3000/api/transactions/", {
+      .get(DBURL + "/transactions/", {
         headers: {
           Authorization: token,
         },
@@ -246,7 +248,7 @@ export default function Transactions() {
   const [promos, setPromos] = useState([]);
   const fetchPromos = async () => {
     await axios
-      .get("http://localhost:3000/api/promos/", {
+      .get(DBURL + "/promos/", {
         headers: {
           Authorization: `${localStorage.getItem("token")}`,
         },
@@ -505,8 +507,8 @@ export default function Transactions() {
     try {
       const downloadUrl =
         page === "foods"
-          ? "http://localhost:3000/api/transactions/foods/download"
-          : "http://localhost:3000/api/transactions/fashions/download";
+          ? DBURL + "/transactions/foods/download"
+          : DBURL + "/transactions/fashions/download";
       const response = await axios.get(downloadUrl, {
         responseType: "blob",
       });
@@ -804,7 +806,7 @@ export default function Transactions() {
           ) : (
             <>
               {/* HEAD */}
-              <TransactionFoodHeadSection  />
+              <TransactionFoodHeadSection />
 
               <div>
                 {filteredFashionTransaction.length > 0 &&
