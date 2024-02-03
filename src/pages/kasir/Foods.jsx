@@ -500,7 +500,7 @@ export default function FoodsKasir() {
       {/* TOAST */}
       <Toaster />
 
-      <div className="bg-thirdyThin w-full  pb-20 pt-10  min-h-screen text-gray-600">
+      <div className=" w-full  pb-20 pt-10  min-h-screen text-gray-600">
         {/* BUY BUTTON */}
         <BuyButton
           onClick={() => togglePopover()}
@@ -510,7 +510,7 @@ export default function FoodsKasir() {
         {/* CONTENT */}
         <div className="flex flex-col">
           {/* FILTER */}
-          <div className="h-auto  w-full bg-white rounded-2xl shadow-xl p-5">
+          <div className="h-auto  w-full bg-section-rainbow rounded-2xl shadow-xl p-5">
             {/* TOP */}
             <Title2 title="Filter" />
             <div className="flex sm:flex-row flex-col gap-3">

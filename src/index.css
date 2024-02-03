@@ -30,14 +30,17 @@ html {
 }
 
 .bg-section {
-  background: rgb(239, 245, 255);
+  background: rgb(255, 255, 255);
   background: linear-gradient(
-    54deg,
-    rgba(239, 245, 255, 1) 0%,
-    rgba(255, 255, 255, 1) 15%,
-    rgba(255, 255, 255, 1) 48%,
-    rgba(235, 245, 255, 1) 61%,
-    rgba(255, 255, 255, 1) 84%
+    75deg,
+    rgba(255, 255, 255, 1) 5%,
+    rgba(239, 247, 255, 1) 12%,
+    rgba(246, 246, 255, 1) 18%,
+    rgba(255, 255, 255, 1) 27%,
+    rgba(255, 255, 255, 1) 58%,
+    rgba(253, 249, 255, 1) 62%,
+    rgba(241, 252, 255, 1) 77%,
+    rgba(255, 255, 255, 1) 89%
   );
 }
 
@@ -51,4 +54,24 @@ html {
     rgba(15, 23, 42, 1) 73%,
     rgba(26, 33, 49, 1) 82%
   );
+}
+
+.bg-section-rainbow {
+  background: rgb(232,236,255);
+  background: linear-gradient(106deg, rgba(232,236,255,1) 0%, rgba(237,252,255,1) 8%, rgba(255,255,255,1) 32%, rgba(254,248,255,1) 35%, rgba(255,255,255,1) 58%, rgba(226,248,255,1) 84%, rgba(213,213,255,1) 100%);
+}
+
+.rainbow-cyber {
+  background: rgb(140, 82, 255);
+  background: linear-gradient(
+    75deg,
+    rgba(140, 82, 255, 1) 0%,
+    rgba(124, 111, 255, 1) 48%,
+    rgba(42, 183, 255, 1) 100%
+  );
+}
+
+.bg-rainbow {
+  background: rgb(241,254,255);
+  background: linear-gradient(67deg, rgba(241,254,255,1) 5%, rgba(247,249,253,1) 12%, rgba(255,250,250,1) 27%, rgba(248,248,255,1) 36%, rgba(240,244,255,1) 58%, rgba(252,247,255,1) 62%, rgba(245,253,255,1) 77%, rgba(254,254,255,1) 89%);
 }

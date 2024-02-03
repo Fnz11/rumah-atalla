@@ -194,7 +194,7 @@ export default function Account() {
 
   return (
     <>
-      <div className="w-full  pb-20 pt-10 bg-thirdyThin">
+      <div className="w-full  pb-20 pt-10 ">
         {/* TITTLE */}
         <Title title={"Dashboard"} className={"mt-0"} />
 
@@ -203,7 +203,7 @@ export default function Account() {
           {/* TOP */}
           <div className="flex max-sm:flex-col w-full gap-5">
             {/* LEFT */}
-            <div className="flex flex-col w-full sm:w-[40%] h-[29rem]  bg-white rounded-2xl shadow-lg gap-5 p-7 items-center justify-center">
+            <div className="flex flex-col w-full sm:w-[40%] h-[29rem]  bg-section-rainbow text-primaryDark  truncate rounded-2xl shadow-lg gap-5 p-7 items-center justify-center">
               <h1 className="text-2xl font-semibold">Profile</h1>
               <div className="relative w-[80%] flex group rounded-full drop-shadow-lg shadow-lg hover:shadow-xl overflow-hidden">
                 <img
@@ -238,7 +238,7 @@ export default function Account() {
             </div>
 
             {/* MIDDLE */}
-            <div className="w-full h-[29rem] overflow-hidden flex flex-col justify-center gap-5 items-center bg-white rounded-2xl  shadow-lg p-7">
+            <div className="w-full h-[29rem] overflow-hidden flex flex-col justify-center gap-5 items-center bg-section rounded-2xl  shadow-lg p-7">
               <h1 className="text-2xl font-semibold">
                 Weekly Transaction Chart
               </h1>
@@ -319,19 +319,16 @@ export default function Account() {
             </div>
 
             {/* RIGHT */}
-            <div className="flex flex-col w-full sm:w-[25%] h-[10rem] sm:h-[29rem] bg-section-dark text-white rounded-2xl shadow-lg gap-5 p-4 items-center justify-center">
+            <div className="flex flex-col w-full sm:w-[25%] h-[10rem] sm:h-[29rem] bg-rainbow text-primaryDark rounded-2xl shadow-lg gap-5 p-4 items-center justify-center">
               <h1 className="text-2xl font-semibold">Transaction</h1>
               <div className="flex sm:flex-col  gap-3">
                 <div className="flex items-center justify-center text-center drop-shadow-lg text-white font-semibold bg-green-400 w-full aspect-[12/10] relative rounded-2xl shadow-lg p-3 overflow-hidden">
-                  <div className="absolute w-full h-full z-[-1] opacity-[0.1] bg-section-dark"></div>
                   Successed: {userData?.transactions?.successed}
                 </div>
                 <div className="flex items-center justify-center text-center drop-shadow-lg text-white font-semibold bg-red-400 w-full aspect-[12/10] relative rounded-2xl shadow-lg p-3 overflow-hidden">
-                  <div className="absolute w-full h-full z-[-1] opacity-[0.1] bg-section-dark"></div>
                   Canceled: {userData?.transactions?.canceled}
                 </div>
                 <div className="flex items-center justify-center text-center drop-shadow-lg text-white font-semibold bg-yellow-400 w-full aspect-[12/10] relative rounded-2xl shadow-lg p-3 overflow-hidden">
-                  <div className="absolute w-full h-full z-[-1] opacity-[0.1] bg-section-dark"></div>
                   Pending: {userData?.transactions?.pending}
                 </div>
               </div>
@@ -340,7 +337,7 @@ export default function Account() {
           {/* BOTTOM */}
           {userData?.role == "owner" && (
             <div className="flex w-full gap-5 ">
-              <div className="w-full h-[29rem] flex flex-col justify-center gap-5 items-center bg-white rounded-2xl overflow-hidden shadow-lg p-7">
+              <div className="w-full h-[29rem] flex flex-col justify-center gap-5 items-center bg-section rounded-2xl overflow-hidden shadow-lg p-7">
                 <h1 className="text-2xl font-semibold">
                   Monthly Transaction Chart
                 </h1>

@@ -18,7 +18,8 @@ export default function FashionTransactionSection(props) {
         }
         rounded-2xl -ml-1 cursor-pointer group bg-section hover:shadow-xl hover:inset-0 transition-all duration-300 w-full relative  text-gray-600 text-[0.7rem] overflow-hidden leading-5 sm:leading-normal sm:text-base shadow-lg border-b-4 border-x-2 inset-[0.2rem]`}
       >
-        <div className="flex items-center z-[10] relative">
+        <div className="flex items-center z-[10] relative ">
+          <div className={`absolute h-[200%]  w-20 rotate-6 right-20 blur-[30px] ${props?.data?.status === "successed" ? "bg-[#e8fffe]" : props?.data?.status === "canceled" ? "bg-[#fcf0ff]" : "bg-[#fff9ec]"} `}></div>
           <h1 className="text-center w-[27%] lg:w-[25%] py-6 drop-shadow-md font-semibold">
             {props?.data?.kasir}
           </h1>

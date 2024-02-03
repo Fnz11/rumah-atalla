@@ -187,7 +187,7 @@ export default function TransactionPopover(props) {
               {/* BUTTON */}
               <div className="w-full mt-3 flex gap-3 items-end justify-center">
                 <Button
-                  className={"min-w-[3rem]"}
+                  className={"min-w-[4rem]"}
                   onClick={
                     props?.data?.status !== "canceled"
                       ? () => patchTransaction("canceled")
@@ -195,11 +195,11 @@ export default function TransactionPopover(props) {
                   }
                   variant={"red"}
                 >
-                  <i className="fa-solid fa-x sm:mr-2"></i>
+                  <i className="fa-solid fa-circle-exclamation mb-1 fa-lg sm:mr-2"></i>
                   <span className="max-sm:hidden">Cancel</span>
                 </Button>
                 <Button
-                  className={"min-w-[3rem]"}
+                  className={"min-w-[4rem]"}
                   onClick={
                     props?.data?.status !== "pending"
                       ? () => patchTransaction("pending")
@@ -207,11 +207,12 @@ export default function TransactionPopover(props) {
                   }
                   variant={"yellow"}
                 >
-                  <i className="fa-solid fa-clock sm:mr-2"></i>
+                  <i className="fa-solid fa-clock mb-1 fa-lg  sm:mr-2"></i>
+
                   <span className="max-sm:hidden">Pending</span>
                 </Button>
                 <Button
-                  className={"min-w-[3rem]"}
+                  className={"min-w-[4rem]"}
                   onClick={
                     props?.data?.status !== "successed"
                       ? () => patchTransaction("successed")
@@ -219,7 +220,7 @@ export default function TransactionPopover(props) {
                   }
                   variant={"green"}
                 >
-                  <i className="fa-solid fa-check sm:mr-2"></i>
+                  <i className="fa-solid fa-circle-check mb-1 fa-lg sm:mr-2"></i>
                   <span className="max-sm:hidden">Success</span>
                 </Button>
               </div>

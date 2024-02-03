@@ -430,7 +430,7 @@ export default function Navbar() {
         ></div>
       )}
 
-      <div className="flex bg-thirdyThin">
+      <div className="flex bg-rainbow">
         <div
           className={`h-screen w-[3%] lg:w-[12%] ${
             adminPage ? "flex" : "hidden"
@@ -448,13 +448,13 @@ export default function Navbar() {
             adminPage ? "w-[93%] lg:w-[88%] pl-[3.8rem] " : "w-full"
           }`}
         >
-          <div className="w-full flex flex-col pr-2 sm:px-8 lg:px-16">
+          <div
+            className={`w-full flex flex-col ${
+              adminPage && "pr-2 sm:px-8 lg:px-16"
+            } `}
+          >
             {/* <AdminNavbar /> */}
-            <div className="w-full flex flex-col justify-center items-center">
-              <div className="bg-section-dark w-full h-[4rem] rounded-2xl shadow-lg mt-5 flex items-center px-5 py-3 text-white">
-                AdminNavbar
-              </div>
-            </div>
+            <AdminNavbar User={User} />
             <Outlet />
             <Footer />
           </div>

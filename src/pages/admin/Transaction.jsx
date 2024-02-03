@@ -548,9 +548,9 @@ export default function Transactions() {
       />
 
       {/* CONTENT */}
-      <div className="w-full min-h-screen  pb-20 pt-10 bg-thirdyThin">
+      <div className="w-full min-h-screen  pb-20 pt-10 ">
         {/* CHART */}
-        <div className="w-full h-auto bg-white border-b-2 border-x-2 rounded-2xl shadow-lg p-7 mb-10 relative overflow-hidden">
+        <div className="w-full h-auto bg-section border-b-2 border-x-2 rounded-2xl shadow-lg p-7 mb-10 relative overflow-hidden">
           {/* TOP */}
           <Title2 title="Chart" className={"mb-3"} />
 
@@ -630,7 +630,7 @@ export default function Transactions() {
         </div>
 
         {/* FILTER */}
-        <div className="h-auto  w-full bg-white rounded-2xl shadow-lg p-7 ">
+        <div className="h-auto bg-section-rainbow w-full  rounded-2xl shadow-lg p-7 ">
           <div className="flex flex-col xl:flex-row gap-4">
             {/* TOP */}
             <div className="xl:w-[75%] w-full">

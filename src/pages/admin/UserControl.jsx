@@ -150,10 +150,10 @@ export default function UserControl() {
         refetch={() => fetchUser()}
       />
 
-      <div className="w-full  pb-20 pt-10 bg-thirdyThin">
+      <div className="w-full  pb-20 pt-10 ">
         <div>
           {/* CHART */}
-          <div className="w-full h-auto bg-white rounded-2xl shadow-lg p-7 mb-10">
+          <div className="w-full h-auto bg-section rounded-2xl shadow-lg p-7 mb-10">
             {/* TOP */}
             <Title2 title="Chart" />
 
@@ -232,7 +232,7 @@ export default function UserControl() {
           </div>
 
           {/* FILTER */}
-          <div className="h-auto  w-full bg-white rounded-2xl shadow-lg p-7">
+          <div className="h-auto  w-full bg-section-rainbow rounded-2xl shadow-lg p-7">
             {/* TOP */}
             <Title2 title="Filter" />
             <div className="flex gap-3">
