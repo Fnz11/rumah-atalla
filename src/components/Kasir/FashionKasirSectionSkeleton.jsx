@@ -4,7 +4,7 @@ export default function FashionKasirSectionSkeleton() {
   return (
     <>
       <div
-        className={`relative bg-white transition-all shadow-lg animate-pulse rounded-2xl`}
+        className={`relative bg-section transition-all shadow-lg animate-pulse rounded-2xl`}
       >
         <div className="w-full relative overflow-hidden rounded-2xl bg-gray-300 transition-all aspect-square animate-pulse"></div>
         <div className="my-2 mx-4 flex flex-col justify-between h-10">

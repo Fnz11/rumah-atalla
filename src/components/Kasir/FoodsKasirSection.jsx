@@ -18,9 +18,9 @@ export default function FoodsKasirSection({
         key={props._id.toString()}
         className={`${
           CartItems.includes(props._id.toString())
-            ? "border-4 border-primaryThin opacity-[0.6] scale-[0.95] drop-shadow-md group hover:drop-shadow-xl"
-            : " drop-shadow-sm group hover:drop-shadow-md"
-        }  group relative bg-white rounded-2xl transition-all `}
+            ? "border-4 border-primaryThin opacity-[0.6] scale-[0.95] shadow-lg group hover:shadow-xl"
+            : " shadow-lg group hover:shadow-xl"
+        }  group relative bg-section rounded-2xl transition-all `}
       >
         <div className="relative w-full overflow-hidden rounded-2xl bg-gray-200 group-hover:opacity-[0.85] transition-all aspect-square">
           <div className="absolute h-full w-full z-[1] flex items-end">

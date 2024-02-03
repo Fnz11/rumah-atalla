@@ -4,7 +4,7 @@ export default function UserControllerSection({ item, handlePopover, number }) {
     <>
       <div
         onClick={() => handlePopover({ param: "edit", item: item })}
-        className="rounded-2xl cursor-pointer group hover:shadow-xl pr-2 shadow-md hover:inset-0 transition-all duration-300 w-full relative  bg-white text-gray-600 leading-5 sm:leading-normal text-[0.8rem] sm:text-sm border-b-2 inset-[0.2rem]"
+        className="rounded-2xl cursor-pointer group hover:shadow-xl pr-2 shadow-md hover:inset-0 transition-all duration-300 w-full relative  bg-section text-gray-600 leading-5 sm:leading-normal text-[0.8rem] sm:text-sm border-b-2 inset-[0.2rem]"
       >
         <div className="flex items-center z-[10] relative w-full ">
           <h1 className="text-center w-[10%] py-6 ">{number}</h1>

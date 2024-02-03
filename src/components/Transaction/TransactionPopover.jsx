@@ -85,7 +85,7 @@ export default function TransactionPopover(props) {
               transition={{ duration: 0.3, delay: 0.1 }}
               className={`${
                 isLoading && "pointer-events-none"
-              } relative overflow-hidden bg-thirdyThin  w-[90%] px-5 sm:px-10 sm:w-[45rem] mx-2 sm:mx-10 h-[40rem] pt-0 sm:h-[46rem] max-h-[95%] sm:max-h-[95%] p-5 z-[1] rounded-2xl shadow-md`}
+              } relative overflow-hidden bg-section  w-[90%] px-5 sm:px-10 sm:w-[45rem] mx-2 sm:mx-10 h-[40rem] pt-0 sm:h-[46rem] max-h-[95%] sm:max-h-[95%] p-5 z-[1] rounded-2xl shadow-md`}
             >
               {/* LOADING */}
               {/* LOADING */}

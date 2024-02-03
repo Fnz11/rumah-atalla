@@ -23,8 +23,13 @@ html {
   }
 
   ::-webkit-scrollbar-thumb {
-    background: #7E6363;
+    background: #7e6363;
     border: 3px solid white;
     border-radius: 9999px;
   }
+}
+
+.bg-section {
+  background: rgb(239,245,255);
+  background: linear-gradient(54deg, rgba(239,245,255,1) 0%, rgba(255,255,255,1) 15%, rgba(255,255,255,1) 48%, rgba(235,245,255,1) 61%, rgba(255,255,255,1) 84%);
 }

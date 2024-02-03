@@ -206,7 +206,7 @@ export default function FoodsProductPopover(props) {
                 transition={{ duration: 0.3 }}
                 className={` ${
                   isLoading && "pointer-events-none"
-                } relative overflow-hidden bg-thirdyThin  w-[24rem] px-7 sm:px-10 sm:w-[40rem] mx-10 h-[39rem] sm:h-[42rem] p-5 z-[1] rounded-2xl shadow-md`}
+                } relative overflow-hidden bg-section  w-[24rem] px-7 sm:px-10 sm:w-[40rem] mx-10 h-[39rem] sm:h-[42rem] p-5 z-[1] rounded-2xl shadow-md`}
               >
                 {/* LOADING */}
                 {isLoading && (

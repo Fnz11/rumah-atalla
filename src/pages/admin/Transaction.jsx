@@ -548,7 +548,7 @@ export default function Transactions() {
       {/* CONTENT */}
       <div className="w-full min-h-screen pl-12 pr-2 sm:px-20 lg:px-32 pb-20 pt-10 bg-thirdyThin">
         {/* CHART */}
-        <div className="w-full h-auto bg-white rounded-2xl shadow-lg p-7 mb-10 relative overflow-hidden">
+        <div className="w-full h-auto bg-white border-b-2 border-x-2 rounded-2xl shadow-lg p-7 mb-10 relative overflow-hidden">
           {/* TOP */}
           <Title2 title="Chart" className={"mb-3"} />
 
@@ -790,7 +790,7 @@ export default function Transactions() {
                         exit={{ opacity: 0 }}
                         transition={{ duration: 0.2 }}
                         key={item.id}
-                        className="my-2"
+                        className="my-4"
                       >
                         <FashionTransactionSection
                           data={item}

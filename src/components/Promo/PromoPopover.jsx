@@ -299,7 +299,7 @@ export default function PromoPopover(props) {
                 transition={{ duration: 0.1 }}
                 className={`${
                   isLoading && "pointer-events-none"
-                } relative overflow-hidden bg-thirdyThin  w-[24rem] px-5 sm:px-10 sm:w-[40rem] pt-0 mx-3 sm:mx-10 ${
+                } relative overflow-hidden bg-section  w-[24rem] px-5 sm:px-10 sm:w-[40rem] pt-0 mx-3 sm:mx-10 ${
                   page === 1 ? "h-[40rem] sm:h-[36rem]" : "h-[95%]"
                 } transition-all duration-300 p-5 z-[1] rounded-2xl shadow-md`}
               >

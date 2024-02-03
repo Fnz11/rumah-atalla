@@ -334,8 +334,8 @@ export default function Account() {
           </div>
           {/* BOTTOM */}
           {userData?.role == "owner" && (
-            <div className="flex w-full gap-5 overflow-hidden">
-              <div className="w-full h-[29rem] flex flex-col justify-center gap-5 items-center bg-white rounded-2xl  shadow-lg p-7">
+            <div className="flex w-full gap-5 ">
+              <div className="w-full h-[29rem] flex flex-col justify-center gap-5 items-center bg-white rounded-2xl overflow-hidden shadow-lg p-7">
                 <h1 className="text-2xl font-semibold">
                   Monthly Transaction Chart
                 </h1>

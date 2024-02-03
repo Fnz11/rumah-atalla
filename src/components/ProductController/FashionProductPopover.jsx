@@ -438,7 +438,7 @@ export default function FashionProductPopover(props) {
                 transition={{ duration: 0.3 }}
                 className={` ${
                   isLoading && "pointer-events-none"
-                } relative overflow-hidden bg-thirdyThin w-[24rem] px-4 sm:px-10 min-h-fit ${
+                } relative overflow-hidden bg-section w-[24rem] px-4 sm:px-10 min-h-fit ${
                   page === 1
                     ? "h-[39rem] sm:h-[40rem]"
                     : page === 2

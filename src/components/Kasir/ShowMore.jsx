@@ -29,7 +29,7 @@ export default function ShowMore(props) {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -100 }}
               transition={{ duration: 0.3, ease: "easeInOut" }}
-              className={` relative overflow-hidden bg-thirdyThin w-[24rem] px-4 sm:px-10 h-[49rem] sm:h-[48rem] transition-all duration-300 max-h-[95vh] sm:w-[40rem] mx-2 sm:mx-10  p-5 z-[1] rounded-2xl shadow-md`}
+              className={` relative overflow-hidden bg-section w-[24rem] px-4 sm:px-10 h-[49rem] sm:h-[48rem] transition-all duration-300 max-h-[95vh] sm:w-[40rem] mx-2 sm:mx-10  p-5 z-[1] rounded-2xl shadow-md`}
             >
               {/* LOGO */}
               <div className="flex w-full h-fit -ml-2 justify-center drop-shadow items-center ">

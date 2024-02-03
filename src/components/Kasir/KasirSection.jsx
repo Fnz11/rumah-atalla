@@ -1,7 +1,7 @@
 export default function KasirSection(product) {
   return (
     <>
-      <div className="group relative bg-white drop-shadow-sm group hover:drop-shadow-md transition-all rounded-2xl">
+      <div className="group relative bg-section drop-shadow-sm group hover:drop-shadow-md transition-all rounded-2xl">
         <div className=" w-full overflow-hidden rounded-2xl bg-gray-200 group-hover:opacity-[0.85] transition-all aspect-square">
           <img
             src={product.imageSrc}

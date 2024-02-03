@@ -18,7 +18,7 @@ export default function PromoSection({ item, handlePopover, type }) {
     <>
       <div
         onClick={() => handlePopover({ param: "edit", item: item, type: type })}
-        className="rounded-2xl cursor-pointer w-full relative group bg-white text-gray-600  overflow-hidden group hover:shadow-xl hover:inset-0 p-3 transition-all duration-300 text-[0.8rem] leading-5 sm:leading-normal sm:text-base shadow-md border-b-2 inset-[0.2rem]"
+        className="rounded-2xl cursor-pointer w-full relative group bg-section text-gray-600  overflow-hidden group hover:shadow-xl hover:inset-0 p-3 transition-all duration-300 text-[0.8rem] leading-5 sm:leading-normal sm:text-base shadow-md border-b-2 inset-[0.2rem]"
       >
         <div className="flex items-center z-[10] relative w-full">
           <h1 className="text-center w-[35%] sm:w-[10%] ">
