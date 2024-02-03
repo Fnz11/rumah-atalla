@@ -8,6 +8,17 @@ import toast, { Toaster } from "react-hot-toast";
 import CustomToast from "../../components/CustomToast";
 import Title from "../../components/Title";
 import Button from "../../components/Button";
+import Title2 from "../../components/Title2";
+import BlackScreenPopover from "../../components/BlackScreenPopover";
+import LoadingPopover from "../../components/LoadingPopover";
+import LogoPopover from "../../components/LogoPopover";
+import TextField from "../../components/TextField";
+import FoodsHeadPopover from "../../components/Kasir/FoodsHeadPopover";
+import BuyButton from "../../components/Kasir/BuyButton";
+import SearchBar from "../../components/SearchBar";
+import FashionKasirSectionSkeleton from "../../components/Kasir/FashionKasirSectionSkeleton";
+import FoodsKasirSection from "../../components/Kasir/FoodsKasirSection";
+import ChangePageButton from "../../components/ChangePageButton";
 
 export default function FoodsKasir() {
   // FETCHHHH
@@ -372,16 +383,10 @@ export default function FoodsKasir() {
       <AnimatePresence>
         {showPopover && (
           <div className="fixed z-[1000] top-0 left-0 w-screen h-screen flex items-center justify-center">
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
+            <BlackScreenPopover
               onClick={() => togglePopover()}
-              className={` ${
-                isLoading && "pointer-events-none"
-              } w-screen h-screen bg-[rgba(0,0,0,0.5)] backdrop-blur-sm absolute`}
-            ></motion.div>
+              isLoading={isLoading}
+            />
             <motion.div
               initial={{ opacity: 0, y: -100 }}
               animate={{ opacity: 1, y: 0 }}
@@ -389,82 +394,33 @@ export default function FoodsKasir() {
               transition={{ duration: 0.3, delay: 0.1 }}
               className={` ${
                 isLoading && "pointer-events-none"
-              } relative overflow-hidden bg-thirdyThin  w-[40rem] h-[47rem] max-h-[98%] p-5 z-[1] rounded-2xl shadow-md `}
+              } relative overflow-hidden bg-thirdyThin  w-[40rem] h-[47rem] max-h-[98%] p-5 pt-0 z-[1] rounded-2xl shadow-md `}
             >
-              {isLoading && (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                  className="absolute w-full h-full top-0 z-[100] left-0 flex items-center justify-center"
-                >
-                  <div className="w-full h-full bg-[rgba(255,255,255,0.4)] absolute top-0 left-0 scale-[1.2]"></div>
-                  <div className="relative flex w-full h-full items-center justify-center">
-                    <motion.img
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      exit={{ scale: 0 }}
-                      transition={{ duration: 0.3, delay: 0.2 }}
-                      src="/loading.png"
-                      className="h-14 opacity-[0.7] animate-spin"
-                      alt=""
-                    />
-                  </div>
-                </motion.div>
-              )}
+              {/* LOADING */}
+              {isLoading && <LoadingPopover />}
 
               {/* LOGO */}
-              <div className="flex w-full -ml-2 justify-center drop-shadow items-center pointer-events-none">
-                <img
-                  src="/LogoGreen.png"
-                  className="scale-[2.3] w-[8rem] h-[8rem] aspect-square"
-                  alt="Logo"
-                />
-                <div className="uppercase ml-1 text-[2.8rem] leading-[3rem] mb-[0.5rem] text-primaryNormal hidden sm:block">
-                  <h1 className="-mb-[0.4rem]">Rumah</h1>
-                  <h1 className="font-bold">Atalla</h1>
-                  <div className="w-[120%] h-[0.3rem] -my-[0.15rem] rounded-md bg-primaryNormal" />
-                </div>
-              </div>
+              <LogoPopover />
 
               {/* FORM */}
               <form action="" className="flex flex-col gap-5">
-                <div>
-                  <label
-                    className="text-base sm:text-lg drop-shadow-sm font-semibold text-primaryNormal"
-                    htmlFor="name"
-                  >
-                    Atas nama
-                  </label>
-                  <input
-                    type="text"
-                    name="buyer"
-                    placeholder="example"
-                    value={buyer}
-                    onChange={(e) => setBuyer(e.target.value)}
-                    className="block w-full placeholder:text-gray-600 bg-white mb-3 focus:outline-white p-3 text-sm text-gray-600 border rounded-lg "
-                  />
-                </div>
+                <TextField
+                  name="buyer"
+                  onName={"Atas nama"}
+                  placeholder={"example"}
+                  value={buyer}
+                  onChange={(e) => setBuyer(e.target.value)}
+                />
               </form>
 
               {/* ITEM */}
               <div className="w-full h-[60%] overflow-y-scroll overflow-x-hidden">
                 {foodsPop.length > 0 && (
                   <>
-                    <div className="flex items-center gap-5 w-full mb-2 ">
-                      <div className="w-full h-1 bg-secondary rounded-[0.05rem] mt-3 shadow-md"></div>
-                      <h1 className=" text-[2rem] text-center font-semibold text-primaryNormal drop-shadow-md">
-                        Foods
-                      </h1>
-                      <div className="w-full h-1 bg-secondary rounded-[0.05rem] mt-3 shadow-md"></div>
-                    </div>
-                    <div className="flex w-full bg-secondary h-[3rem] font-semibold shadow-lg inset-[0.2rem] relative text-white items-center rounded-2xl px-2">
-                      <div className="w-[50%]">Nama Barang </div>
-                      <div className="w-[15%]">Harga</div>
-                      <div className="w-[15%]">Jumlah</div>
-                      <div className="w-[20%]">QTY</div>
-                    </div>
+                    {/* TITLE */}
+                    <Title className={"my-3"} title="Foods" />
+                    {/* TOP */}
+                    <FoodsHeadPopover />
 
                     {foodsPop.map((item) => (
                       <div key={item._id.toString()}>
@@ -481,19 +437,10 @@ export default function FoodsKasir() {
 
                 {drinksPop.length > 0 && (
                   <>
-                    <div className="flex items-center gap-5 w-full mb-2  mt-5">
-                      <div className="w-full h-1 bg-secondary rounded-[0.05rem] mt-3 shadow-md"></div>
-                      <h1 className=" text-[2rem] text-center font-semibold text-primaryNormal drop-shadow-md ">
-                        Drinks
-                      </h1>
-                      <div className="w-full h-1 bg-secondary rounded-[0.05rem] mt-3 shadow-md"></div>
-                    </div>
-                    <div className="flex w-full bg-secondary h-[3rem] font-semibold shadow-md inset-[0.2rem] relative text-white items-center rounded-2xl px-2">
-                      <div className="w-[50%]">Nama Barang </div>
-                      <div className="w-[15%]">Harga</div>
-                      <div className="w-[15%]">Jumlah</div>
-                      <div className="w-[20%]">QTY</div>
-                    </div>
+                    {/* TITLE */}
+                    <Title className={"my-3"} title="Drinks" />
+                    {/* TOP */}
+                    <FoodsHeadPopover />
 
                     {drinksPop.map((item) => (
                       <div key={item._id.toString()}>
@@ -553,290 +500,76 @@ export default function FoodsKasir() {
 
       <div className="bg-thirdyThin w-full pl-12 pr-2 sm:px-20 lg:px-32 pb-20 pt-10  min-h-screen text-gray-600">
         {/* BUY BUTTON */}
-        {(drinksCartItems.length > 0 || foodsCartItems.length > 0) && (
-          <button
-            onClick={() => togglePopover()}
-            className="bg-primaryThin drop-shadow-xl z-[10]  text-thirdyThin rounded-full h-16 w-16 fixed bottom-7 right-7"
-          >
-            <div className="relative">
-              <div className="absolute h-16 w-16 bg-primaryVeryThin animate-ping -top-5 scale-[1] rounded-full z-[-10]"></div>
-            </div>
-            <i className="fa-solid fa-cart-shopping fa-2xl scale-[0.8]"></i>
-          </button>
-        )}
+        <BuyButton
+          onClick={() => togglePopover()}
+          isShow={drinksCartItems.length > 0 || foodsCartItems.length > 0}
+        />
 
         {/* CONTENT */}
-        <div className="">
-          <div className="flex flex-col">
-            {/* FILTER */}
-            <div className="h-auto  w-full bg-white rounded-2xl shadow-xl p-5">
-              {/* TOP */}
-              <div className="flex mb-2 ">
-                <h1 className="text-3xl mb-1 drop-shadow-sm h-full font-semibold text-primaryNormal">
-                  Filter
-                </h1>
-              </div>
-              <div className="flex sm:flex-row flex-col gap-3">
-                {/* SEARCH BY NAME*/}
-                <div className="relative shadow-sm w-full">
-                  <div className="absolute  w-auto inset-y-0 left-0 bottom-1 flex items-center jus pl-3 pointer-events-none">
-                    <svg
-                      aria-hidden="true"
-                      className="w-5 h-5 text-gray-600"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                        clipRule="evenodd"
-                      ></path>
-                    </svg>
-                  </div>
-                  <input
-                    type="text"
-                    className="block w-full placeholder:text-gray-600 bg-[#F6FAF2] focus:outline-white p-3 pl-10 text-[0.6rem] sm:text-sm text-gray-600 border rounded-lg "
-                    placeholder="Search by name..."
-                    value={searchValue}
-                    onChange={(e) => setSearchValue(e.target.value)}
-                  />
-                </div>
-                {/* <div className="flex gap-2">
-                  <button
-                    onClick={() => setPage("foods")}
-                    className={`${
-                      page === "foods"
-                        ? "bg-secondary text-thirdyNormal"
-                        : "text-secondary hover:bg-secondary hover:text-thirdyNormal"
-                    }  ml-auto border-2 border-secondary  hover:scale-[1.05] hover:drop-shadow-lg transition-all duration-300  font-bold py-2  text-sm sm:text-base px-2 sm:px-4 rounded w-28 sm:w-32 justify-center flex items-center`}
-                  >
-                    <i className="fa-solid fa-bowl-food mr-2 fa-lg scale-[0.9]"></i>{" "}
-                    Foods
-                  </button>
-                  <button
-                    onClick={() => setPage("drinks")}
-                    className={`${
-                      page === "drinks"
-                        ? "bg-secondary text-thirdyNormal"
-                        : "text-secondary hover:bg-secondary hover:text-thirdyNormal"
-                    }  ml-auto border-2 border-secondary  hover:scale-[1.05] hover:drop-shadow-lg transition-all duration-300  font-bold py-2  text-sm sm:text-base px-2 sm:px-4 rounded w-28 sm:w-32 justify-center flex items-center`}
-                  >
-                    <i className="fa-solid fa-mug-saucer mr-2 fa-lg scale-[0.9]"></i>{" "}
-                    Drinks
-                  </button>
-                </div> */}
-              </div>
-              {/* BOTTOM */}
-              <div className="w-full flex max-sm:flex-col items-center gap-2 mt-5">
-                <button
-                  onClick={() => setPage("foods")}
-                  className={`relative w-[100%] h-[10rem] rounded-2xl overflow-hidden group flex items-center justify-center drop-shadow-sm`}
-                >
-                  <img
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQl6SzfGl7TUhR-NEd2sL_rwbaBq-7dRG2Cxg&usqp=CAU"
-                    className={`absolute w-full z-[0] h-full object-cover  transition-all duration-700  ${
-                      page === "foods"
-                        ? "scale-[1.2] rotate-3 group-hover:scale-[1] group-hover:rotate-0"
-                        : "group-hover:scale-[1.2] group-hover:rotate-3"
-                    }`}
-                    alt="LandingFashion"
-                  />
-                  <div
-                    className={`absolute   ${
-                      page === "foods"
-                        ? "opacity-[0.7] bg-[rgba(255,255,255,0.2)]"
-                        : "group-hover:opacity-[0.7] bg-[rgba(0,0,0,0.7)] group-hover:bg-[rgba(255,255,255,0.2)]"
-                    } w-full h-full z-[1]  transition-all duration-300`}
-                  ></div>
-                  <h1
-                    className={`text-3xl z-[2] relative text-white font-medium ${
-                      page === "foods"
-                        ? "scale-[1.05] group-hover:scale-[1]"
-                        : "group-hover:scale-[1.05]"
-                    } transition-all duration-300`}
-                  >
-                    Foods
-                  </h1>
-                </button>
-                <button
-                  onClick={() => setPage("drinks")}
-                  className={`relative w-[100%] h-[10rem] rounded-2xl overflow-hidden group flex items-center justify-center drop-shadow-sm`}
-                >
-                  <img
-                    src="https://wallpapers.com/images/hd/cocktail-drinks-glasses-on-black-background-7p9nyavhgxq3anzo.jpg"
-                    className={`absolute w-full z-[0] h-full object-cover  transition-all duration-700  ${
-                      page === "drinks"
-                        ? "scale-[1.2] rotate-3 group-hover:scale-[1] group-hover:rotate-0"
-                        : "group-hover:scale-[1.2] group-hover:rotate-3"
-                    }`}
-                    alt="LandingFashion"
-                  />
-                  <div
-                    className={`absolute   ${
-                      page === "drinks"
-                        ? "opacity-[0.7] bg-[rgba(255,255,255,0.2)]"
-                        : "group-hover:opacity-[0.7] bg-[rgba(0,0,0,0.7)] group-hover:bg-[rgba(255,255,255,0.2)]"
-                    } w-full h-full z-[1]  transition-all duration-300`}
-                  ></div>
-                  <h1
-                    className={`text-3xl z-[2] relative text-white font-medium ${
-                      page === "drinks"
-                        ? "scale-[1.05] group-hover:scale-[1]"
-                        : "group-hover:scale-[1.05]"
-                    } transition-all duration-300`}
-                  >
-                    Drinks
-                  </h1>
-                </button>
-              </div>
+        <div className="flex flex-col">
+          {/* FILTER */}
+          <div className="h-auto  w-full bg-white rounded-2xl shadow-xl p-5">
+            {/* TOP */}
+            <Title2 title="Filter" />
+            <div className="flex sm:flex-row flex-col gap-3">
+              {/* SEARCH BY NAME*/}
+              <SearchBar
+                value={searchValue}
+                onChange={(e) => setSearchValue(e.target.value)}
+                placeholder="Search by name..."
+              />
             </div>
+            {/* BOTTOM */}
+            <div className="w-full flex max-sm:flex-col items-center gap-2 mt-5">
+              <ChangePageButton
+                image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQl6SzfGl7TUhR-NEd2sL_rwbaBq-7dRG2Cxg&usqp=CAU"
+                setPage={() => setPage("foods")}
+                page={page}
+                text={"Foods"}
+              />
+              <ChangePageButton
+                image="https://wallpapers.com/images/hd/cocktail-drinks-glasses-on-black-background-7p9nyavhgxq3anzo.jpg"
+                setPage={() => setPage("drinks")}
+                page={page}
+                text={"Drinks"}
+              />
+            </div>
+          </div>
 
+          {/* PRODUCT */}
+          <div>
+            {/* PRODUCT TITTLE */}
+            <Title title={page === "foods" ? "Foods" : "Drinks"} />
             {/* PRODUCT */}
-            <div>
-              {/* PRODUCT TITTLE */}
-              <Title title={page === "foods" ? "Foods" : "Drinks"} />
-              {/* PRODUCT */}
-              <div className="grid grid-cols-2 gap-x-2 gap-y-10 lg:grid-cols-3 xl:gap-x-4">
-                {isLoadingFetch &&
-                  [...Array(10)].map((i) => (
-                    <div
-                      key={i}
-                      className={`relative bg-white transition-all shadow-xl animate-pulse rounded-2xl`}
-                    >
-                      <div className="w-full relative overflow-hidden rounded-2xl bg-gray-300 transition-all aspect-square animate-pulse"></div>
-                      <div className="my-2 mx-4 flex flex-col justify-between h-10">
-                        <div className="w-1/2 h-2 rounded-2xl bg-gray-300 animate-pulse"></div>
-                        <div className="w-full flex justify-between">
-                          <div className="w-[10%] h-2 rounded-2xl bg-gray-300 animate-pulse"></div>
-                          <div className="w-1/4 h-2 rounded-2xl bg-gray-300 animate-pulse"></div>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                {page === "foods" &&
-                  filteredFoods.map((product) => (
-                    <motion.div
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      onClick={() => addToCart(product._id.toString(), "foods")}
-                      key={product._id.toString()}
-                      className={`${
-                        foodsCartItems.includes(product._id.toString())
-                          ? "border-4  border-primaryThin opacity-[0.6] scale-[0.95] shadow-lg group hover:shadow-xl"
-                          : " shadow-lg group hover:shadow-xl "
-                      }  group relative bg-white rounded-2xl inset-[0.1rem] hover:inset-0 overflow-hidden transition-all `}
-                    >
-                      <div className=" w-full overflow-hidden relative  rounded-b-2xl bg-gray-200 group-hover:opacity-[0.85]  transition-all aspect-square">
-                        <div className="absolute h-full w-full z-[1] flex items-end">
-                          {promos.map((item, index) => {
-                            if (
-                              item.products.includes(product._id.toString())
-                            ) {
-                              return (
-                                <img
-                                  key={index}
-                                  src={item.imageUrl}
-                                  className="h-6 sm:h-12 mr-1 aspect-square object-cover object-center drop-shadow-xl rounded-sm"
-                                  alt=""
-                                />
-                              );
-                            }
-                          })}
-                        </div>
-                        <img
-                          src={product.imageUrl}
-                          alt={product.name}
-                          className="h-full w-full absolute object-cover object-center lg:h-full lg:w-full"
-                        />
-                      </div>
-                      <div className="my-2 mx-4 flex flex-col justify-between">
-                        <div>
-                          <h3 className="text-[0.6rem] sm:text-sm text-gray-700">
-                            <div>
-                              <span
-                                aria-hidden="true"
-                                className="absolute inset-0"
-                              />
-                              {product.name}
-                            </div>
-                          </h3>
-                        </div>
-                        <div className="flex justify-between">
-                          <p className="text-[0.6rem] sm:text-sm font-medium ">
-                            {product.stock}
-                          </p>
-                          <p className="text-[0.6rem] sm:text-sm font-semibold text-secondary">
-                            Rp. {product.price?.toLocaleString()}
-                          </p>
-                        </div>
-                      </div>
-                    </motion.div>
-                  ))}
-                {page === "drinks" &&
-                  filteredDrinks.map((product) => (
-                    <motion.div
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      onClick={() =>
-                        addToCart(product._id.toString(), "drinks")
-                      }
-                      key={product._id.toString()}
-                      className={`${
-                        drinksCartItems.includes(product._id.toString())
-                          ? "border-4 border-primaryThin opacity-[0.6] scale-[0.95] drop-shadow-md group hover:drop-shadow-xl"
-                          : " drop-shadow-sm group hover:drop-shadow-md"
-                      }  group relative bg-white rounded-2xl transition-all `}
-                    >
-                      <div className="relative w-full overflow-hidden rounded-2xl bg-gray-200 group-hover:opacity-[0.85] transition-all aspect-square">
-                        <div className="absolute h-full w-full z-[1] flex items-end">
-                          {promos.map((item, index) => {
-                            if (
-                              item.products.includes(product._id.toString())
-                            ) {
-                              return (
-                                <img
-                                  key={index}
-                                  src={item.imageUrl}
-                                  className="h-12 mr-1 drop-shadow-xl"
-                                  alt=""
-                                />
-                              );
-                            }
-                          })}
-                        </div>
-                        <img
-                          src={product.imageUrl}
-                          alt={product.name}
-                          className="h-full w-full object-cover object-center lg:h-full lg:w-full"
-                        />
-                      </div>
-                      <div className="my-2 mx-4 flex flex-col justify-between">
-                        <div>
-                          <h3 className="text-sm text-gray-700">
-                            <div>
-                              <span
-                                aria-hidden="true"
-                                className="absolute inset-0"
-                              />
-                              {product.name}
-                            </div>
-                          </h3>
-                        </div>
-                        <div className="flex justify-between">
-                          <p className="text-sm font-medium ">
-                            {product.stock}
-                          </p>
-                          <p className="text-sm font-semibold text-primaryThin">
-                            Rp. {product.price?.toLocaleString()}
-                          </p>
-                        </div>
-                      </div>
-                    </motion.div>
-                  ))}
-              </div>
+            <div className="grid grid-cols-2 gap-x-2 gap-y-10 lg:grid-cols-3 xl:gap-x-4">
+              {isLoadingFetch &&
+                [...Array(10)].map((i) => (
+                  <>
+                    <FashionKasirSectionSkeleton />
+                  </>
+                ))}
+              {page === "foods" &&
+                filteredFoods.map((product) => (
+                  <FoodsKasirSection
+                    key={product._id.toString()}
+                    props={product}
+                    addToCart={addToCart}
+                    CartItems={foodsCartItems}
+                    promos={promos}
+                    type={"foods"}
+                  />
+                ))}
+              {page === "drinks" &&
+                filteredDrinks.map((product) => (
+                  <FoodsKasirSection
+                    key={product._id.toString()}
+                    props={product}
+                    addToCart={addToCart}
+                    CartItems={drinksCartItems}
+                    promos={promos}
+                    type={"drinks"}
+                  />
+                ))}
             </div>
           </div>
         </div>

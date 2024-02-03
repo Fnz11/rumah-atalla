@@ -199,9 +199,9 @@ export default function Account() {
         {/* CONTENT */}
         <div className="w-full gap- text-gray-600 text-sm gap-5 flex flex-col">
           {/* TOP */}
-          <div className="flex w-full gap-5">
+          <div className="flex max-sm:flex-col w-full gap-5">
             {/* LEFT */}
-            <div className="flex flex-col w-[40%] h-[29rem]  bg-white rounded-2xl shadow-lg gap-5 p-7 items-center justify-center">
+            <div className="flex flex-col w-full sm:w-[40%] h-[29rem]  bg-white rounded-2xl shadow-lg gap-5 p-7 items-center justify-center">
               <h1 className="text-2xl font-semibold">Profile</h1>
               <div className="relative w-[80%] flex group rounded-full drop-shadow-lg shadow-lg hover:shadow-xl overflow-hidden">
                 <img
@@ -236,7 +236,7 @@ export default function Account() {
             </div>
 
             {/* MIDDLE */}
-            <div className="w-full h-[29rem] flex flex-col justify-center gap-5 items-center bg-white rounded-2xl  shadow-lg p-7">
+            <div className="w-full h-[29rem] overflow-hidden flex flex-col justify-center gap-5 items-center bg-white rounded-2xl  shadow-lg p-7">
               <h1 className="text-2xl font-semibold">
                 Weekly Transaction Chart
               </h1>
@@ -283,8 +283,9 @@ export default function Account() {
                       return (
                         <div className="bg-white font-semibold py-4 px-6 rounded-2xl drop-shadow-md text-gray-600 flex flex-col gap-2 text-sm">
                           <p className="flex items-center gap-2">
-                          <i className="fa-regular fa-calendar-days mb-1 fa-lg"></i>
-                            {label}</p>
+                            <i className="fa-regular fa-calendar-days mb-1 fa-lg"></i>
+                            {label}
+                          </p>
                           <p className="text-yellow-400 flex items-center gap-2">
                             <i className="fa-solid fa-clock mb-1 fa-lg "></i>
                             Pending: {pending}
@@ -316,23 +317,24 @@ export default function Account() {
             </div>
 
             {/* RIGHT */}
-            <div className="flex flex-col w-[25%] h-[29rem] bg-white rounded-2xl shadow-lg gap-5 p-4 items-center justify-center">
+            <div className="flex flex-col w-full sm:w-[25%] h-[10rem] sm:h-[29rem] bg-white rounded-2xl shadow-lg gap-5 p-4 items-center justify-center">
               <h1 className="text-2xl font-semibold">Transaction</h1>
-
-              <div className="flex items-center justify-center text-center drop-shadow-lg text-white font-semibold bg-green-400 w-full h-[6.5rem] relative rounded-2xl shadow-lg p-3">
-                Successed: {userData?.transactions?.successed}
-              </div>
-              <div className="flex items-center justify-center text-center drop-shadow-lg text-white font-semibold bg-red-400 w-full h-[6.5rem] relative rounded-2xl shadow-lg p-3">
-                Canceled: {userData?.transactions?.canceled}
-              </div>
-              <div className="flex items-center justify-center text-center drop-shadow-lg text-white font-semibold bg-yellow-400 w-full h-[6.5rem] relative rounded-2xl shadow-lg p-3">
-                Pending: {userData?.transactions?.pending}
+              <div className="flex sm:flex-col  gap-3">
+                <div className="flex items-center justify-center text-center drop-shadow-lg text-white font-semibold bg-green-400 w-full aspect-[12/10] relative rounded-2xl shadow-lg p-3">
+                  Successed: {userData?.transactions?.successed}
+                </div>
+                <div className="flex items-center justify-center text-center drop-shadow-lg text-white font-semibold bg-red-400 w-full aspect-[12/10] relative rounded-2xl shadow-lg p-3">
+                  Canceled: {userData?.transactions?.canceled}
+                </div>
+                <div className="flex items-center justify-center text-center drop-shadow-lg text-white font-semibold bg-yellow-400 w-full aspect-[12/10] relative rounded-2xl shadow-lg p-3">
+                  Pending: {userData?.transactions?.pending}
+                </div>
               </div>
             </div>
           </div>
           {/* BOTTOM */}
           {userData?.role == "owner" && (
-            <div className="flex w-full gap-5">
+            <div className="flex w-full gap-5 overflow-hidden">
               <div className="w-full h-[29rem] flex flex-col justify-center gap-5 items-center bg-white rounded-2xl  shadow-lg p-7">
                 <h1 className="text-2xl font-semibold">
                   Monthly Transaction Chart

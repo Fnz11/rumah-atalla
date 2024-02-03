@@ -16,10 +16,10 @@ export default function FashionTransactionSection(props) {
             ? "bg-yellow-300 hover:bg-yellow-400"
             : "bg-green-300 hover:bg-green-400"
         }
-        rounded-2xl cursor-pointer group hover:shadow-xl hover:inset-0 transition-all duration-300 w-full relative  bg-whit text-gray-600 text-[0.7rem] leading-5 sm:leading-normal sm:text-base shadow-lg border-b-2 inset-[0.2rem]`}
+        rounded-2xl -ml-1 cursor-pointer group hover:shadow-xl hover:inset-0 transition-all duration-300 w-full relative  bg-whit text-gray-600 text-[0.7rem] leading-5 sm:leading-normal sm:text-base shadow-lg border-b-2 inset-[0.2rem]`}
       >
         <div className="flex items-center z-[10] relative">
-          <h1 className="text-center w-[35%] lg:w-[25%] py-6 drop-shadow-sm font-semibold">
+          <h1 className="text-center w-[27%] lg:w-[25%] py-6 drop-shadow-sm font-semibold">
             {props?.data?.kasir}
           </h1>
           <h1 className="flex items-center justify-center  w-[10%] lg:w-[5%] py-6">
@@ -40,7 +40,7 @@ export default function FashionTransactionSection(props) {
               </>
             )}
           </h1>
-          <h1 className="text-center  w-[50%] lg:w-[30%] py-6 break-all">
+          <h1 className="text-center  w-[63%] lg:w-[30%] py-6 break-all">
             <span className="font-semibold drop-shadow-sm">
               {props?.data?.buyer}{" "}
             </span>
@@ -51,7 +51,7 @@ export default function FashionTransactionSection(props) {
           <h1 className="text-center py-6 w-[25%] lg:block hidden font-semibold drop-shadow-sm">
             Rp. {addDotsToNumber(props?.data?.totalAmount)}
           </h1>
-          <div className=" text-center font-semibold flex items-center justify-center relative  w-[15%]  py-6">
+          <div className="max-sm:hidden text-center font-semibold flex items-center justify-center relative  w-[15%]  py-6">
             {props?.data?.status === "successed" ? (
               <>
                 <h1 className=" drop-shadow-sm rounded-[50%] w-[5rem] text-center ">

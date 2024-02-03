@@ -20,6 +20,8 @@ import Button from "../../components/Button";
 import toast, { Toaster } from "react-hot-toast";
 import CustomToast from "../../components/CustomToast";
 import Title from "../../components/Title";
+import UserControllerSectionSkeleton from "../../components/UserController/UserControllerSectionSkeleton";
+import Title2 from "../../components/Title2";
 
 export default function UserControl() {
   // OWNER
@@ -154,11 +156,7 @@ export default function UserControl() {
           {/* CHART */}
           <div className="w-full h-auto bg-white rounded-2xl shadow-lg p-7 mb-10">
             {/* TOP */}
-            <div className="flex justify-between mb-2 ">
-              <h1 className="text-2xl mb-1 drop-shadow-sm h-full font-semibold text-primaryNormal">
-                Chart
-              </h1>
-            </div>
+            <Title2 title="Chart" />
 
             {/* CHART */}
             <ResponsiveContainer
@@ -237,11 +235,7 @@ export default function UserControl() {
           {/* FILTER */}
           <div className="h-auto  w-full bg-white rounded-2xl shadow-lg p-7">
             {/* TOP */}
-            <div className="flex mb-2 ">
-              <h1 className="text-3xl mb-1 drop-shadow-sm h-full font-semibold text-primaryNormal">
-                Filter
-              </h1>
-            </div>
+            <Title2 title="Filter" /> 
             <div className="flex gap-3">
               {/* SEARCH */}
               <div className="relative shadow-sm w-full">
@@ -268,12 +262,21 @@ export default function UserControl() {
                   onChange={(e) => setSearchValue(e.target.value)}
                 />
               </div>
-              <Button variant="green" onClick={handleDownload}>
+              <Button
+                variant="green"
+                className={"max-sm:min-w-[3rem]"}
+                onClick={handleDownload}
+              >
                 <i className="fa-solid fa-file-arrow-down mr-2"></i>
-                Download
+                <span className="max-sm:hidden">Download</span>
               </Button>
-              <Button variant="secondary" onClick={() => setShowPopover("add")}>
-                Add
+              <Button
+                variant="secondary"
+                className={"max-sm:min-w-[3rem]"}
+                onClick={() => setShowPopover("add")}
+              >
+                <i className="fa-solid fa-plus mr-2"></i>
+                <span className="max-sm:hidden">Add</span>
               </Button>
             </div>
           </div>
@@ -282,9 +285,9 @@ export default function UserControl() {
           <Title title={"User"} />
 
           {/* TRANSACTIONS */}
-          <div className="rounded-2xl w-full text-base sm:text-lg h-auto ">
+          <div className="rounded-2xl  w-full text-base sm:text-lg h-auto ">
             {/* HEAD */}
-            <div className="w-full rounded-2xl shadow-lg bg-secondary font-semibold flex items-center text-sm sm:text-lg">
+            <div className="w-full rounded-2xl max-sm:px-3 shadow-lg bg-secondary font-semibold flex items-center text-sm sm:text-lg">
               <h1 className="text-center text-white w-[10%] py-6 ">No</h1>
               <h1 className="text-left text-white w-[50%] py-6 ">Nama</h1>
               <h1 className=" text-white py-6 w-[40%] text-center">
@@ -295,35 +298,9 @@ export default function UserControl() {
 
             {isLoading &&
               [...Array(10)].map((i) => (
-                <div
-                  key={i}
-                  className="my-2 w-full relative animate-pulse opacity-[0.5]  bg-white shadow-xl border-b-2 min-h-[7.5rem] inset-[0.2rem]"
-                >
-                  <div className="flex items-center min-h-[7.5rem] z-[10] relative w-full">
-                    <h1 className="items-center flex justify-center w-[10%] py-6 ">
-                      <div className="bg-gray-400 rounded-2xl animate-pulse h-3 w-4"></div>
-                    </h1>
-                    <h1 className="flex items-center justify-start w-[40%] py-6 ">
-                      <div className="h-8 w-8 aspect-square rounded-full bg-gray-400 ml-1 mr-2 animate-pulse"></div>
-                      <div className="w-full flex flex-col gap-2">
-                        <div className="bg-gray-400 rounded-2xl animate-pulse h-3 w-[20%]"></div>
-
-                        <div className="bg-gray-400 rounded-2xl animate-pulse h-3 w-[30%]"></div>
-
-                        <div className="bg-gray-400 rounded-2xl animate-pulse h-3 w-[60%]"></div>
-                      </div>
-                    </h1>
-                    <h1 className="items-center justify-center py-6 w-[20%] sm:flex hidden">
-                      <div className="bg-gray-400 rounded-2xl animate-pulse h-3 w-[10%]"></div>
-                    </h1>
-                    <h1 className=" items-center justify-center py-6 w-[20%] sm:flex hidden">
-                      <div className="bg-gray-400 rounded-2xl animate-pulse h-3 w-[10%]"></div>
-                    </h1>
-                    <h1 className=" flex items-center justify-center  w-[15%]  py-6">
-                      <div className="bg-gray-400 rounded-2xl animate-pulse h-3 w-[10%]"></div>
-                    </h1>
-                  </div>
-                </div>
+                <>
+                  <UserControllerSectionSkeleton />
+                </>
               ))}
 
             {filteredUsers.map((item, i) => (

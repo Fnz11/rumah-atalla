@@ -7,6 +7,11 @@ import toast, { Toaster } from "react-hot-toast";
 import CustomToast from "../../components/CustomToast";
 import { Swiper, SwiperSlide } from "swiper/react";
 import ReadMoreDescription from "./components/ReadMoreDescription";
+import BlackScreenPopover from "../BlackScreenPopover";
+import LoadingPopover from "../LoadingPopover";
+import LogoPopover from "../LogoPopover";
+import Title from "../Title";
+import TextField from "../TextField";
 
 /* eslint-disable react/prop-types */
 export default function FashionProductPopover(props) {
@@ -422,18 +427,10 @@ export default function FashionProductPopover(props) {
         {(props.showPopover === "add" || props.showPopover === "edit") &&
           props.popoverType === "fashions" && (
             <div className="fixed z-[1000] top-0 left-0 w-screen h-screen flex items-center justify-center">
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.2 }}
-                onClick={() => {
-                  closePopover();
-                }}
-                className={` ${
-                  isLoading && "pointer-events-none"
-                } w-screen h-screen bg-[rgba(0,0,0,0.5)] backdrop-blur-sm absolute`}
-              ></motion.div>
+              <BlackScreenPopover
+                onClick={closePopover}
+                isLoading={isLoading}
+              />
               <motion.div
                 initial={{ opacity: 0, y: -100 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -441,65 +438,32 @@ export default function FashionProductPopover(props) {
                 transition={{ duration: 0.3 }}
                 className={` ${
                   isLoading && "pointer-events-none"
-                } relative overflow-hidden bg-thirdyThin w-[24rem] px-4 sm:px-10 ${
+                } relative overflow-hidden bg-thirdyThin w-[24rem] px-4 sm:px-10 min-h-fit ${
                   page === 1
-                    ? "h-[40rem] sm:h-[40rem]"
+                    ? "h-[39rem] sm:h-[40rem]"
                     : page === 2
-                    ? "h-[39rem] sm:h-[42rem]"
+                    ? "h-[36rem] sm:h-[42rem]"
                     : page === 3
                     ? "h-[48rem] sm:h-[48rem]"
                     : page === 4 + variantsData.length
-                    ? "h-[49rem] sm:h-[48rem]"
-                    : page > 3 && "h-[40rem] sm:h-[48rem]"
-                } transition-all duration-300 max-h-[95vh] sm:w-[40rem] mx-2 sm:mx-10  p-5 z-[1] rounded-2xl shadow-md`}
+                    ? "h-[48rem] sm:h-[44rem]"
+                    : page > 3 && "h-[39rem] sm:h-[42rem]"
+                } transition-all duration-300 max-h-[95vh] sm:w-[40rem] mx-2 sm:mx-10 sm:pb-20 pb-0 p-5 z-[1] rounded-2xl shadow-md`}
               >
                 {/* LOADING */}
-                {isLoading && (
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                    className="absolute w-full h-full top-0 z-[100] left-0 flex items-center justify-center"
-                  >
-                    <div className="w-full h-full bg-[rgba(255,255,255,0.4)] absolute top-0 left-0 scale-[1.2]"></div>
-                    <div className="relative flex w-full h-full items-center justify-center">
-                      <motion.img
-                        initial={{ scale: 0 }}
-                        animate={{ scale: 1 }}
-                        exit={{ scale: 0 }}
-                        transition={{ duration: 0.3, delay: 0.2 }}
-                        src="/loading.png"
-                        className="h-14 opacity-[0.7] animate-spin"
-                        alt=""
-                      />
-                    </div>
-                  </motion.div>
-                )}
+                {isLoading && <LoadingPopover />}
 
                 {/* LOGO */}
-                <div className="flex w-full h-fit -ml-2 justify-center drop-shadow items-center ">
-                  <img
-                    src="/LogoGreen.png"
-                    className="scale-[2.3] pointer-events-none w-[8rem] h-[8rem] aspect-square"
-                    alt="Logo"
-                  />
-                  <div className="uppercase ml-1 text-[2.8rem] leading-[3rem] mb-[0.5rem] text-primaryNormal hidden sm:block">
-                    <h1 className="-mb-[0.4rem]">Rumah</h1>
-                    <h1 className="font-bold">Atalla</h1>
-                    <div className="w-[120%] h-[0.3rem] -my-[0.15rem] rounded-md bg-primaryNormal" />
-                  </div>
-                </div>
+                <LogoPopover />
 
-                <div className="flex items-center h-fit gap-3 w-full mb-2">
-                  <div className="w-full h-1 bg-secondary rounded-[0.05rem] mt-3 shadow-md"></div>
-                  <h1 className="w-[47rem] sm:w-[50rem] text-[1.6rem] sm:text-[2rem] text-center font-semibold text-primaryNormal drop-shadow-md">
-                    {props.showPopover === "add"
+                <Title
+                  title={
+                    props.showPopover === "add"
                       ? "Add Fashions"
-                      : "Edit Fashions"}
-                  </h1>
-                  <div className="w-full h-1 bg-secondary rounded-[0.05rem] mt-3 shadow-md"></div>
-                </div>
+                      : "Edit Fashions"
+                  }
+                  className={" mb-2 mt-0"}
+                />
 
                 {/* FORM */}
                 <div className="flex flex-col  gap-4 h-[62%] sm:h-[70%] pb-4 w-full justify-between">
@@ -507,65 +471,38 @@ export default function FashionProductPopover(props) {
                     {page === 1 ? (
                       <div className="flex flex-col w-full h-fit gap-2">
                         {/* NAME */}
-                        <div>
-                          <label
-                            className="text-base sm:text-sm drop-shadow-sm font-semibold text-primaryNormal"
-                            htmlFor="name"
-                          >
-                            Nama
-                          </label>
-                          <input
-                            type="text"
-                            name="name"
-                            placeholder="example"
-                            value={formData.name}
-                            onChange={handleInputChange}
-                            className="block w-full placeholder:text-gray-300 bg-white focus:outline-white p-3 text-sm text-gray-600 border rounded-lg "
-                          />
-                        </div>
+                        <TextField
+                          value={formData?.name}
+                          onChange={handleInputChange}
+                          name="name"
+                          placeholder="name"
+                        />
 
                         {/* ID */}
-                        <div>
-                          <label
-                            className="text-base sm:text-sm drop-shadow-sm font-semibold text-primaryNormal"
-                            htmlFor="name"
-                          >
-                            Product ID
-                          </label>
-                          <input
-                            type="text"
-                            name="productId"
-                            placeholder="example"
-                            value={formData.productId}
-                            onChange={handleInputChange}
-                            className="block w-full placeholder:text-gray-300 bg-white focus:outline-white p-3 text-sm text-gray-600 border rounded-lg "
-                          />
-                        </div>
+                        <TextField
+                          value={formData?.productId}
+                          onChange={handleInputChange}
+                          name="productId"
+                          onName="Product ID"
+                          placeholder="0x42085729593..."
+                        />
 
                         {/* DOUBLE */}
                         <div className="flex gap-3 w-full">
                           {/* Type */}
                           <div className="w-[50%]">
-                            <label
-                              className="text-base sm:text-sm drop-shadow-sm font-semibold text-primaryNormal"
-                              htmlFor="name"
-                            >
-                              Category
-                            </label>
-                            <input
-                              type="text"
-                              name="category"
-                              placeholder="Kerudung, Topi, dll"
-                              value={formData.category}
+                            <TextField
+                              value={formData?.category}
                               onChange={handleInputChange}
-                              className="block w-full placeholder:text-gray-300 bg-white focus:outline-white p-3 text-sm text-gray-600 border rounded-lg "
+                              name="category"
+                              placeholder="Jaket, Celana, dll"
                             />
                           </div>
 
                           {/* Variant */}
                           <div className="w-[50%]">
                             <label
-                              className="text-base sm:text-sm drop-shadow-sm font-semibold text-primaryNormal"
+                              className="sm:text-base text-sm drop-shadow-sm font-semibold text-primaryNormal"
                               htmlFor="name"
                             >
                               Jumlah Variasi
@@ -587,19 +524,11 @@ export default function FashionProductPopover(props) {
 
                         {/* Brand */}
                         <div>
-                          <label
-                            className="text-base sm:text-sm drop-shadow-sm font-semibold text-primaryNormal"
-                            htmlFor="brand"
-                          >
-                            Brand
-                          </label>
-                          <input
-                            type="text"
+                          <TextField
+                            value={formData?.brand}
+                            onChange={handleInputChange}
                             name="brand"
                             placeholder="example"
-                            value={formData.brand}
-                            onChange={handleInputChange}
-                            className="block w-full placeholder:text-gray-300 bg-white focus:outline-white p-3 text-sm text-gray-600 border rounded-lg "
                           />
                         </div>
                       </div>
@@ -607,7 +536,7 @@ export default function FashionProductPopover(props) {
                       <div className="h-full flex flex-col ">
                         {/* DESCRIPTION */}
                         <label
-                          className="text-base drop-shadow-sm font-semibold text-primaryNormal"
+                          className="sm:text-base text-sm drop-shadow-sm font-semibold text-primaryNormal"
                           htmlFor="description"
                         >
                           Description
@@ -628,7 +557,7 @@ export default function FashionProductPopover(props) {
                           {/* IMAGE */}
                           <div className="h-full w-full">
                             <label
-                              className="text-base  drop-shadow-sm font-semibold text-primaryNormal ml-2"
+                              className="sm:text-base text-sm  drop-shadow-sm font-semibold text-primaryNormal ml-2"
                               htmlFor="name"
                             >
                               Image
@@ -724,25 +653,18 @@ export default function FashionProductPopover(props) {
                           <div className="w-full flex gap-3">
                             {/* NAME */}
                             <div className="w-[50%]">
-                              <label
-                                className="text-base sm:text-sm drop-shadow-sm font-semibold text-primaryNormal"
-                                htmlFor="name"
-                              >
-                                Nama Variant {page - 3}
-                              </label>
-                              <input
-                                type="text"
-                                name="name"
-                                placeholder="example"
+                              <TextField
                                 value={variantsData[page - 4]?.name}
                                 onChange={(e) => handleVariantsChange(e)}
-                                className="block w-full placeholder:text-gray-300 bg-white focus:outline-white p-3 text-sm text-gray-600 border rounded-lg "
+                                name="name"
+                                onName={`Nama Variant ${page - 3}`}
+                                placeholder="Biru"
                               />
                             </div>
                             {/* UKURAN */}
                             <div className="w-[50%]">
                               <label
-                                className="text-base sm:text-sm drop-shadow-sm font-semibold text-primaryNormal"
+                                className="sm:text-base text-sm drop-shadow-sm font-semibold text-primaryNormal"
                                 htmlFor="sizeCount"
                               >
                                 Jumlah Ukuran
@@ -768,16 +690,7 @@ export default function FashionProductPopover(props) {
                                 className="flex gap-3 pb-2 border-b border-gray-300"
                               >
                                 <div>
-                                  <label
-                                    className="text-base sm:text-sm drop-shadow-sm font-semibold text-primaryNormal"
-                                    htmlFor={`size_${index}`}
-                                  >
-                                    Ukuran {index + 1}
-                                  </label>
-                                  <input
-                                    type="text"
-                                    name={`size_${index}`}
-                                    placeholder="example"
+                                  <TextField
                                     value={item?.size}
                                     onChange={(e) =>
                                       handleSizeChange(
@@ -787,21 +700,14 @@ export default function FashionProductPopover(props) {
                                         "size"
                                       )
                                     }
-                                    className="block w-full placeholder:text-gray-300 bg-white focus:outline-white p-3 text-sm text-gray-600 border rounded-lg "
+                                    name={`size_${index}`}
+                                    onName={`Ukuran ${index + 1}`}
+                                    placeholder="XL"
                                   />
                                 </div>
                                 <div>
-                                  <label
-                                    className="text-base sm:text-sm drop-shadow-sm font-semibold text-primaryNormal"
-                                    htmlFor={`price_${index}`}
-                                  >
-                                    Price
-                                  </label>
-                                  <input
-                                    type="text"
-                                    name={`price_${index}`}
-                                    placeholder="99000"
-                                    value={item.price}
+                                  <TextField
+                                    value={item?.price}
                                     onChange={(e) =>
                                       handleSizeChange(
                                         e,
@@ -810,21 +716,14 @@ export default function FashionProductPopover(props) {
                                         "price"
                                       )
                                     }
-                                    className="block w-full placeholder:text-gray-300 bg-white focus:outline-white p-3 text-sm text-gray-600 border rounded-lg "
+                                    name={`price_${index}`}
+                                    onName={"Price"}
+                                    placeholder="99000"
                                   />
                                 </div>
                                 <div>
-                                  <label
-                                    className="text-base sm:text-sm drop-shadow-sm font-semibold text-primaryNormal"
-                                    htmlFor={`stock_${index}`}
-                                  >
-                                    Stock
-                                  </label>
-                                  <input
-                                    type="text"
-                                    name={`stock_${index}`}
-                                    placeholder="500"
-                                    value={item.stock}
+                                  <TextField
+                                    value={item?.stock}
                                     onChange={(e) =>
                                       handleSizeChange(
                                         e,
@@ -833,7 +732,9 @@ export default function FashionProductPopover(props) {
                                         "stock"
                                       )
                                     }
-                                    className="block w-full placeholder:text-gray-300 bg-white focus:outline-white p-3 text-sm text-gray-600 border rounded-lg "
+                                    name={`stock_${index}`}
+                                    onName={"Stock"}
+                                    placeholder="99000"
                                   />
                                 </div>
                               </div>
@@ -843,7 +744,7 @@ export default function FashionProductPopover(props) {
                       </div>
                     ) : (
                       <div className="w-full h-full flex flex-col gap-3 text-sm max-sm:overflow-y-scroll max-sm:overflow-x-hidden">
-                        <div className="h-[100%] max-sm:mt-[2.6rem] sm:h-[40%]  w-full flex max-sm:flex-col-reverse justify-between items-center text-gray-600 font-[600]">
+                        <div className="h-[100%] max-sm:mt-[1rem] sm:h-[40%]  w-full flex max-sm:flex-col-reverse justify-between items-center text-gray-600 font-[600]">
                           <div className="w-full flex flex-col items-center sm:justify-between sm:h-full sm:py-3">
                             <div className="w-full flex py-1">
                               <span className="w-[35%] sm:w-[25%] flex">

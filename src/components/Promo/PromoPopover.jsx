@@ -5,6 +5,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import Button from "../Button";
 import toast, { Toaster } from "react-hot-toast";
 import CustomToast from "../../components/CustomToast";
+import BlackScreenPopover from "../BlackScreenPopover";
+import LoadingPopover from "../LoadingPopover";
+import LogoPopover from "../LogoPopover";
+import Title from "../Title";
+import TextField from "../TextField";
+import Title2 from "../Title2";
 
 /* eslint-disable react/prop-types */
 export default function PromoPopover(props) {
@@ -275,26 +281,16 @@ export default function PromoPopover(props) {
       });
   };
 
-  function addDotsToNumber(number) {
-    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-  }
-
   return (
     <>
       <Toaster />
       <AnimatePresence>
         {(props.showPopover === "add" || props.showPopover === "edit") && (
           <div className="fixed z-[1000] top-0 left-0 w-screen h-screen flex items-center justify-center">
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              onClick={() => handleOutPopover()}
-              className={` ${
-                isLoading && "pointer-events-none"
-              } w-screen h-screen bg-[rgba(0,0,0,0.5)] backdrop-blur-sm absolute`}
-            ></motion.div>
+            <BlackScreenPopover
+              onClick={handleOutPopover}
+              isLoading={isLoading}
+            />
             {(page === 1 || page === 2) && (
               <motion.div
                 initial={{ opacity: 0, y: -100 }}
@@ -303,87 +299,44 @@ export default function PromoPopover(props) {
                 transition={{ duration: 0.1 }}
                 className={`${
                   isLoading && "pointer-events-none"
-                } relative overflow-hidden bg-thirdyThin  w-[24rem] px-7 sm:px-10 sm:w-[40rem] mx-10 ${
+                } relative overflow-hidden bg-thirdyThin  w-[24rem] px-5 sm:px-10 sm:w-[40rem] pt-0 mx-3 sm:mx-10 ${
                   page === 1 ? "h-[40rem] sm:h-[36rem]" : "h-[95%]"
                 } transition-all duration-300 p-5 z-[1] rounded-2xl shadow-md`}
               >
                 {/* LOADING */}
-                {isLoading && (
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                    className="absolute w-full h-full top-0 z-[100] left-0 flex items-center justify-center"
-                  >
-                    <div className="w-full h-full bg-[rgba(255,255,255,0.4)] absolute top-0 left-0 scale-[1.2]"></div>
-                    <div className="relative flex w-full h-full items-center justify-center">
-                      <motion.img
-                        initial={{ scale: 0 }}
-                        animate={{ scale: 1 }}
-                        exit={{ scale: 0 }}
-                        transition={{ duration: 0.3, delay: 0.2 }}
-                        src="/loading.png"
-                        className="h-14 opacity-[0.7] animate-spin"
-                        alt=""
-                      />
-                    </div>
-                  </motion.div>
-                )}
+                {isLoading && <LoadingPopover />}
 
                 {/* LOGO */}
-                <div className="flex w-full -ml-2 justify-center drop-shadow items-center ">
-                  <img
-                    src="/LogoGreen.png"
-                    className="scale-[2.3] pointer-events-none w-[8rem] h-[8rem] aspect-square"
-                    alt="Logo"
-                  />
-                  <div className="uppercase ml-1 text-[2.8rem] leading-[3rem] mb-[0.5rem] text-primaryNormal hidden sm:block">
-                    <h1 className="-mb-[0.4rem]">Rumah</h1>
-                    <h1 className="font-bold">Atalla</h1>
-                    <div className="w-[120%] h-[0.3rem] -my-[0.15rem] rounded-md bg-primaryNormal" />
-                  </div>
-                </div>
+                <LogoPopover />
 
                 {page === 1 && (
                   <>
                     {/* TITTLE */}
-                    <div className="flex items-center gap-3 w-full mb-2">
-                      <div className="w-full h-1 bg-secondary rounded-[0.05rem] mt-3 shadow-md"></div>
-                      <h1 className="w-[47rem] sm:w-[45rem] text-[1.6rem] sm:text-[2rem] text-center font-semibold text-primaryNormal drop-shadow-md">
-                        {props.showPopover === "add"
-                          ? "Add Promo"
-                          : "Edit Promo"}
-                      </h1>
-                      <div className="w-full h-1 bg-secondary rounded-[0.05rem] mt-3 shadow-md"></div>
-                    </div>
+                    <Title
+                      title={
+                        props.showPopover === "add" ? "Add Promo" : "Edit Promo"
+                      }
+                      className={" my-3"}
+                    />
 
                     {/* FORM */}
                     <form action="" className="flex flex-col gap-3">
                       <div className="flex gap-3">
                         {/* LEFT */}
                         <div className="w-full gap-3 flex flex-col">
-                          <div>
-                            <label
-                              className="text-base drop-shadow-sm font-semibold text-primaryNormal"
-                              htmlFor="name"
-                            >
-                              Nama
-                            </label>
-                            <input
-                              type="text"
-                              name="name"
-                              placeholder="example"
-                              value={formData.name}
-                              onChange={handleInputChange}
-                              className="block w-full placeholder:text-gray-300 bg-white focus:outline-white p-3 text-sm text-gray-600 border rounded-lg "
-                            />
-                          </div>
+                          <TextField
+                            value={formData?.name}
+                            onChange={handleInputChange}
+                            name="name"
+                            placeholder="name"
+                          />
 
                           <div className="w-full flex gap-3">
                             {/* TYPE */}
                             <div className="max-sm:hidden w-[50%] ml-auto flex flex-col justify-left  text-primaryNormal font-semibold ">
-                              <label>Tipe</label>
+                              <label className="sm:text-base text-sm drop-shadow-sm font-semibold text-primaryNormal capitalize">
+                                Tipe
+                              </label>
                               <select
                                 id="promoType"
                                 name="type"
@@ -413,19 +366,11 @@ export default function PromoPopover(props) {
                             </div>
                             {/* VALUE */}
                             <div className="flex flex-col w-full sm:w-[50%]">
-                              <label
-                                className="text-base drop-shadow-sm font-semibold text-primaryNormal"
-                                htmlFor="text"
-                              >
-                                Value
-                              </label>
-                              <input
-                                type="text"
-                                name="value"
-                                placeholder="promo value"
-                                value={formData.value}
+                              <TextField
+                                value={formData?.value}
                                 onChange={handleInputChange}
-                                className="block w-full placeholder:text-gray-300 bg-white focus:outline-white p-3 text-sm text-gray-600 border rounded-lg "
+                                name="value"
+                                placeholder="30"
                               />
                             </div>
                           </div>
@@ -433,7 +378,7 @@ export default function PromoPopover(props) {
                             {/* START DATE */}
                             <div className="w-full">
                               <label
-                                className="text-base drop-shadow-sm font-semibold text-primaryNormal"
+                                className="sm:text-base text-sm drop-shadow-sm font-semibold text-primaryNormal capitalize"
                                 htmlFor="start-date"
                               >
                                 Tanggal Mulai
@@ -450,7 +395,7 @@ export default function PromoPopover(props) {
                             {/* END DATE */}
                             <div className="w-full">
                               <label
-                                className="text-base drop-shadow-sm font-semibold text-primaryNormal"
+                                className="sm:text-base text-sm drop-shadow-sm font-semibold text-primaryNormal capitalize"
                                 htmlFor="end-date"
                               >
                                 Tanggal Berakhir
@@ -472,7 +417,7 @@ export default function PromoPopover(props) {
                           {/* IMAGE */}
                           <div>
                             <label
-                              className="text-base  drop-shadow-sm font-semibold text-primaryNormal ml-2"
+                              className="sm:text-base text-sm drop-shadow-sm font-semibold text-primaryNormal capitalize"
                               htmlFor="name"
                             >
                               Image
@@ -508,7 +453,7 @@ export default function PromoPopover(props) {
                         {/* START DATE */}
                         <div className="w-full">
                           <label
-                            className="text-base drop-shadow-sm font-semibold text-primaryNormal"
+                            className="sm:text-base text-sm drop-shadow-sm font-semibold text-primaryNormal capitalize"
                             htmlFor="start-date"
                           >
                             Tanggal Mulai
@@ -525,7 +470,7 @@ export default function PromoPopover(props) {
                         {/* END DATE */}
                         <div className="w-full">
                           <label
-                            className="text-base drop-shadow-sm font-semibold text-primaryNormal"
+                            className="sm:text-base text-sm drop-shadow-sm font-semibold text-primaryNormal capitalize"
                             htmlFor="end-date"
                           >
                             Tanggal Berakhir
@@ -567,16 +512,16 @@ export default function PromoPopover(props) {
                           ))}
                         </select>
                       </div>
-                      <div className="flex gap-3 mt-3">
+                      <div className="flex max-sm:justify-center gap-3 mt-3">
                         {props.showPopover === "edit" && (
                           <>
                             <Button
                               variant="red"
                               onClick={() => handleDelete()}
-                              className={"ml-auto"}
+                              className={"sm:ml-auto max-sm:min-w-[3rem]"}
                             >
-                              <i className="fa-solid fa-trash mr-2 scale-[0.95] fa-lg"></i>{" "}
-                              Delete
+                              <i className="fa-solid fa-trash sm:mr-2 scale-[0.95] fa-lg"></i>{" "}
+                              <span className="max-sm:hidden">Delete</span>
                             </Button>
                           </>
                         )}
@@ -585,10 +530,10 @@ export default function PromoPopover(props) {
                           onClick={() => setPage(2)}
                           className={`${
                             props.showPopover === "add" && "ml-auto"
-                          }`}
+                          } max-sm:min-w-[3rem] `}
                         >
-                          Next
-                          <i className="fa-solid fa-arrow-right ml-2 fa-lg"></i>
+                          <span className="max-sm:hidden">Next</span>
+                          <i className="fa-solid fa-arrow-right sm:ml-2 fa-lg"></i>
                         </Button>
                       </div>
                     </form>
@@ -598,9 +543,7 @@ export default function PromoPopover(props) {
                   <>
                     {/* FILTER */}
                     <div className="h-auto  w-full bg-white shadow-md mb-4 py-3 px-5 rounded-2xl p-2">
-                      <h1 className=" mb-1 drop-shadow-sm h-full font-semibold text-primaryNormal">
-                        Search
-                      </h1>
+                      <Title2 title={"Search"} className={"mb-0 sm:text-lg"} />
                       <div className="flex gap-3">
                         {/* SEARCH */}
                         <div className="relative shadow-sm w-full">
@@ -633,7 +576,7 @@ export default function PromoPopover(props) {
                     {/* CONTENT */}
                     <div className="w-full h-[55%] overflow-y-scroll overflow-x-hidden text-sm sm:text-base rounded-2xl">
                       <div className="flex w-full bg-secondary h-[3rem] font-semibold shadow-md inset-[0.2rem]  relative text-white items-center rounded-2xl px-2">
-                        <div className="w-[20%]">Image</div>
+                        <div className="w-[20%] flex justify-center">Image</div>
                         <div className="w-[60%]">Nama Barang</div>
                         <div className="w-[20%]">Harga</div>
                       </div>
@@ -645,15 +588,19 @@ export default function PromoPopover(props) {
                               fashionSelected.includes(product._id?.toString())
                                 ? "border-[4px] border-secondary opacity-[0.8] shadow-md  inset-0"
                                 : "bg-white border-y-[1px] shadow-sm hover:shadow-md inset-[0.2rem]  hover:inset-0"
-                            } cursor-pointer group flex w-full bg-white my-2 shadow-sm py-2 min-h-[3rem] text-gray-600 items-center rounded-2xl px-2 relative duration-200 transition-all `}
+                            } cursor-pointer group flex w-full bg-white my-2 shadow-sm py-2 min-h-[3rem] text-gray-600 items-center rounded-2xl px-2 relative duration-200 transition-all text-[0.7rem] sm:text-sm `}
                             key={product._id?.toString()}
                           >
                             {/* IMAGE */}
                             <div className="w-[20%]">
                               <img
-                                src={product.imageUrl}
+                                src={
+                                  product?.imageUrl[0]
+                                    ? product?.imageUrl[0]?.url
+                                    : product?.imageUrl
+                                }
                                 alt={product.imageAlt}
-                                className="w-[90%] aspect-square rounded-2xl"
+                                className="w-[90%] aspect-square object-cover rounded-2xl"
                               />
                             </div>
 
@@ -662,15 +609,16 @@ export default function PromoPopover(props) {
                               <p className="-mb-1 font-semibold">
                                 {product.name}
                               </p>
-                              <p className="text-gray-600">{product.stock}</p>
                             </div>
 
                             {/* RIGHT SIDE */}
                             <div className="flex flex-col items-center justify-center w-[25%]">
                               <h1
-                                className={` font-base font-semibold text-primaryNormal drop-shadow-sm`}
+                                className={` font-base font-semibold text-secondary drop-shadow-sm`}
                               >
-                                Rp. {addDotsToNumber(product.price)}
+                                Rp.{" "}
+                                {product?.variants[0]?.size[0]?.price?.toLocaleString() ||
+                                  product?.price?.toLocaleString()}
                               </h1>
                             </div>
                           </div>
@@ -679,14 +627,14 @@ export default function PromoPopover(props) {
                     </div>
 
                     {/* BOTTOM */}
-                    <div className="flex gap-3 mt-3">
+                    <div className="flex max-sm:justify-center gap-3 mt-3">
                       <Button
                         variant="secondary"
                         onClick={() => setPage(1)}
-                        className={`ml-auto`}
+                        className={`sm:ml-auto max-sm:min-w-[3rem]`}
                       >
-                        <i className="fa-solid fa-arrow-left mr-2 fa-lg"></i>
-                        Prev
+                        <i className="fa-solid fa-arrow-left sm:mr-2 fa-lg"></i>
+                        <span className="max-sm:hidden">Prev</span>
                       </Button>
                       <Button
                         variant="secondary"
@@ -695,9 +643,12 @@ export default function PromoPopover(props) {
                             ? () => handlePost()
                             : () => handlePatch()
                         }
+                        className={"max-sm:min-w-[3rem]"}
                       >
-                        <i className="fa-solid fa-pen mr-2 scale-[0.95] fa-lg"></i>{" "}
-                        {props.showPopover === "add" ? "Add" : "Edit"}
+                        <i className="fa-solid fa-pen sm:mr-2 scale-[0.95] fa-lg"></i>{" "}
+                        <span className="max-sm:hidden">
+                          {props.showPopover === "add" ? "Add" : "Edit"}
+                        </span>
                       </Button>
                     </div>
                   </>

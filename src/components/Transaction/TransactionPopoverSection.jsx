@@ -39,12 +39,10 @@ export default function TransactionPopoverSection({ item: props, promos }) {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3, delay: 0.2 }}
         key={props._id.toString()}
-        className="flex w-full bg-white my-1 shadow-sm py-2 min-h-[5.5rem] text-gray-600 items-center rounded-2xl px-2 relative inset-[0.2rem]"
+        className="text-[0.6rem] sm:text-sm flex w-full bg-white my-1 shadow-sm py-2 min-h-[5.5rem] text-gray-600 items-center rounded-2xl px-2 relative inset-[0.2rem]"
       >
-        <div className="w-[50%] font-semibold">
-          <h1 className="text-sm sm:text-base items-center flex">
-            {props.name}
-          </h1>
+        <div className="w-[45%] font-semibold">
+          <h1 className="items-center flex">{props.name}</h1>
           {promoProduct.length > 0 && (
             <div className="h-6 w-full z-[1] flex items-end">
               {promoProduct.map((promo) => (
@@ -65,7 +63,7 @@ export default function TransactionPopoverSection({ item: props, promos }) {
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.2 }}
-                      className="text-sm text-center p-3 z-[100] shadow-md bg-gradient-to-r from-primaryDark to-primaryThin text-white border-2 border-primaryNormal h-20 w-36 absolute flex flex-col items-center justify-center rounded-2xl"
+                      className=" text-center p-3 z-[100] shadow-md bg-gradient-to-r from-primaryDark to-primaryThin text-white border-2 border-primaryNormal h-20 w-36 absolute flex flex-col items-center justify-center rounded-2xl"
                     >
                       <h1 className="">{promo.name}</h1>
                       <h1>
@@ -84,10 +82,12 @@ export default function TransactionPopoverSection({ item: props, promos }) {
             </div>
           )}
         </div>
-        <div className="w-[20%] flex items-center font-bold  drop-shadow-sm">
-          <div className="flex flex-col ml-1  text-[0.7rem] font-semibold sm:text-sm">
+        <div className="w-[22.5%] flex items-center font-bold  drop-shadow-sm">
+          <div className="flex flex-col ml-1  font-semibold sm:">
             {props?.discount != props.price && (
-              <span className="text-secondary -mb-1">Rp.{props?.discount?.toLocaleString()}</span>
+              <span className="text-secondary -mb-1">
+                Rp.{props?.discount?.toLocaleString()}
+              </span>
             )}
             <span
               className={`text-gray-600 -mb-1 ${
@@ -104,15 +104,15 @@ export default function TransactionPopoverSection({ item: props, promos }) {
             )}
           </div>
         </div>
-        <div className="w-[20%] flex items-center   drop-shadow-sm f">
-          <div className="flex flex-col ml-1 text-[0.7rem] font-semibold sm:text-sm">
+        <div className="w-[22.5%] flex items-center   drop-shadow-sm f">
+          <div className="flex flex-col ml-1 font-semibold sm:">
             {props?.discount != props.price && (
               <span className="text-secondary -mb-1">
                 Rp.{props?.discount?.toLocaleString()}
               </span>
             )}
             <span
-              className={`text-primaryNormal -mb-1 ${
+              className={`text-secondary -mb-1 ${
                 props.price != props?.discount &&
                 "line-through opacity-[0.6]  w-full text-center"
               }`}
@@ -129,7 +129,7 @@ export default function TransactionPopoverSection({ item: props, promos }) {
         <div className="w-[10%] flex items-center">
           <h1
             type="text"
-            className={`px-2 py-2 w-10 text-center text-sm font-semibold`}
+            className={`px-2 py-2 w-10 text-center  font-semibold`}
           >
             {props?.qty}
           </h1>

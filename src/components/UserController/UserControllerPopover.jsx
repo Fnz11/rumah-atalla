@@ -5,6 +5,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import Button from "../Button";
 import toast, { Toaster } from "react-hot-toast";
 import CustomToast from "../../components/CustomToast";
+import TextField from "../TextField";
+import Title from "../Title";
+import LogoPopover from "../LogoPopover";
+import LoadingPopover from "../LoadingPopover";
+import BlackScreenPopover from "../BlackScreenPopover";
 
 /* eslint-disable react/prop-types */
 export default function UserControllerPopover(props) {
@@ -163,16 +168,11 @@ export default function UserControllerPopover(props) {
       <AnimatePresence>
         {(props.showPopover === "add" || props.showPopover === "edit") && (
           <div className="fixed z-[1000] top-0 left-0 w-screen h-screen flex items-center justify-center">
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              onClick={() => handleOutPopover()}
-              className={` ${
-                isLoading && "pointer-events-none"
-              } w-screen h-screen bg-[rgba(0,0,0,0.5)] backdrop-blur-sm absolute`}
-            ></motion.div>
+            <BlackScreenPopover
+              onClick={handleOutPopover}
+              isLoading={isLoading}
+            />
+            {/* CONTENT */}
             <motion.div
               initial={{ opacity: 0, y: -100 }}
               animate={{ opacity: 1, y: 0 }}
@@ -180,93 +180,38 @@ export default function UserControllerPopover(props) {
               transition={{ duration: 0.3 }}
               className={` ${
                 isLoading && "pointer-events-none"
-              } relative overflow-hidden bg-thirdyThin  w-[40rem] mx-10 h-[84%] p-5 z-[1] rounded-2xl shadow-md`}
+              } relative overflow-hidden bg-thirdyThin  w-[40rem] mx-2 pb-10 h-fit sm:pb-10 z-[1] rounded-2xl shadow-md sm:px-10 px-5`}
             >
               {/* LOADING */}
-              {isLoading && (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                  className="absolute w-full h-full top-0 z-[100] left-0 flex items-center justify-center"
-                >
-                  <div className="w-full h-full bg-[rgba(255,255,255,0.4)] absolute top-0 left-0 scale-[1.2]"></div>
-                  <div className="relative flex w-full h-full items-center justify-center">
-                    <motion.img
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      exit={{ scale: 0 }}
-                      transition={{ duration: 0.3, delay: 0.2 }}
-                      src="/loading.png"
-                      className="h-14 opacity-[0.7] animate-spin"
-                      alt=""
-                    />
-                  </div>
-                </motion.div>
-              )}
+              {isLoading && <LoadingPopover />}
 
               {/* LOGO */}
-              <div className="flex w-full -ml-2 justify-center drop-shadow items-center ">
-                <img
-                  src="/LogoGreen.png"
-                  className="scale-[2.3] pointer-events-none w-[8rem] h-[8rem] aspect-square"
-                  alt="Logo"
-                />
-                <div className="uppercase ml-1 text-[2.8rem] leading-[3rem] mb-[0.5rem] text-primaryNormal hidden sm:block">
-                  <h1 className="-mb-[0.4rem]">Rumah</h1>
-                  <h1 className="font-bold">Atalla</h1>
-                  <div className="w-[120%] h-[0.3rem] -my-[0.15rem] rounded-md bg-primaryNormal" />
-                </div>
-              </div>
+              <LogoPopover />
 
-              <div className="flex items-center gap-3 w-full mb-2 px-10">
-                <div className="w-full h-1 bg-secondary rounded-[0.05rem] mt-3 shadow-md"></div>
-                <h1 className="w-[30rem] text-[2rem] text-center font-semibold text-primaryNormal drop-shadow-md">
-                  {props.showPopover === "add" ? "Add User" : "Edit User"}
-                </h1>
-                <div className="w-full h-1 bg-secondary rounded-[0.05rem] mt-3 shadow-md"></div>
-              </div>
+              <Title
+                title={props.showPopover === "add" ? "Add User" : "Edit User"}
+                className={" my-3"}
+              />
 
               {/* FORM */}
-              <form action="" className="flex flex-col gap-3 px-10">
-                <div className="flex w-full gap-3">
+              <form action="" className="flex flex-col gap-2  ">
+                <div className="flex w-full gap-2">
                   {/* LEFT */}
-                  <div className="flex flex-col gap-3 w-full">
+                  <div className="flex flex-col gap-2 w-full">
                     {/* NAME */}
-                    <div>
-                      <label
-                        className="sm:text-base text-sm drop-shadow-sm font-semibold text-primaryNormal"
-                        htmlFor="name"
-                      >
-                        Nama
-                      </label>
-                      <input
-                        type="text"
-                        placeholder="example"
-                        name="username"
-                        value={userData.username}
-                        onChange={handleInputChange}
-                        className="block w-full placeholder:text-gray-300 bg-white focus:outline-white p-3 text-sm text-gray-600 border rounded-lg "
-                      />
-                    </div>
+                    <TextField
+                      value={userData?.username}
+                      onChange={handleInputChange}
+                      name="username"
+                      placeholder="name"
+                    />
                     {/* NUMBER */}
-                    <div>
-                      <label
-                        className="sm:text-base text-sm drop-shadow-sm font-semibold text-primaryNormal"
-                        htmlFor="password"
-                      >
-                        Nomor HP
-                      </label>
-                      <input
-                        type="text"
-                        placeholder="Phone Number"
-                        name="number"
-                        value={userData.number}
-                        onChange={handleInputChange}
-                        className="block w-full placeholder:text-gray-300 bg-white focus:outline-white p-3 text-sm text-gray-600 border rounded-lg "
-                      />
-                    </div>
+                    <TextField
+                      value={userData?.number}
+                      onChange={handleInputChange}
+                      name="number"
+                      placeholder="083134395844"
+                    />
                   </div>
                   {/* RIGHT */}
                   <div>
@@ -283,7 +228,6 @@ export default function UserControllerPopover(props) {
                         name="imageFile"
                         onChange={handleImageUpload}
                         className="w-full opacity-0 absolute h-full cursor-pointer"
-                        // className="block w-full bg-white focus:outline-white p-3 text-sm text-gray-600 border rounded-lg"
                       />
                       {userData?.imageUrl ? (
                         <img
@@ -303,59 +247,44 @@ export default function UserControllerPopover(props) {
                   </div>
                 </div>
                 {/* EMAIL */}
-                <div>
-                  <label
-                    className="sm:text-base text-sm drop-shadow-sm font-semibold text-primaryNormal"
-                    htmlFor="email"
-                  >
-                    Email
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="example123@gmail.com"
-                    name="email"
-                    value={userData.email}
-                    onChange={handleInputChange}
-                    className="block w-full placeholder:text-gray-300 bg-white focus:outline-white p-3 text-sm text-gray-600 border rounded-lg "
-                  />
-                </div>
+                <TextField
+                  value={userData?.email}
+                  onChange={handleInputChange}
+                  name="email"
+                  placeholder="example123@gmail.com"
+                />
                 {/* PASSWORD */}
-                <div>
-                  <label
-                    className="sm:text-base text-sm drop-shadow-sm font-semibold text-primaryNormal"
-                    htmlFor="password"
-                  >
-                    Password
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Password"
-                    name="password"
-                    value={userData.password}
-                    onChange={handleInputChange}
-                    className="block w-full placeholder:text-gray-300 bg-white focus:outline-white p-3 text-sm text-gray-600 border rounded-lg "
-                  />
-                </div>
+                <TextField
+                  value={userData?.password}
+                  onChange={handleInputChange}
+                  name="password"
+                  placeholder="84h2roj*#"
+                  type="password"
+                />
 
                 {/* BUTTON */}
-                <div className="flex gap-2 mt-3">
+                <div className="flex max-sm:justify-center gap-2 mt-3">
                   {props.showPopover === "edit" && (
                     <Button
                       variant="red"
                       onClick={() => handleDelete()}
-                      className={`ml-auto`}
+                      className={`sm:ml-auto min-w-[3rem]`}
                     >
-                      <i className="fa-solid fa-trash mr-2 scale-[0.95] fa-lg"></i>{" "}
-                      Delete
+                      <i className="fa-solid fa-trash sm:mr-2 scale-[0.95] fa-lg"></i>{" "}
+                      <span className="max-sm:hidden">Delete</span>
                     </Button>
                   )}
                   <Button
                     variant="secondary"
                     onClick={() => handleSubmit()}
-                    className={`${props.showPopover === "add" && "ml-auto"}`}
+                    className={`${
+                      props.showPopover === "add" && "sm:ml-auto"
+                    } min-w-[3rem]`}
                   >
-                    <i className="fa-solid fa-pen mr-2 scale-[0.95] fa-lg"></i>{" "}
-                    {props.showPopover === "add" ? "Add User" : "Edit User"}
+                    <i className="fa-solid fa-pen sm:mr-2 scale-[0.95] fa-lg"></i>{" "}
+                    <span className="max-sm:hidden">
+                      {props.showPopover === "add" ? "Add User" : "Edit User"}
+                    </span>
                   </Button>
                 </div>
               </form>

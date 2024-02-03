@@ -19,6 +19,12 @@ import {
 } from "recharts";
 import Button from "../../components/Button";
 import Title from "../../components/Title";
+import Title2 from "../../components/Title2";
+import Checkbox from "../../components/Checkbox";
+import SearchBar from "../../components/SearchBar";
+import ChangePageButton from "../../components/ChangePageButton";
+import TransactionFashionHeadSection from "../../components/Transaction/TransactionFashionHeadSection";
+import TransactionFoodHeadSection from "../../components/Transaction/TransactionFoodHeadSection";
 
 export default function Transactions() {
   // OWNER
@@ -541,426 +547,284 @@ export default function Transactions() {
 
       {/* CONTENT */}
       <div className="w-full min-h-screen pl-12 pr-2 sm:px-20 lg:px-32 pb-20 pt-10 bg-thirdyThin">
-        <div>
+        {/* CHART */}
+        <div className="w-full h-auto bg-white rounded-2xl shadow-lg p-7 mb-10 relative overflow-hidden">
+          {/* TOP */}
+          <Title2 title="Chart" className={"mb-3"} />
+
           {/* CHART */}
-          <div className="w-full h-auto bg-white rounded-2xl shadow-lg p-7 mb-10">
-            {/* TOP */}
-            <div className="flex justify-between mb-2 ">
-              <h1 className="text-2xl mb-1 drop-shadow-sm h-full font-semibold text-primaryNormal">
-                Chart
-              </h1>
-            </div>
-
-            {/* CHART */}
-            <ResponsiveContainer
-              width="100%"
+          <ResponsiveContainer
+            width="100%"
+            height={300}
+            className="drop-shadow-sm w-full flex items-center justify-center text-sm"
+          >
+            <BarChart
+              width={500}
               height={300}
-              className="drop-shadow-sm w-full flex items-center justify-center text-sm"
+              data={chartData}
+              isAnimationActive
+              margin={{
+                top: 0,
+                right: 0,
+                left: 0,
+                bottom: 0,
+              }}
             >
-              <BarChart
-                width={500}
-                height={300}
-                data={chartData}
-                isAnimationActive
-                margin={{
-                  top: 0,
-                  right: 0,
-                  left: 0,
-                  bottom: 0,
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="date" />
+              <YAxis />
+              <Tooltip
+                content={({ payload, label }) => {
+                  const total = payload.reduce(
+                    (accumulator, { value }) => accumulator + value,
+                    0
+                  );
+
+                  // Menghitung jumlah pending, successed, dan canceled
+                  const pending =
+                    payload.find((item) => item.dataKey === "Pending")?.value ||
+                    0;
+                  const successed =
+                    payload.find((item) => item.dataKey === "Successed")
+                      ?.value || 0;
+                  const canceled =
+                    payload.find((item) => item.dataKey === "Canceled")
+                      ?.value || 0;
+
+                  return (
+                    <div className="bg-white font-semibold py-4 px-6 rounded-2xl drop-shadow-md text-gray-600 flex flex-col gap-2 text-sm">
+                      <p className="flex items-center gap-2">
+                        <i className="fa-regular fa-calendar-days mb-1 fa-lg"></i>
+                        {label}
+                      </p>
+                      <p className="text-yellow-400 flex items-center gap-2">
+                        <i className="fa-solid fa-clock mb-1 fa-lg "></i>
+                        Pending: {pending}
+                      </p>
+                      <p className="text-green-400 flex items-center gap-2">
+                        <i className="fa-solid fa-circle-check mb-1 fa-lg"></i>
+                        Successed: {successed}
+                      </p>
+                      <p className="text-red-400 flex items-center gap-2">
+                        <i className="fa-solid fa-circle-exclamation mb-1 fa-lg"></i>
+                        Canceled: {canceled}
+                      </p>
+                      <p className="mt-2">Total: {total}</p>
+                    </div>
+                  );
                 }}
-              >
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="date" />
-                <YAxis />
-                <Tooltip
-                  content={({ payload, label }) => {
-                    const total = payload.reduce(
-                      (accumulator, { value }) => accumulator + value,
-                      0
-                    );
+              />
+              <Legend
+                verticalAlign="bottom"
+                iconSize={10}
+                iconType="square"
+                height={36}
+              />
+              <Bar dataKey="Pending" fill="rgb(250 204 21)" />
+              <Bar dataKey="Successed" fill="rgb(74 222 128)" />
+              <Bar dataKey="Canceled" fill="rgb(248 113 113)" />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
 
-                    // Menghitung jumlah pending, successed, dan canceled
-                    const pending =
-                      payload.find((item) => item.dataKey === "Pending")
-                        ?.value || 0;
-                    const successed =
-                      payload.find((item) => item.dataKey === "Successed")
-                        ?.value || 0;
-                    const canceled =
-                      payload.find((item) => item.dataKey === "Canceled")
-                        ?.value || 0;
-
-                    return (
-                      <div className="bg-white font-semibold py-4 px-6 rounded-2xl drop-shadow-md text-gray-600 flex flex-col gap-2 text-sm">
-                        <p className="flex items-center gap-2">
-                          <i className="fa-regular fa-calendar-days mb-1 fa-lg"></i>
-                          {label}
-                        </p>
-                        <p className="text-yellow-400 flex items-center gap-2">
-                          <i className="fa-solid fa-clock mb-1 fa-lg "></i>
-                          Pending: {pending}
-                        </p>
-                        <p className="text-green-400 flex items-center gap-2">
-                          <i className="fa-solid fa-circle-check mb-1 fa-lg"></i>
-                          Successed: {successed}
-                        </p>
-                        <p className="text-red-400 flex items-center gap-2">
-                          <i className="fa-solid fa-circle-exclamation mb-1 fa-lg"></i>
-                          Canceled: {canceled}
-                        </p>
-                        <p className="mt-2">Total: {total}</p>
-                      </div>
-                    );
-                  }}
-                />
-                <Legend
-                  verticalAlign="bottom"
-                  iconSize={10}
-                  iconType="square"
-                  height={36}
-                />
-                <Bar dataKey="Pending" fill="rgb(250 204 21)" />
-                <Bar dataKey="Successed" fill="rgb(74 222 128)" />
-                <Bar dataKey="Canceled" fill="rgb(248 113 113)" />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-
-          {/* FILTER */}
-          <div className="h-auto  w-full bg-white rounded-2xl shadow-lg p-7 ">
-            <div className="flex flex-col xl:flex-row gap-4">
+        {/* FILTER */}
+        <div className="h-auto  w-full bg-white rounded-2xl shadow-lg p-7 ">
+          <div className="flex flex-col xl:flex-row gap-4">
+            {/* TOP */}
+            <div className="xl:w-[75%] w-full">
               {/* TOP */}
-              <div className="xl:w-[75%] w-full">
-                {/* TOP */}
-                <div className="flex mb-2 ">
-                  <h1 className="text-3xl mb-1 drop-shadow-sm h-full font-semibold text-primaryNormal">
-                    Filter
-                  </h1>
-                </div>
-
-                {/* MIDDLE */}
-                <div className="flex flex-col sm:flex-row gap-3 w-full mb-2 justify-between">
-                  {/* STORE */}
-                  {page === "fashions" && (
-                    <div className="flex gap-5 items-center text-sm sm:w-auto w-full justify-center ">
-                      {user?.role === "owner" && (
-                        <>
-                          {Object.keys(storeFilters).map((store) => (
-                            <div className="flex items-center" key={store}>
-                              <input
-                                id={`store-checkbox-${store}`}
-                                type="checkbox"
-                                checked={storeFilters[store]}
-                                onChange={() => handleStoreFilterChange(store)}
-                                className="w-4 h-4 text-secondary "
-                              />
-                              <label
-                                htmlFor={`store-checkbox-${store}`}
-                                className="ms-2 text-sm font-semibold text-gray-600 capitalize"
-                              >
-                                {store}
-                              </label>
-                            </div>
-                          ))}
-                        </>
-                      )}
-                    </div>
-                  )}
-
-                  {/* DOWNLOAD */}
-                  {User?.role === "owner" && (
-                    <div className={`${page === "foods" && "ml-auto"}`}>
-                      <Button variant="green" onClick={handleDownload}>
-                        <i className="fa-solid fa-file-arrow-down mr-2"></i>
-                        Donwload
-                      </Button>
-                    </div>
-                  )}
-                </div>
-
-                {/* SEARCH */}
+              <Title2 title="Filter" className={"mb-0"} />
+              {/* SEARCH */}
+              <div className="w-full flex gap-2">
                 <div className="flex flex-col sm:flex-row w-full gap-2">
                   {/* SEARCH BY NAME*/}
-                  <div className="relative shadow-sm w-full">
-                    <div className="absolute  w-auto inset-y-0 left-0 bottom-1 flex items-center jus pl-3 pointer-events-none">
-                      <svg
-                        aria-hidden="true"
-                        className="w-5 h-5 text-gray-600"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                          clipRule="evenodd"
-                        ></path>
-                      </svg>
-                    </div>
-                    <input
-                      type="text"
-                      className="block w-full placeholder:text-gray-600 bg-[#F6FAF2] focus:outline-white p-3 pl-10 text-sm text-gray-600 border rounded-lg "
-                      placeholder="Search by name..."
-                      value={searchValue}
-                      onChange={(e) => setSearchValue(e.target.value)}
-                    />
-                  </div>
+                  <SearchBar
+                    onChange={(e) => setSearchValue(e.target.value)}
+                    value={searchValue}
+                    placeholder="Search by name..."
+                  />
 
                   {/* SEARCH BY ID*/}
-                  <div className="relative shadow-sm w-full">
-                    <div className="absolute  w-auto inset-y-0 left-0 bottom-1 flex items-center jus pl-3 pointer-events-none">
-                      <svg
-                        aria-hidden="true"
-                        className="w-5 h-5 text-gray-600"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                          clipRule="evenodd"
-                        ></path>
-                      </svg>
-                    </div>
-                    <input
-                      type="text"
-                      className="block w-full placeholder:text-gray-600 bg-[#F6FAF2] focus:outline-white p-3 pl-10 text-sm text-gray-600 border rounded-lg "
-                      placeholder="Search by ID..."
-                      value={idValue}
-                      onChange={(e) => setidValue(e.target.value)}
-                    />
-                  </div>
+                  <SearchBar
+                    onChange={(e) => setidValue(e.target.value)}
+                    value={idValue}
+                    placeholder="Search by ID..."
+                  />
                 </div>
+                {User?.role === "owner" && (
+                  <Button
+                    className="min-w-[2rem] w-[3rem] scale-[0.95] h-fit max-sm:-mt-1"
+                    variant={"green"}
+                    onClick={() => handleDownload()}
+                  >
+                    <i className="fa-solid fa-file-arrow-down fa-lg"></i>
+                  </Button>
+                )}
+              </div>
 
-                {/* STATUS */}
-                <div className="flex flex-col sm:flex-row w-full  justify-between mt-4 font-semibold">
-                  <h1>Total: {filteredFashionTransaction.length}</h1>
+              {/* CHECKBOX */}
+              <div className="flex  flex-row w-full  mt-4">
+                <div className="w-full sm:w-[50%] ">
+                  <h1 className="font-semibold">
+                    Total: {filteredFashionTransaction.length}
+                  </h1>
                   {Object.keys(statusFilters).map((status) => (
-                    <div className="flex items-center " key={status}>
-                      <input
-                        id={`status-checkbox-${status}`}
-                        type="checkbox"
-                        checked={statusFilters[status]}
-                        onChange={() => handleStatusFilterChange(status)}
-                        className="w-4 h-4 text-secondary "
-                      />
-                      <label
-                        htmlFor={`store-checkbox-${status}`}
-                        className={`ms-2 text-sm font-semibold drop-shadow-sm ${
-                          status === "canceled"
-                            ? "text-red-400"
-                            : status === "successed"
-                            ? "text-green-400"
-                            : "text-yellow-400"
-                        } capitalize flex`}
-                      >
-                        <h1 className="mr-1">
-                          {status === "canceled"
-                            ? totalCanceledTransactions
-                            : status === "successed"
-                            ? totalSuccededTransactions
-                            : totalPendingTransactions}
-                        </h1>
-                        {status}
-                      </label>
-                    </div>
+                    <Checkbox
+                      key={status}
+                      checked={statusFilters[status]}
+                      onChange={() => handleStatusFilterChange(status)}
+                      color={
+                        status === "canceled"
+                          ? "red"
+                          : status === "successed"
+                          ? "green"
+                          : "yellow"
+                      }
+                      name={
+                        (status === "canceled"
+                          ? totalCanceledTransactions
+                          : status === "successed"
+                          ? totalSuccededTransactions
+                          : totalPendingTransactions) +
+                        " " +
+                        status
+                      }
+                      bold
+                      id={`status-checkbox-${status}`}
+                    />
                   ))}
                 </div>
-
-                {/* DATE */}
-                <div className="flex flex-col sm:flex-row w-full justify-between mt-4 gap-3">
-                  {user?.role === "owner" && (
-                    <div className="">
-                      <select
-                        id="kasir"
-                        name="kasir"
-                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                        value={selectedKasir}
-                        onChange={(e) => setSelectedKasir(e.target.value)}
-                      >
-                        <option value="">Select Kasir</option>
-                        {kasir.map((kasirName) => (
-                          <option key={kasirName} value={kasirName}>
-                            {kasirName}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  )}
-                  <div>
-                    <label htmlFor="startDate">Dari:</label>
-                    <input
-                      type="date"
-                      id="startDate"
-                      value={startDate}
-                      onChange={(e) => setStartDate(e.target.value)}
-                    />
+                {page === "fashions" && User?.role === "owner" && (
+                  <div className="flex flex-col  items-start text-sm sm:w-auto w-full justify-between mb-3 ">
+                    <br />
+                    {Object.keys(storeFilters).map((store) => (
+                      <Checkbox
+                        attached
+                        key={store}
+                        checked={storeFilters[store]}
+                        onChange={() => handleStoreFilterChange(store)}
+                        id={"store-checkbox-" + store}
+                        name={store}
+                      />
+                    ))}
                   </div>
-                  <div>
-                    <label htmlFor="endDate">Sampai:</label>
-                    <input
-                      type="date"
-                      id="endDate"
-                      value={endDate}
-                      onChange={(e) => setEndDate(e.target.value)}
-                    />
-                  </div>
-                </div>
+                )}
               </div>
 
-              {/* BOTTOM */}
-              <div className="xl:w-[25%] w-full flex flex-col items-center gap-2">
-                <button
-                  onClick={() => setPage("foods")}
-                  className={`relative w-[100%] h-[7.1rem] rounded-2xl overflow-hidden group flex items-center justify-center drop-shadow-sm`}
-                >
-                  <img
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQl6SzfGl7TUhR-NEd2sL_rwbaBq-7dRG2Cxg&usqp=CAU"
-                    className={`absolute w-full z-[0] h-full object-cover  transition-all duration-700  ${
-                      page === "foods"
-                        ? "scale-[1.2] rotate-3 group-hover:scale-[1] group-hover:rotate-0"
-                        : "group-hover:scale-[1.2] group-hover:rotate-3"
-                    }`}
-                    alt="LandingFashion"
-                  />
-                  <div
-                    className={`absolute   ${
-                      page === "foods"
-                        ? "opacity-[0.7] bg-[rgba(255,255,255,0.2)]"
-                        : "group-hover:opacity-[0.7] bg-[rgba(0,0,0,0.7)] group-hover:bg-[rgba(255,255,255,0.2)]"
-                    } w-full h-full z-[1]  transition-all duration-300`}
-                  ></div>
-                  <h1
-                    className={`text-3xl z-[2] relative text-white font-medium ${
-                      page === "foods"
-                        ? "scale-[1.05] group-hover:scale-[1]"
-                        : "group-hover:scale-[1.05]"
-                    } transition-all duration-300`}
+              {/* DATE */}
+              <div className="flex flex-col sm:flex-row w-full justify-between mt-4 gap-3">
+                {user?.role === "owner" && (
+                  <select
+                    id="kasir"
+                    name="kasir"
+                    className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                    value={selectedKasir}
+                    onChange={(e) => setSelectedKasir(e.target.value)}
                   >
-                    Foods
-                  </h1>
-                </button>
-                <button
-                  onClick={() => setPage("fashions")}
-                  className={`relative w-[100%] h-[7.1rem] rounded-2xl overflow-hidden group flex items-center justify-center drop-shadow-sm`}
-                >
-                  <img
-                    src="https://img.freepik.com/premium-photo/group-young-beautiful-muslim-women-fashionable-dress-with-hijab-using-mobile-phone-while-taking-selfie-picture-front-black-chalkboard-representing-modern-islam-fashion-technology-ramad_530697-51545.jpg"
-                    className={`absolute w-full z-[0] h-full object-cover  transition-all duration-700  ${
-                      page === "fashions"
-                        ? "scale-[1.2] rotate-3 group-hover:scale-[1] group-hover:rotate-0"
-                        : "group-hover:scale-[1.2] group-hover:rotate-3"
-                    }`}
-                    alt="LandingFashion"
+                    <option value="">Select Kasir</option>
+                    {kasir.map((kasirName) => (
+                      <option key={kasirName} value={kasirName}>
+                        {kasirName}
+                      </option>
+                    ))}
+                  </select>
+                )}
+                <div className="flex whitespace-nowrap">
+                  <label htmlFor="startDate">Dari:</label>
+                  <input
+                    type="date"
+                    id="startDate"
+                    value={startDate}
+                    onChange={(e) => setStartDate(e.target.value)}
                   />
-                  <div
-                    className={`absolute   ${
-                      page === "fashions"
-                        ? "opacity-[0.7] bg-[rgba(255,255,255,0.2)]"
-                        : "group-hover:opacity-[0.7] bg-[rgba(0,0,0,0.7)] group-hover:bg-[rgba(255,255,255,0.2)]"
-                    } w-full h-full z-[1]  transition-all duration-300`}
-                  ></div>
-                  <h1
-                    className={`text-3xl z-[2] relative text-white font-medium ${
-                      page === "fashions"
-                        ? "scale-[1.05] group-hover:scale-[1]"
-                        : "group-hover:scale-[1.05]"
-                    } transition-all duration-300`}
-                  >
-                    Fashions
-                  </h1>
-                </button>
+                </div>
+                <div className="flex whitespace-nowrap">
+                  <label htmlFor="endDate">Sampai:</label>
+                  <input
+                    type="date"
+                    id="endDate"
+                    value={endDate}
+                    onChange={(e) => setEndDate(e.target.value)}
+                  />
+                </div>
               </div>
             </div>
+
+            {/* BOTTOM */}
+            <div className="xl:w-[25%] w-full flex flex-col items-center gap-2">
+              <ChangePageButton
+                image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQl6SzfGl7TUhR-NEd2sL_rwbaBq-7dRG2Cxg&usqp=CAU"
+                setPage={() => setPage("foods")}
+                height={"8rem"}
+                page={page}
+                text={"foods"}
+              />
+              <ChangePageButton
+                image="https://img.freepik.com/premium-photo/group-young-beautiful-muslim-women-fashionable-dress-with-hijab-using-mobile-phone-while-taking-selfie-picture-front-black-chalkboard-representing-modern-islam-fashion-technology-ramad_530697-51545.jpg"
+                setPage={() => setPage("fashions")}
+                height={"8rem"}
+                page={page}
+                text={"fashions"}
+              />
+            </div>
           </div>
+        </div>
 
-          {/* TITTLE */}
-          <Title title={page === "fashion" ? "Fashions" : "Foods"} />
+        {/* TITTLE */}
+        <Title title={page === "fashion" ? "Fashions" : "Foods"} />
 
-          {/* TRANSACTIONS */}
-          <div className="rounded-2xl w-full text-base sm:text-lg h-auto mb-10 ">
-            {page === "fashions" ? (
-              <>
-                {/* HEAD */}
-                <div className="w-full shadow-lg bg-secondary font-semibold flex items-center text-sm sm:text-lg rounded-2xl">
-                  <h1 className="text-center text-white w-[35%] lg:w-[25%] py-6 ">
-                    Kasir
-                  </h1>
-                  <h1 className="text-center text-white w-[10%] lg:w-[5%] py-6">
-                    {" "}
-                    <i className="fa-solid fa-store"></i>
-                  </h1>
-                  <h1 className="text-center text-white w-[65%] lg:w-[30%] py-6 ">
-                    Nama & Transaksi
-                  </h1>
-                  <h1 className="text-center text-white py-6 w-[25%] lg:block hidden">
-                    Total
-                  </h1>
-                  <h1 className="text-center text-white w-[15%]  py-6">
-                    Status
-                  </h1>
-                </div>
+        {/* TRANSACTIONS */}
+        <div className="rounded-2xl w-full text-base sm:text-lg h-auto mb-10 ">
+          {page === "fashions" ? (
+            <>
+              {/* HEAD */}
+              <TransactionFashionHeadSection />
 
-                <div>
-                  <AnimatePresence>
-                    {filteredFashionTransaction.length > 0 &&
-                      filteredFashionTransaction.map((item) => (
-                        <motion.div
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          exit={{ opacity: 0 }}
-                          transition={{ duration: 0.2 }}
-                          key={item.id}
-                          className="my-2"
-                        >
-                          <FashionTransactionSection
-                            data={item}
-                            handlePopover={togglePopover}
-                          />
-                        </motion.div>
-                      ))}
-                  </AnimatePresence>
-                </div>
-              </>
-            ) : (
-              <>
-                {/* HEAD */}
-                <div className="w-full shadow-md bg-secondary font-semibold flex items-center text-sm sm:text-lg rounded-2xl">
-                  <h1 className="text-center text-white w-[30%] lg:w-[15%] py-6 ">
-                    Kasir
-                  </h1>
-                  <h1 className="text-center text-white w-[75%] lg:w-[50%] py-6 ">
-                    Nama & Transaksi
-                  </h1>
-                  <h1 className="text-center text-white py-6 w-[25%] lg:block hidden">
-                    Total
-                  </h1>
-                  <h1 className="text-center text-white w-[15%]  py-6">
-                    Status
-                  </h1>
-                </div>
-
-                <div>
+              <div>
+                <AnimatePresence>
                   {filteredFashionTransaction.length > 0 &&
                     filteredFashionTransaction.map((item) => (
                       <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
                         transition={{ duration: 0.2 }}
                         key={item.id}
                         className="my-2"
                       >
-                        <FoodTransactionSection
+                        <FashionTransactionSection
                           data={item}
                           handlePopover={togglePopover}
                         />
                       </motion.div>
                     ))}
-                </div>
-              </>
-            )}
-          </div>
+                </AnimatePresence>
+              </div>
+            </>
+          ) : (
+            <>
+              {/* HEAD */}
+              <TransactionFoodHeadSection  />
+
+              <div>
+                {filteredFashionTransaction.length > 0 &&
+                  filteredFashionTransaction.map((item) => (
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ duration: 0.2 }}
+                      key={item.id}
+                      className="my-2"
+                    >
+                      <FoodTransactionSection
+                        data={item}
+                        handlePopover={togglePopover}
+                      />
+                    </motion.div>
+                  ))}
+              </div>
+            </>
+          )}
         </div>
       </div>
     </>
