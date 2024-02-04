@@ -112,7 +112,7 @@ export default function SignIn() {
                 value={email}
                 placeholder="ecample123@gmail.com"
                 onChange={(e) => setEmail(e.target.value)}
-                className="block w-full shadow-sm placeholder:text-gray-300 bg-white focus:outline-white p-3 text-sm text-gray-600 border rounded-lg "
+                className="block w-full shadow-sm placeholder:text-gray-300 bg-white focus:outline-white p-3 text-sm text-primaryDark border rounded-lg "
               />
             </div>
             <div>
@@ -127,7 +127,7 @@ export default function SignIn() {
                 placeholder="example"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="block w-full shadow-sm placeholder:text-gray-300 bg-white focus:outline-white p-3 text-sm text-gray-600 border rounded-lg "
+                className="block w-full shadow-sm placeholder:text-gray-300 bg-white focus:outline-white p-3 text-sm text-primaryDark border rounded-lg "
               />
             </div>
             <div className="flex items-center justify-between">

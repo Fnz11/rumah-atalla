@@ -341,6 +341,7 @@ export default function FoodsKasir() {
           productId: item._id.toString(),
           name: item.name,
           qty: 1,
+          stock: item.stock,
           discount: discountValue,
           cashback: cashbackValue,
           promo: promoInclude,
@@ -500,7 +501,7 @@ export default function FoodsKasir() {
       {/* TOAST */}
       <Toaster />
 
-      <div className=" w-full  pb-20 pt-10  min-h-screen text-gray-600">
+      <div className=" w-full  pb-20 pt-10  min-h-screen text-primaryDark">
         {/* BUY BUTTON */}
         <BuyButton
           onClick={() => togglePopover()}

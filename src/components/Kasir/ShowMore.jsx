@@ -51,7 +51,7 @@ export default function ShowMore(props) {
               <div className="flex flex-col  gap-4 h-[62%] sm:h-[70%] pb-4 w-full justify-between">
                 <div className="h-full sm:h-[90%] ">
                   <div className="w-full h-full flex flex-col gap-3 text-sm max-sm:overflow-y-scroll max-sm:overflow-x-hidden">
-                    <div className="h-[100%] max-sm:mt-[2.6rem] sm:h-[40%]  w-full flex max-sm:flex-col-reverse justify-between items-center text-gray-600 font-[600]">
+                    <div className="h-[100%] max-sm:mt-[2.6rem] sm:h-[40%]  w-full flex max-sm:flex-col-reverse justify-between items-center text-primaryDark font-[600]">
                       <div className="w-full flex flex-col items-center sm:justify-between sm:h-full sm:py-3">
                         <div className="w-full flex py-1">
                           <span className="w-[35%] sm:w-[25%] flex">Name</span>
@@ -112,7 +112,7 @@ export default function ShowMore(props) {
                             ))
                           ) : (
                             <SwiperSlide className="">
-                              <div className="font-semibold text-gray-600 flex items-center justify-center w-full h-full bg-gray-300 pb-1">
+                              <div className="font-semibold text-primaryDark flex items-center justify-center w-full h-full bg-gray-300 pb-1">
                                 No Image
                               </div>
                             </SwiperSlide>
@@ -191,7 +191,7 @@ export default function ShowMore(props) {
                                   isAdded &&
                                   "border-4 border-primaryThin scale-[0.95]"
                                 }
-                                transition-all duration-200 hover:shadow-xl min-h-[6rem] hover:inset-0 inset-[0.2rem] relative w-full bg-white mb-4 px-5 sm:py-6 py-3  rounded-2xl shadow-lg  flex text-gray-600 font-semibold items-center justify-center text-[0.8rem] max-sm:flex-col`}
+                                transition-all duration-200 hover:shadow-xl min-h-[6rem] hover:inset-0 inset-[0.2rem] relative w-full bg-white mb-4 px-5 sm:py-6 py-3  rounded-2xl shadow-lg  flex text-primaryDark font-semibold items-center justify-center text-[0.8rem] max-sm:flex-col`}
                                 >
                                   <h1 className="max-sm:hidden w-full justify-center sm:w-[30%] flex h-full items-center text-center truncate">
                                     {item?.name}

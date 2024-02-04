@@ -148,7 +148,7 @@ export default function About() {
                 </h1>
                 <div className="w-full h-[0.15rem] sm:h-1 bg-secondary rounded-[0.05rem] mt-3 shadow-md"></div>
               </div>
-              <div className="text-lg lg:text-xl  text-gray-600 w-full">
+              <div className="text-lg lg:text-xl  text-primaryDark w-full">
                 <h1 className="indent-20">
                   koleksi fashion hijab di Rumah Atalla adalah manifestasi dari
                   keanggunan dan keindahan. Setiap kain dipilih dengan teliti
@@ -181,7 +181,7 @@ export default function About() {
                 </h1>
                 <div className="w-full h-[0.15rem] sm:h-1 bg-secondary rounded-[0.05rem] mt-3 shadow-md"></div>
               </div>
-              <div className="text-lg lg:text-xl  text-gray-600 w-full">
+              <div className="text-lg lg:text-xl  text-primaryDark w-full">
                 <h1 className="indent-20">
                   Selain itu, Rumah Atalla juga mengundang Anda untuk menikmati
                   petualangan kuliner yang menggoda. Dari hidangan khas yang
@@ -254,7 +254,7 @@ export default function About() {
         <div className="w-screen mt-44 sm:mt-64 relative">
           <div className="w-screen h-56 sm:h-72 bg-secondary shadow-md absolute z-[-1] -top-20 sm:-top-32"></div>
 
-          <section className="text-gray-600 body-font z-[10] items-center w-screen justify-center xl:px-32 mt-20">
+          <section className="text-primaryDark body-font z-[10] items-center w-screen justify-center xl:px-32 mt-20">
             <div className="flex flex-wrap ">
               {[...Array(4)].map((i) => (
                 <div key={i} className="p-5 h-min-72 w-screen sm:w-1/2">
@@ -292,7 +292,7 @@ export default function About() {
                         <h2 className=" text-2xl sm:text-left text-center text-primaryDark font-medium title-font mb-1 group-hover:text-secondary drop-shadow-sm transition-all duration-300">
                           Shooting Stars
                         </h2>
-                        <p className="leading-relaxed text-sm sm:text-base text-gray-600 transition-all duration-500 text-justify">
+                        <p className="leading-relaxed text-sm sm:text-base text-primaryDark transition-all duration-500 text-justify">
                           Lorem, ipsum dolor sit amet consectetur adipisicing
                           elit. Et fugiat repellat cupiditate vitae in, amet
                           nihil ipsum nostrum ea quos fuga iste suscipit ex,
@@ -310,7 +310,7 @@ export default function About() {
 
         {/* KUTIPAN */}
         <div>
-          <section className="text-gray-600 body-font">
+          <section className="text-primaryDark body-font">
             <div className="container px-5 py-24 mx-auto">
               <div className=" sm:w-4/5 lg:w-3/5 w-full mx-auto text-center">
                 <svg

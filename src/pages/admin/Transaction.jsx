@@ -25,6 +25,7 @@ import SearchBar from "../../components/SearchBar";
 import ChangePageButton from "../../components/ChangePageButton";
 import TransactionFashionHeadSection from "../../components/Transaction/TransactionFashionHeadSection";
 import TransactionFoodHeadSection from "../../components/Transaction/TransactionFoodHeadSection";
+import TransactionSectionSkeleton from "../../components/Transaction/TransactionSectionSkeleton";
 
 export default function Transactions() {
   const DBURL = import.meta.env.VITE_APP_DB_URL;
@@ -206,6 +207,8 @@ export default function Transactions() {
     []
   );
 
+  const [isLoading, setIsLoading] = useState(false);
+
   // FETCH PRODUCT FASHION
   const [allProducts, setAllProducts] = useState([]);
   // WEB
@@ -216,6 +219,7 @@ export default function Transactions() {
       .then((res) => {
         setWebProductsData(res.data);
         setAllProducts((prevData) => [...prevData, ...res.data]);
+        setIsLoading(false);
       })
       .catch((err) => {
         console.log(err);
@@ -230,6 +234,8 @@ export default function Transactions() {
   const [transactionsWeb, setTransactionsWeb] = useState([]);
   const token = localStorage.getItem("token");
   const fetchTransactions = async () => {
+    setIsLoading(true);
+
     await axios
       .get(DBURL + "/transactions/", {
         headers: {
@@ -238,6 +244,7 @@ export default function Transactions() {
       })
       .then((res) => {
         setTransactionsWeb(res.data);
+        setIsLoading(false);
       })
       .catch((err) => {
         console.log(err);
@@ -550,15 +557,15 @@ export default function Transactions() {
       {/* CONTENT */}
       <div className="w-full min-h-screen  pb-20 pt-10 ">
         {/* CHART */}
-        <div className="w-full h-auto bg-section border-b-2 border-x-2 rounded-2xl shadow-lg p-7 mb-10 relative overflow-hidden">
+        <div className="w-full h-[19rem] sm:h-[30rem] bg-section border-b-2 border-x-2 rounded-2xl shadow-lg p-7 mb-10 relative overflow-hidden">
           {/* TOP */}
           <Title2 title="Chart" className={"mb-3"} />
 
           {/* CHART */}
           <ResponsiveContainer
             width="100%"
-            height={300}
-            className="drop-shadow-sm w-full flex items-center justify-center text-sm"
+            height={"90%"}
+            className="drop-shadow-sm  w-full flex items-center justify-center text-sm"
           >
             <BarChart
               width={500}
@@ -783,6 +790,19 @@ export default function Transactions() {
               <TransactionFashionHeadSection />
 
               <div>
+                {isLoading &&
+                  [...Array(10)].map((i) => (
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                      key={i}
+                      className="my-3"
+                    >
+                      <TransactionSectionSkeleton />
+                    </motion.div>
+                  ))}
                 <AnimatePresence>
                   {filteredFashionTransaction.length > 0 &&
                     filteredFashionTransaction.map((item) => (
@@ -792,7 +812,7 @@ export default function Transactions() {
                         exit={{ opacity: 0 }}
                         transition={{ duration: 0.2 }}
                         key={item.id}
-                        className="my-4"
+                        className="my-3"
                       >
                         <FashionTransactionSection
                           data={item}
@@ -809,6 +829,19 @@ export default function Transactions() {
               <TransactionFoodHeadSection />
 
               <div>
+                {isLoading &&
+                  [...Array(10)].map((i) => (
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                      key={i}
+                      className="my-3"
+                    >
+                      <TransactionSectionSkeleton />
+                    </motion.div>
+                  ))}
                 {filteredFashionTransaction.length > 0 &&
                   filteredFashionTransaction.map((item) => (
                     <motion.div
@@ -816,7 +849,7 @@ export default function Transactions() {
                       animate={{ opacity: 1 }}
                       transition={{ duration: 0.2 }}
                       key={item.id}
-                      className="my-2"
+                      className="my-3"
                     >
                       <FoodTransactionSection
                         data={item}

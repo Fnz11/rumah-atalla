@@ -4,7 +4,7 @@ export default function UserControllerSection({ item, handlePopover, number }) {
     <>
       <div
         onClick={() => handlePopover({ param: "edit", item: item })}
-        className="rounded-2xl cursor-pointer group hover:shadow-xl pr-2 shadow-md hover:inset-0 transition-all duration-300 w-full relative  bg-section text-gray-600 leading-5 sm:leading-normal text-[0.8rem] sm:text-sm border-b-2 inset-[0.2rem]"
+        className="rounded-2xl my-3 cursor-pointer group hover:shadow-xl pr-2 shadow-md hover:inset-0 transition-all duration-300 w-full relative  bg-section text-primaryDark leading-5 sm:leading-normal text-[0.8rem] sm:text-sm border-b-2 inset-[0.2rem]"
       >
         <div className="flex items-center z-[10] relative w-full ">
           <h1 className="text-center w-[10%] py-6 ">{number}</h1>
@@ -15,7 +15,7 @@ export default function UserControllerSection({ item, handlePopover, number }) {
               alt=""
             />
             <div className="truncate w-full flex max-sm:items-center flex-col leading-3">
-              <span className="text-gray-600 font-semibold">
+              <span className="text-primaryDark font-semibold">
                 {item.username}
               </span>
               <br />
@@ -25,7 +25,7 @@ export default function UserControllerSection({ item, handlePopover, number }) {
             </div>
           </h1>
           <h1 className="text-center  py-6  w-[20%] sm:w-[40%] justify-center flex">
-            <span className="text-gray-600 font-semibold leading-6">
+            <span className="text-primaryDark font-semibold leading-6">
               <div className="text-yellow-400 drop-shadow-sm flex items-center gap-2">
                 <i className="fa-solid fa-clock mb-1 fa-lg "></i>
                 <span className="max-sm:hidden">Pending:</span>

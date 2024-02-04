@@ -326,11 +326,13 @@ export default function FashionProductPopover(props) {
   const id = props.data?._id;
   // LOADING
   const [isLoading, setIsLoading] = useState(false);
+  const DBURL = import.meta.env.VITE_APP_DB_URL;
+
   const postData = async () => {
     setIsLoading(true);
 
     await axios
-      .post("http://localhost:3000/api/products/", formData, {
+      .post(DBURL + "/products/", formData, {
         headers: {
           Authorization: token,
         },
@@ -359,7 +361,7 @@ export default function FashionProductPopover(props) {
     setIsLoading(true);
 
     await axios
-      .patch("http://localhost:3000/api/products/" + id?.toString(), formData, {
+      .patch(DBURL + "/products/" + id?.toString(), formData, {
         headers: {
           Authorization: token,
         },
@@ -393,7 +395,7 @@ export default function FashionProductPopover(props) {
   const handleDelete = async () => {
     setIsLoading(true);
     await axios
-      .delete("http://localhost:3000/api/products/" + id?.toString(), {
+      .delete(DBURL + "/products/" + id?.toString(), {
         headers: {
           Authorization: token,
         },
@@ -511,7 +513,7 @@ export default function FashionProductPopover(props) {
                               name="name"
                               onChange={handleVariantTotal}
                               value={variantsData?.length}
-                              className="block w-full placeholder:text-gray-300 bg-white focus:outline-white p-3 text-sm text-gray-600 border rounded-lg"
+                              className="block w-full placeholder:text-gray-300 bg-white focus:outline-white p-3 text-sm text-primaryDark border rounded-lg"
                             >
                               {[...Array(10).keys()].map((num) => (
                                 <option key={num + 1} value={num + 1}>
@@ -546,7 +548,7 @@ export default function FashionProductPopover(props) {
                           placeholder="example"
                           value={formData.description}
                           onChange={handleInputChange}
-                          className="block w-full rounded-2xl max-h-[92%] h-full placeholder:text-gray-300 bg-white focus:outline-white p-3 text-sm text-gray-600 border "
+                          className="block w-full rounded-2xl max-h-[92%] h-full placeholder:text-gray-300 bg-white focus:outline-white p-3 text-sm text-primaryDark border "
                           style={{ resize: "none", whiteSpace: "pre-wrap" }}
                         />
                       </div>
@@ -567,7 +569,7 @@ export default function FashionProductPopover(props) {
                                 className={`w-full h-[40rem] max-h-full bg-white relative rounded-2xl shadow- border-2 border-blue-300 border-dashed hover:bg-gray-50 duration-100 transition-all`}
                               >
                                 {uploadedImages?.length > 0 ? (
-                                  <div className="text-sm text-gray-600 flex flex-col w-full h-full overflow-y-scroll">
+                                  <div className="text-sm text-primaryDark flex flex-col w-full h-full overflow-y-scroll">
                                     <div className="w-full gap-2 flex px-2 py-2 border-b-2 border-blue-200">
                                       <h1 className="w-[25%] flex items-center justify-center">
                                         Preview
@@ -626,7 +628,7 @@ export default function FashionProductPopover(props) {
                                 ) : (
                                   <div className="pointer-events-none flex flex-col w-full h-full gap-5 mt-2 items-center justify-center ">
                                     <i className="fa-solid fa-cloud-arrow-up fa-2xl text-blue-400"></i>
-                                    <h1 className="text-sm text-gray-600">
+                                    <h1 className="text-sm text-primaryDark">
                                       Upload Image 4x4 Here
                                     </h1>
                                   </div>
@@ -673,7 +675,7 @@ export default function FashionProductPopover(props) {
                                 name="sizeCount"
                                 onChange={(e) => handleSizeTotal(e, page - 4)}
                                 value={variantsData[page - 4]?.size?.length}
-                                className="block w-full placeholder:text-gray-300 bg-white focus:outline-white p-3 text-sm text-gray-600 border rounded-lg"
+                                className="block w-full placeholder:text-gray-300 bg-white focus:outline-white p-3 text-sm text-primaryDark border rounded-lg"
                               >
                                 {[...Array(10).keys()].map((num) => (
                                   <option key={num + 1} value={num + 1}>
@@ -744,7 +746,7 @@ export default function FashionProductPopover(props) {
                       </div>
                     ) : (
                       <div className="w-full h-full flex flex-col gap-3 text-sm max-sm:overflow-y-scroll max-sm:overflow-x-hidden">
-                        <div className="h-[100%] max-sm:mt-[1rem] sm:h-[40%]  w-full flex max-sm:flex-col-reverse justify-between items-center text-gray-600 font-[600]">
+                        <div className="h-[100%] max-sm:mt-[1rem] sm:h-[40%]  w-full flex max-sm:flex-col-reverse justify-between items-center text-primaryDark font-[600]">
                           <div className="w-full flex flex-col items-center sm:justify-between sm:h-full sm:py-3">
                             <div className="w-full flex py-1">
                               <span className="w-[35%] sm:w-[25%] flex">
@@ -809,7 +811,7 @@ export default function FashionProductPopover(props) {
                                 ))
                               ) : (
                                 <SwiperSlide className="">
-                                  <div className="font-semibold text-gray-600 flex items-center justify-center w-full h-full bg-gray-300 pb-1">
+                                  <div className="font-semibold text-primaryDark flex items-center justify-center w-full h-full bg-gray-300 pb-1">
                                     No Image
                                   </div>
                                 </SwiperSlide>
@@ -831,7 +833,7 @@ export default function FashionProductPopover(props) {
                             {formData?.variants?.map((item, index) => (
                               <div
                                 key={index}
-                                className="w-full bg-white mb-4 px-5 py-3 rounded-2xl shadow-lg flex text-gray-600 font-semibold text-[0.8rem] max-sm:flex-col"
+                                className="w-full bg-white mb-4 px-5 py-3 rounded-2xl shadow-lg flex text-primaryDark font-semibold text-[0.8rem] max-sm:flex-col"
                               >
                                 <h1 className="w-full justify-center sm:w-[30%] h-full flex  items-center text-center truncate">
                                   {item?.name}

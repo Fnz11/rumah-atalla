@@ -22,7 +22,7 @@ export default function TextField({
           name={name}
           value={value}
           onChange={onChange}
-          className="block w-full placeholder:text-gray-300 bg-white focus:outline-white p-3 text-sm text-gray-600 border rounded-lg "
+          className="block w-full placeholder:text-gray-300 bg-white focus:outline-white p-3 text-sm text-primaryDark border rounded-lg "
         />
       </div>
     </>

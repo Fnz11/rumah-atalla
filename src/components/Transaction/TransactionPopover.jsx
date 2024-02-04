@@ -15,16 +15,17 @@ import TransactionHeadPopoverSection from "./TransactionHeadPopoverSection";
 
 /* eslint-disable react/prop-types */
 export default function TransactionPopover(props) {
+  const DBURL = import.meta.env.VITE_APP_DB_URL;
+  console.log("DBDBDBDBDB", DBURL)
   // LOADING
   const [isLoading, setIsLoading] = useState(false);
   // HANDLE PATCH
   const token = localStorage.getItem("token");
   const patchTransaction = async (status) => {
     setIsLoading(true);
-
     axios
       .patch(
-        "http://localhost:3000/api/transactions/" + props.data?._id?.toString(),
+        DBURL + "/transactions/" + props.data?._id?.toString(),
         { status: status },
         {
           headers: {

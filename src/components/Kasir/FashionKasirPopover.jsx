@@ -144,7 +144,7 @@ export default function FashionKasirPopover({
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3, delay: 0.2 }}
         key={props._id}
-        className="flex w-full text-sm  bg-section my-1 shadow-md py-7 sm:py-2 min-h-[5.5rem] text-gray-600 items-center rounded-2xl px-5 sm:px-2 relative inset-[0.2rem]"
+        className="flex w-full text-sm  bg-section my-1 shadow-md py-7 sm:py-2 min-h-[5.5rem] text-primaryDark items-center rounded-2xl px-5 sm:px-2 relative inset-[0.2rem]"
       >
         <div className="w-[50%] sm:w-[40%] flex flex-col ">
           <div className="sm:hidden">

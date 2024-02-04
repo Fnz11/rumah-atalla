@@ -103,7 +103,7 @@ export default function Products() {
   ];
 
   return (
-    <div className="bg-thirdyThin min-w-fit min-h-screen text-gray-600">
+    <div className="bg-thirdyThin min-w-fit min-h-screen text-primaryDark">
       {/* CONTENT */}
       <div className="mx-4 sm:mx-6 lg:mx-32 p-5">
         <div className="flex gap-5 my-5 ">

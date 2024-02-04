@@ -2,11 +2,11 @@ export default function Footer() {
   return (
     <>
       <footer className="text-white bg-section-dark rounded-2xl shadow-xl mb-6">
-        <div className="container py-20 mx-auto ">
+        <div className="container py-14 sm:py-20 mx-auto ">
           <div className="flex flex-wrap md:text-left text-center justify-center w-full">
             <div className="w-64 flex-shrink-0 md:mx-0 mx-auto text-center md:text-left">
               {/* LOGO */}
-              <div className="flex mr-10">
+              <div className="flex sm:mr-10 max-sm:items-center max-sm:mb-4 max-sm:justify-center">
                 <img
                   src="/LogoWhite.png"
                   className="w-[3.7rem] scale-[0.9] -mt-2 h-[3.7rem]"
@@ -23,7 +23,7 @@ export default function Footer() {
                 Quisquam obcaecati
               </p>
             </div>
-            <div className="lg:w-1/6 md:w-1/2 w-full px-4">
+            <div className="lg:w-1/6 md:w-1/2 w-full px-4 max-sm:hidden">
               <h2 className="title-font font-medium  tracking-widest text-sm mb-3">
                 CATEGORIES
               </h2>
@@ -50,7 +50,7 @@ export default function Footer() {
                 </li>
               </nav>
             </div>
-            <div className="lg:w-1/6 md:w-1/2 w-full px-4">
+            <div className="lg:w-1/6 md:w-1/2 w-full px-4 max-sm:hidden">
               <h2 className="title-font font-medium  tracking-widest text-sm mb-3">
                 CATEGORIES
               </h2>
@@ -77,7 +77,7 @@ export default function Footer() {
                 </li>
               </nav>
             </div>
-            <div className="lg:w-1/6 md:w-1/2 w-full px-4">
+            <div className="lg:w-1/6 md:w-1/2 w-full px-4 max-sm:hidden">
               <h2 className="title-font font-medium  tracking-widest text-sm mb-3">
                 CATEGORIES
               </h2>
@@ -104,7 +104,7 @@ export default function Footer() {
                 </li>
               </nav>
             </div>
-            <div className="lg:w-1/6 md:w-1/2 w-full px-4">
+            <div className="lg:w-1/6 md:w-1/2 w-full px-4 max-sm:hidden">
               <h2 className="title-font font-medium  tracking-widest text-sm mb-3">
                 CATEGORIES
               </h2>
@@ -146,7 +146,7 @@ export default function Footer() {
                 @Raffi Atalla Atmaja
               </a>
             </p>
-            <span className="sm:ml-auto sm:mt-0 mt-2 sm:w-auto w-full sm:text-left text-center  text-sm">
+            <span className="sm:ml-auto sm:mt-0 mt-2 sm:w-auto w-full sm:text-left text-center  text-sm max-sm:hidden">
               Enamel pin tousled raclette tacos irony
             </span>
           </div>

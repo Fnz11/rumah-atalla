@@ -199,7 +199,7 @@ export default function Account() {
         <Title title={"Dashboard"} className={"mt-0"} />
 
         {/* CONTENT */}
-        <div className="w-full gap- text-gray-600 text-sm gap-5 flex flex-col">
+        <div className="w-full gap- text-primaryDark text-sm gap-5 flex flex-col">
           {/* TOP */}
           <div className="flex max-sm:flex-col w-full gap-5">
             {/* LEFT */}

@@ -91,7 +91,7 @@ export default function CustomToast({ t, message, type }) {
                   delay: 0.4,
                 }}
                 onClick={() => toast.dismiss(t.id)}
-                className="w-[5rem] border border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center  group-hover:text-white text-gray-600 transition-all duration-300"
+                className="w-[5rem] border border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center  group-hover:text-white text-primaryDark transition-all duration-300"
               >
                 <i className="fa-solid fa-x"></i>
               </motion.button>

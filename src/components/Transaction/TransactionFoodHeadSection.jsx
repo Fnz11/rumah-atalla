@@ -11,7 +11,7 @@ export default function TransactionFoodHeadSection() {
         <h1 className="text-center text-white py-6 w-[25%] lg:block hidden">
           Total
         </h1>
-        <h1 className="text-center text-white w-[15%]  py-6">Status</h1>
+        <h1 className="text-center text-white w-[15%] max-sm:hidden py-6">Status</h1>
       </div>
     </>
   );

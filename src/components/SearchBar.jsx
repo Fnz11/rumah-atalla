@@ -3,10 +3,10 @@ export default function SearchBar({ onChange, value, placeholder }) {
   return (
     <>
       <div className="relative shadow-sm w-full">
-        <div className="absolute  w-auto inset-y-0 left-0 bottom-1 flex items-center jus pl-3 pointer-events-none">
+        <div className="absolute  w-auto inset-y-0 left-0 bottom-1 flex items-center pl-3 pointer-events-none">
           <svg
             aria-hidden="true"
-            className="w-5 h-5 text-gray-600"
+            className="w-5 h-5 text-primaryDark"
             fill="currentColor"
             viewBox="0 0 20 20"
             xmlns="http://www.w3.org/2000/svg"
@@ -20,7 +20,7 @@ export default function SearchBar({ onChange, value, placeholder }) {
         </div>
         <input
           type="text"
-          className="block w-full placeholder:text-gray-600 bg-[#F6FAF2] focus:outline-white p-3 pl-10 text-[0.6rem] sm:text-sm text-gray-600 border rounded-lg "
+          className="block w-full placeholder:text-primaryDark bg-white focus:outline-white p-3 pl-10 text-[0.6rem] sm:text-sm text-primaryDark border rounded-lg "
           placeholder={placeholder}
           value={value}
           onChange={onChange}

@@ -11,9 +11,11 @@ import LogoPopover from "../LogoPopover";
 import Title from "../Title";
 import TextField from "../TextField";
 import Title2 from "../Title2";
+import SearchBar from "../SearchBar";
 
 /* eslint-disable react/prop-types */
 export default function PromoPopover(props) {
+  const DBURL = import.meta.env.VITE_APP_DB_URL;
   // PAGE
   const [page, setPage] = useState(1);
   const [tipe, setTipe] = useState("fashions");
@@ -27,17 +29,21 @@ export default function PromoPopover(props) {
   const [products, setProducts] = useState([]);
   const fetchFashionProducts = async () => {
     await axios
-      .get("http://localhost:3000/api/products/")
+      .get(DBURL + "/products/")
       .then((res) => {
+        console.log("ININIIHHRESDATA", res);
         setProducts(res.data);
       })
       .catch((err) => {
         console.log(err);
       });
   };
+
+  console.log("ININIIHH", products);
+
   const fetchFoodProducts = async () => {
     await axios
-      .get("http://localhost:3000/api/foods")
+      .get(DBURL + "/foods")
       .then((res) => {
         setProducts(res.data);
       })
@@ -89,9 +95,12 @@ export default function PromoPopover(props) {
 
   //   FILTER
   const [searchValue, setSearchValue] = useState("");
-  const filteredProducts = products.filter((item) =>
-    item.name.toLowerCase().includes(searchValue.toLowerCase())
-  );
+  // const filteredProducts = products
+  //   ? products?.filter((item) =>
+  //       item.name.toLowerCase().includes(searchValue.toLowerCase())
+  //     )
+  //   : [];
+  const filteredProducts = [];
 
   const type = {
     "diskon persentase": true,
@@ -193,7 +202,7 @@ export default function PromoPopover(props) {
     setIsLoading(true);
 
     await axios
-      .post("http://localhost:3000/api/promos", formData, {
+      .post(DBURL + "/promos", formData, {
         headers: {
           Authorization: `${localStorage.getItem("token")}`,
         },
@@ -221,15 +230,11 @@ export default function PromoPopover(props) {
     setIsLoading(true);
 
     await axios
-      .patch(
-        "http://localhost:3000/api/promos/" + props.data?._id?.toString(),
-        formData,
-        {
-          headers: {
-            Authorization: `${localStorage.getItem("token")}`,
-          },
-        }
-      )
+      .patch(DBURL + "/promos/" + props.data?._id?.toString(), formData, {
+        headers: {
+          Authorization: `${localStorage.getItem("token")}`,
+        },
+      })
       .then((res) => {
         console.log("BERHASIL PAAATTTT", res.data);
         props.refetch();
@@ -253,14 +258,11 @@ export default function PromoPopover(props) {
     setIsLoading(true);
 
     await axios
-      .delete(
-        "http://localhost:3000/api/promos/" + props.data?._id?.toString(),
-        {
-          headers: {
-            Authorization: `${localStorage.getItem("token")}`,
-          },
-        }
-      )
+      .delete(DBURL + "/promos/" + props.data?._id?.toString(), {
+        headers: {
+          Authorization: `${localStorage.getItem("token")}`,
+        },
+      })
       .then((res) => {
         console.log("BERHASIL DELEEETT", res.data);
         props.refetch();
@@ -340,7 +342,7 @@ export default function PromoPopover(props) {
                               <select
                                 id="promoType"
                                 name="type"
-                                className="py-[0.87rem] bg-white drop-shadow-sm outline-gray-200 text-gray-600 outline-[0.1px] border-none px-2 font-medium rounded-md text-base"
+                                className="py-[0.87rem] bg-white drop-shadow-sm outline-gray-200 text-primaryDark outline-[0.1px] border-none px-2 font-medium rounded-md text-base"
                                 value={formData.type}
                                 onChange={(e) =>
                                   setSelectedType(e.target.value)
@@ -348,7 +350,7 @@ export default function PromoPopover(props) {
                               >
                                 {Object.keys(type).map((type) => (
                                   <option
-                                    className="text-gray-600 capitalize"
+                                    className="text-primaryDark capitalize"
                                     key={type}
                                     value={type}
                                   >
@@ -389,7 +391,7 @@ export default function PromoPopover(props) {
                                 id="start-date"
                                 value={formData.date.startDate}
                                 onChange={handleInputChange}
-                                className="block w-full placeholder:text-gray-300 bg-white focus:outline-white p-3 text-sm text-gray-600 border rounded-lg "
+                                className="block w-full placeholder:text-gray-300 bg-white focus:outline-white p-3 text-sm text-primaryDark border rounded-lg "
                               />
                             </div>
                             {/* END DATE */}
@@ -406,7 +408,7 @@ export default function PromoPopover(props) {
                                 name="endDate"
                                 value={formData.date.endDate}
                                 onChange={handleInputChange}
-                                className="block w-full placeholder:text-gray-300 bg-white focus:outline-white p-3 text-sm text-gray-600 border rounded-lg "
+                                className="block w-full placeholder:text-gray-300 bg-white focus:outline-white p-3 text-sm text-primaryDark border rounded-lg "
                               />
                             </div>
                           </div>
@@ -429,7 +431,7 @@ export default function PromoPopover(props) {
                                 name="imageFile"
                                 onChange={handleImageUpload}
                                 className="w-full opacity-0 absolute h-full cursor-pointer"
-                                // className="block w-full bg-white focus:outline-white p-3 text-sm text-gray-600 border rounded-lg"
+                                // className="block w-full bg-white focus:outline-white p-3 text-sm text-primaryDark border rounded-lg"
                               />
                               {formData.imageUrl ? (
                                 <img
@@ -440,7 +442,7 @@ export default function PromoPopover(props) {
                               ) : (
                                 <div className="flex flex-col gap-5 mt-2 items-center justify-center ">
                                   <i className="fa-solid fa-cloud-arrow-up fa-2xl text-blue-400"></i>
-                                  <h1 className="text-sm text-gray-600">
+                                  <h1 className="text-sm text-primaryDark">
                                     Upload Image 4x4 Here
                                   </h1>
                                 </div>
@@ -464,7 +466,7 @@ export default function PromoPopover(props) {
                             id="start-date"
                             value={formData.date.startDate}
                             onChange={handleInputChange}
-                            className="block w-full placeholder:text-gray-300 bg-white focus:outline-white p-3 text-sm text-gray-600 border rounded-lg "
+                            className="block w-full placeholder:text-gray-300 bg-white focus:outline-white p-3 text-sm text-primaryDark border rounded-lg "
                           />
                         </div>
                         {/* END DATE */}
@@ -481,7 +483,7 @@ export default function PromoPopover(props) {
                             name="endDate"
                             value={formData.date.endDate}
                             onChange={handleInputChange}
-                            className="block w-full placeholder:text-gray-300 bg-white focus:outline-white p-3 text-sm text-gray-600 border rounded-lg "
+                            className="block w-full placeholder:text-gray-300 bg-white focus:outline-white p-3 text-sm text-primaryDark border rounded-lg "
                           />
                         </div>
                       </div>
@@ -491,13 +493,13 @@ export default function PromoPopover(props) {
                         <select
                           id="promoType"
                           name="type"
-                          className="py-[0.87rem] bg-white drop-shadow-sm outline-gray-200 text-gray-600 outline-[0.1px] border-none px-2 font-medium rounded-md text-base"
+                          className="py-[0.87rem] bg-white drop-shadow-sm outline-gray-200 text-primaryDark outline-[0.1px] border-none px-2 font-medium rounded-md text-base"
                           value={formData.type}
                           onChange={(e) => setSelectedType(e.target.value)}
                         >
                           {Object.keys(type).map((type) => (
                             <option
-                              className="text-gray-600 capitalize"
+                              className="text-primaryDark capitalize"
                               key={type}
                               value={type}
                             >
@@ -546,30 +548,11 @@ export default function PromoPopover(props) {
                       <Title2 title={"Search"} className={"mb-0 sm:text-lg"} />
                       <div className="flex gap-3">
                         {/* SEARCH */}
-                        <div className="relative shadow-sm w-full">
-                          <div className="absolute  w-auto inset-y-0 left-0 bottom-1 flex items-center jus pl-3 pointer-events-none">
-                            <svg
-                              aria-hidden="true"
-                              className="w-5 h-5 text-gray-600"
-                              fill="currentColor"
-                              viewBox="0 0 20 20"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                fillRule="evenodd"
-                                d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                                clipRule="evenodd"
-                              ></path>
-                            </svg>
-                          </div>
-                          <input
-                            type="text"
-                            className="block w-full placeholder:text-gray-300 bg-[#F6FAF2] focus:outline-white p-3 pl-10 text-sm text-gray-600 border rounded-lg "
-                            placeholder="Search..."
-                            value={searchValue}
-                            onChange={(e) => setSearchValue(e.target.value)}
-                          />
-                        </div>
+                        <SearchBar
+                          value={searchValue}
+                          placeholder="Search..."
+                          onChange={(e) => setSearchValue(e.target.value)}
+                        />
                       </div>
                     </div>
 
@@ -588,7 +571,7 @@ export default function PromoPopover(props) {
                               fashionSelected.includes(product._id?.toString())
                                 ? "border-[4px] border-secondary opacity-[0.8] shadow-md  inset-0"
                                 : "bg-white border-y-[1px] shadow-sm hover:shadow-md inset-[0.2rem]  hover:inset-0"
-                            } cursor-pointer group flex w-full bg-white my-2 shadow-sm py-2 min-h-[3rem] text-gray-600 items-center rounded-2xl px-2 relative duration-200 transition-all text-[0.7rem] sm:text-sm `}
+                            } cursor-pointer group flex w-full bg-white my-2 shadow-sm py-2 min-h-[3rem] text-primaryDark items-center rounded-2xl px-2 relative duration-200 transition-all text-[0.7rem] sm:text-sm `}
                             key={product._id?.toString()}
                           >
                             {/* IMAGE */}

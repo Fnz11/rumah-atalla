@@ -130,7 +130,7 @@ export default function FoodsKasirPopover({
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3, delay: 0.2 }}
         key={props._id}
-        className="flex w-full  bg-section my-1 shadow-md py-2 min-h-[5.5rem] text-gray-600  text-[0.7rem] sm:text-sm items-center rounded-2xl px-2 relative inset-[0.2rem]"
+        className="flex w-full  bg-section my-1 shadow-md py-2 min-h-[5.5rem] text-primaryDark  text-[0.7rem] sm:text-sm items-center rounded-2xl px-2 relative inset-[0.2rem]"
       >
         <div className="w-[50%] gap-3 sm:w-[40%] flex flex-col justify-between">
           <div>

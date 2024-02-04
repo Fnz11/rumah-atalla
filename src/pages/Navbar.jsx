@@ -104,7 +104,7 @@ export default function Navbar() {
               <div className="absolute w-full inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                 <svg
                   aria-hidden="true"
-                  className="w-5 h-5 text-gray-600"
+                  className="w-5 h-5 text-primaryDark"
                   fill="currentColor"
                   viewBox="0 0 20 20"
                   xmlns="http://www.w3.org/2000/svg"
@@ -119,7 +119,7 @@ export default function Navbar() {
               <input
                 type="text"
                 id="search-navbar"
-                className="block w-[45vw] lg:w-[20rem] placeholder:text-gray-600 bg-[#F6FAF2] focus:outline-white p-2 pl-10 text-sm text-gray-600 border rounded-lg "
+                className="block w-[45vw] lg:w-[20rem] placeholder:text-primaryDark bg-[#F6FAF2] focus:outline-white p-2 pl-10 text-sm text-primaryDark border rounded-lg "
                 placeholder="Search..."
                 // style="color: white"
                 required
@@ -197,7 +197,7 @@ export default function Navbar() {
                         to={"/admin/dashboard"}
                         onClick={() => setUserOpen(false)}
                         className={`
-                       font-semibold text-xl  drop-shadow-sm text-gray-600 ${
+                       font-semibold text-xl  drop-shadow-sm text-primaryDark ${
                          userOpen
                            ? "opacity-100 translate-x-0"
                            : "opacity-0 translate-x-20"
@@ -408,7 +408,7 @@ export default function Navbar() {
                         </Link>
                       </div>
 
-                      <h1 className="text-sm mt-3 text-gray-600">
+                      <h1 className="text-sm mt-3 text-primaryDark">
                         © 2023 Rumah Atalla —@Raffi Atalla Atmaja
                       </h1>
                     </div>

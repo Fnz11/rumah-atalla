@@ -1,7 +1,7 @@
 export default function Product() {
   return (
     <>
-      <section className="text-gray-600 body-font overflow-hidden">
+      <section className="text-primaryDark body-font overflow-hidden">
         <div className="container px-5 py-24 mx-auto">
           <div className="lg:w-4/5 mx-auto flex flex-wrap">
             <img
@@ -71,7 +71,7 @@ export default function Product() {
                   >
                     <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
                   </svg>
-                  <span className="text-gray-600 ml-3">454 Reviews</span>
+                  <span className="text-primaryDark ml-3">454 Reviews</span>
                 </span>
                 <span className="flex ml-3 pl-3 py-2 border-l-2 border-gray-200 space-x-3">
                   <a className="text-gray-500">
@@ -137,7 +137,7 @@ export default function Product() {
                       <option>L</option>
                       <option>XL</option>
                     </select>
-                    <span className="absolute right-0 top-0 h-full w-10 text-center text-gray-600 pointer-events-none flex items-center justify-center">
+                    <span className="absolute right-0 top-0 h-full w-10 text-center text-primaryDark pointer-events-none flex items-center justify-center">
                       <svg
                         fill="none"
                         stroke="currentColor"

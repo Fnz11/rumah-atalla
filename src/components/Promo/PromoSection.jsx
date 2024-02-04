@@ -11,14 +11,11 @@ export default function PromoSection({ item, handlePopover, type }) {
       setEndDate(new Date(item.date?.endDate).toISOString().split("T")[0]);
     }
   }, [item]);
-  function addDotsToNumber(number) {
-    return number?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-  }
   return (
     <>
       <div
         onClick={() => handlePopover({ param: "edit", item: item, type: type })}
-        className="rounded-2xl cursor-pointer w-full relative group bg-section text-gray-600  overflow-hidden group hover:shadow-xl hover:inset-0 p-3 transition-all duration-300 text-[0.8rem] leading-5 sm:leading-normal sm:text-base shadow-md border-b-2 inset-[0.2rem]"
+        className="rounded-2xl my-3 cursor-pointer w-full relative group bg-section text-primaryDark  overflow-hidden group hover:shadow-xl hover:inset-0 p-3 transition-all duration-300 text-[0.8rem] leading-5 sm:leading-normal sm:text-base shadow-md border-b-2 inset-[0.2rem]"
       >
         <div className="flex items-center z-[10] relative w-full">
           <h1 className="text-center w-[35%] sm:w-[10%] ">
@@ -42,7 +39,7 @@ export default function PromoSection({ item, handlePopover, type }) {
                 "Rp. "}{" "}
               {item.type === "cashback nominal" ||
                 (item.type === "diskon nominal"
-                  ? addDotsToNumber(item?.value)
+                  ? item?.value?.toLocaleString()
                   : item?.value)}{" "}
               {(item.type === "cashback persentase" ||
                 item.type === "diskon persentase") &&
@@ -58,7 +55,7 @@ export default function PromoSection({ item, handlePopover, type }) {
                 "Rp. "}{" "}
               {item.type === "cashback nominal" ||
                 (item.type === "diskon nominal"
-                  ? addDotsToNumber(item?.value)
+                  ? item?.value?.toLocaleString()
                   : item?.value)}{" "}
               {(item.type === "cashback persentase" ||
                 item.type === "diskon persentase") &&

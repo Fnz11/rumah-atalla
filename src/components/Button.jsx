@@ -24,7 +24,7 @@ export default function Button({
             : variant === "green"
             ? "border-green-500  hover:text-green-500 hover:bg-transparent bg-green-500 text-thirdyNormal"
             : "border-yellow-500  hover:bg-transparent bg-yellow-500 hover:text-yellow-500 text-thirdyThin"
-        }  hover:scale-[1.05] hover:drop-shadow-lg transition-all duration-300  font-bold py-3 px-4 rounded-2xl min-w-[9rem] `}
+        }  hover:scale-[1.05] hover:drop-shadow-lg transition-all duration-300  font-bold py-3 px-4 rounded-2xl sm:min-w-[9rem] `}
       >
         {children}
       </button>

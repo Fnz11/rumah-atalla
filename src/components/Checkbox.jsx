@@ -26,7 +26,7 @@ export default function Checkbox({
             ? "text-green-400"
             : color === "yellow"
             ? "text-yellow-400"
-            : "text-gray-600"
+            : "text-primaryDark"
         }`}
       >
         {name}

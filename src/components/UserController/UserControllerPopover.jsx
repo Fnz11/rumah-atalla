@@ -13,6 +13,8 @@ import BlackScreenPopover from "../BlackScreenPopover";
 
 /* eslint-disable react/prop-types */
 export default function UserControllerPopover(props) {
+  const DBURL = import.meta.env.VITE_APP_DB_URL;
+
   const [userData, setUserData] = useState({
     username: "",
     email: "",
@@ -77,7 +79,7 @@ export default function UserControllerPopover(props) {
     setIsLoading(true);
 
     axios
-      .post("http://localhost:3000/api/users/signup", userData, {
+      .post(DBURL + "/users/signup", userData, {
         headers: {
           Authorization: token,
         },
@@ -106,7 +108,7 @@ export default function UserControllerPopover(props) {
     }
     console.log("DATA", userData);
     axios
-      .patch("http://localhost:3000/api/users/" + id.toString(), userData, {
+      .patch(DBURL + "/users/" + id.toString(), userData, {
         headers: {
           Authorization: token,
         },
@@ -140,7 +142,7 @@ export default function UserControllerPopover(props) {
   const handleDelete = async () => {
     setIsLoading(true);
     await axios
-      .delete("http://localhost:3000/api/users/" + id.toString(), {
+      .delete(DBURL + "/users/" + id.toString(), {
         headers: {
           Authorization: token,
         },
@@ -238,7 +240,7 @@ export default function UserControllerPopover(props) {
                       ) : (
                         <div className="flex flex-col gap-5 mt-2 items-center justify-center ">
                           <i className="fa-solid fa-cloud-arrow-up fa-2xl text-blue-400"></i>
-                          <h1 className="text-sm text-gray-600 text-center">
+                          <h1 className="text-sm text-primaryDark text-center">
                             Upload Image 4x4 Here
                           </h1>
                         </div>

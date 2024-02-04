@@ -39,7 +39,7 @@ export default function ReadMoreDescription({
             {/* FORM */}
             <div
               style={{ whiteSpace: "pre-wrap" }}
-              className="w-full h-[75%] rounded-2xl shadow-lg p-3 overflow-y-scroll text-gray-600 bg-white"
+              className="w-full h-[75%] rounded-2xl shadow-lg p-3 overflow-y-scroll text-primaryDark bg-white"
             >
               {description}
             </div>

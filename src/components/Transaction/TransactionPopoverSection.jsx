@@ -39,7 +39,7 @@ export default function TransactionPopoverSection({ item: props, promos }) {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3, delay: 0.2 }}
         key={props._id.toString()}
-        className="text-[0.6rem] mt-2  sm:text-sm flex w-full bg-white my-1 shadow-lg py-4 min-h-[5.5rem] text-gray-600 items-center rounded-2xl px-2 relative inset-[0.2rem]"
+        className="text-[0.6rem] mt-2  sm:text-sm flex w-full bg-white my-1 shadow-lg py-4 min-h-[5.5rem] text-primaryDark items-center rounded-2xl px-2 relative inset-[0.2rem]"
       >
         <div className="w-[45%] font-semibold">
           <h1 className="items-center flex">{props.name}</h1>
@@ -90,7 +90,7 @@ export default function TransactionPopoverSection({ item: props, promos }) {
               </span>
             )}
             <span
-              className={`text-gray-600 -mb-1 ${
+              className={`text-primaryDark -mb-1 ${
                 props.price != props?.discount &&
                 "line-through  opacity-[0.6]  w-full text-center"
               }`}

@@ -8,6 +8,8 @@ import CustomToast from "../../components/CustomToast";
 
 /* eslint-disable react/prop-types */
 export default function FoodsProductPopover(props) {
+  const DBURL = import.meta.env.VITE_APP_DB_URL;
+
   // PREV DATA
   const [formData, setFormData] = useState({
     name: "",
@@ -64,7 +66,7 @@ export default function FoodsProductPopover(props) {
   const postData = async () => {
     setIsLoading(true);
     await axios
-      .post("http://localhost:3000/api/foods/", formData, {
+      .post(DBURL + "/foods/", formData, {
         headers: {
           Authorization: token,
         },
@@ -100,7 +102,7 @@ export default function FoodsProductPopover(props) {
   const patchData = async () => {
     setIsLoading(true);
     await axios
-      .patch("http://localhost:3000/api/foods/" + id.toString(), formData, {
+      .patch(DBURL + "/foods/" + id.toString(), formData, {
         headers: {
           Authorization: token,
         },
@@ -146,7 +148,7 @@ export default function FoodsProductPopover(props) {
   const handleDelete = async () => {
     setIsLoading(true);
     await axios
-      .delete("http://localhost:3000/api/foods/" + id.toString(), {
+      .delete(DBURL + "/foods/" + id.toString(), {
         headers: {
           Authorization: token,
         },
@@ -271,7 +273,7 @@ export default function FoodsProductPopover(props) {
                         placeholder="example"
                         value={formData.name}
                         onChange={handleInputChange}
-                        className="block w-full placeholder:text-gray-300 bg-white focus:outline-white p-3 text-sm text-gray-600 border rounded-lg "
+                        className="block w-full placeholder:text-gray-300 bg-white focus:outline-white p-3 text-sm text-primaryDark border rounded-lg "
                       />
                       {/* DESC */}
                       <div>
@@ -286,7 +288,7 @@ export default function FoodsProductPopover(props) {
                           placeholder="example"
                           value={formData.description}
                           onChange={handleInputChange}
-                          className="block w-full h-[8.6rem] sm:h-[10rem] placeholder:text-gray-300 bg-white focus:outline-white p-3 text-sm text-gray-600 border rounded-lg "
+                          className="block w-full h-[8.6rem] sm:h-[10rem] placeholder:text-gray-300 bg-white focus:outline-white p-3 text-sm text-primaryDark border rounded-lg "
                           style={{ resize: "none" }}
                         />
                       </div>
@@ -308,7 +310,7 @@ export default function FoodsProductPopover(props) {
                             name="imageFile"
                             onChange={handleImageUpload}
                             className="w-full opacity-0 absolute h-full cursor-pointer"
-                            // className="block w-full bg-white focus:outline-white p-3 text-sm text-gray-600 border rounded-lg"
+                            // className="block w-full bg-white focus:outline-white p-3 text-sm text-primaryDark border rounded-lg"
                           />
                           {formData.imageUrl ? (
                             <img
@@ -319,7 +321,7 @@ export default function FoodsProductPopover(props) {
                           ) : (
                             <div className="flex flex-col gap-5 mt-2 items-center justify-center ">
                               <i className="fa-solid fa-cloud-arrow-up fa-2xl text-blue-400"></i>
-                              <h1 className="text-sm text-gray-600">
+                              <h1 className="text-sm text-primaryDark">
                                 Upload Image 4x4 Here
                               </h1>
                             </div>
@@ -338,7 +340,7 @@ export default function FoodsProductPopover(props) {
                           name="type"
                           value={formData.type}
                           onChange={handleInputChange}
-                          className="block w-full bg-white focus:outline-white p-3 text-sm text-gray-600 rounded-lg"
+                          className="block w-full bg-white focus:outline-white p-3 text-sm text-primaryDark rounded-lg"
                         >
                           <option value="drinks">Drinks</option>
                           <option value="foods">Foods</option>
@@ -362,7 +364,7 @@ export default function FoodsProductPopover(props) {
                         placeholder="90000"
                         value={formData.price}
                         onChange={handleInputChange}
-                        className="block w-full placeholder:text-gray-300 bg-white focus:outline-white p-3 text-sm text-gray-600 border rounded-lg "
+                        className="block w-full placeholder:text-gray-300 bg-white focus:outline-white p-3 text-sm text-primaryDark border rounded-lg "
                       />
                     </div>
 
@@ -380,7 +382,7 @@ export default function FoodsProductPopover(props) {
                         placeholder="100"
                         value={formData.stock}
                         onChange={handleInputChange}
-                        className="block w-full placeholder:text-gray-300 bg-white focus:outline-white p-3 text-sm text-gray-600 border rounded-lg "
+                        className="block w-full placeholder:text-gray-300 bg-white focus:outline-white p-3 text-sm text-primaryDark border rounded-lg "
                       />
                     </div>
 
@@ -396,7 +398,7 @@ export default function FoodsProductPopover(props) {
                         name="type"
                         value={formData.type}
                         onChange={handleInputChange}
-                        className="block w-full bg-white focus:outline-white p-3 text-sm text-gray-600 rounded-lg"
+                        className="block w-full bg-white focus:outline-white p-3 text-sm text-primaryDark rounded-lg"
                       >
                         <option value="drinks">Drinks</option>
                         <option value="foods">Foods</option>

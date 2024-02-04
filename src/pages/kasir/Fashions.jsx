@@ -175,41 +175,41 @@ export default function FashionsKasir() {
     console.log("BUUYY", formData);
 
     requestPermission();
-    // setIsLoading(true);
-    // await axios
-    //   .post(DBURL + "/transactions", formData, {
-    //     headers: {
-    //       Authorization: token,
-    //     },
-    //   })
-    //   .then(async (res) => {
-    //     toast.custom((t) => (
-    //       <CustomToast t={t} message="Transaction successed" type="success" />
-    //     ));
-    //     updateUser();
-    //     setFormData({
-    //       buyer: "",
-    //       kasir: "",
-    //       type: "fashions",
-    //       store: "web",
-    //       products: [],
-    //       totalAmount: 0,
-    //       qty: 0,
-    //       status: "pending",
-    //     });
-    //     setFashionCartItems([]);
-    //     setBuyer("");
-    //     togglePopover();
-    //   })
-    //   .catch((error) => {
-    //     toast.custom((t) => (
-    //       <CustomToast t={t} message="Transaction failed" type="failed" />
-    //     ));
-    //     console.error(error);
-    //   })
-    //   .finally(() => {
-    //     setIsLoading(false);
-    //   });
+    setIsLoading(true);
+    await axios
+      .post("http://localhost:3000/transactions", formData, {
+        headers: {
+          Authorization: token,
+        },
+      })
+      .then(async (res) => {
+        toast.custom((t) => (
+          <CustomToast t={t} message="Transaction successed" type="success" />
+        ));
+        updateUser();
+        setFormData({
+          buyer: "",
+          kasir: "",
+          type: "fashions",
+          store: "web",
+          products: [],
+          totalAmount: 0,
+          qty: 0,
+          status: "pending",
+        });
+        setFashionCartItems([]);
+        setBuyer("");
+        togglePopover();
+      })
+      .catch((error) => {
+        toast.custom((t) => (
+          <CustomToast t={t} message="Transaction failed" type="failed" />
+        ));
+        console.error(error);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   //   POPOVER
@@ -252,21 +252,27 @@ export default function FashionsKasir() {
       cashbackPrice: cashback,
     });
     const newFashionCartItems = FashionCartItems.map((item) => {
-      const { name, qty, price, size, variant, _id } = item;
+      const { name, qty, price, size, sizes, variant, variants, _id } = item;
       const newName = `${name} - ${variant.name} - ${size.size}`;
       const totalPrice = price * qty;
       const totalDiscount = size.discountPrice * qty;
       const totalCashback = size.cashBackTotal * qty;
 
       return {
+        variants: variants,
+        sizes: sizes,
         productId: _id,
         name: newName,
+        indexSize: size.indexSize,
+        indexVariant: variant.indexVariant,
+        stock: size.stock,
         qty: qty,
         price: totalPrice,
         discount: totalDiscount,
         cashback: totalCashback,
       };
     });
+    console.log("NENENENENEW", newFashionCartItems);
     setProductsForm(newFashionCartItems);
   };
 
@@ -460,7 +466,7 @@ export default function FashionsKasir() {
 
       <Toaster />
 
-      <div className=" w-full  pb-20 pt-10  min-h-screen text-gray-600">
+      <div className=" w-full  pb-20 pt-10  min-h-screen text-primaryDark">
         {/* BUY BUTTON */}
         <BuyButton
           onClick={() => togglePopover()}

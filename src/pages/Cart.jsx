@@ -17,7 +17,7 @@ export default function Carts() {
   };
   return (
     <>
-      <div className="bg-thirdyThin min-w-fit min-h-screen py-10 text-gray-600">
+      <div className="bg-thirdyThin min-w-fit min-h-screen py-10 text-primaryDark">
         {/* CONTENT */}
         <div className="mx-4 sm:mx-6 lg:mx-32 h-min-[50rem] bg-white rounded-sm shadow-md">
           {/* TOP */}
