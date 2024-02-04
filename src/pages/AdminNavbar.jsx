@@ -9,7 +9,7 @@ export default function AdminNavbar({ User }) {
           <span>
             {User?.role === "owner" ? (
               <>
-                Welcome back,
+                <span className="max-sm:hidden">Welcome back,</span>
                 <span className="text-thirdyNormal ml-2 font-semibold">
                   {User?.username}
                 </span>
@@ -17,7 +17,7 @@ export default function AdminNavbar({ User }) {
               </>
             ) : (
               <>
-                Keep up the good work!,
+                <span className="max-sm:hidden">Keep up the good work!,</span>
                 <span className="text-thirdyNormal ml-2 font-semibold">
                   {User?.username}
                 </span>
@@ -29,8 +29,8 @@ export default function AdminNavbar({ User }) {
             to="/"
             className="flex px-8 py-2 rounded-2xl hover:bg-primaryThin group transition-all duration-300"
           >
-            <i className="fa-solid fa-arrow-up mr-2 mt-[0.2rem] scale-[0.9] -rotate-[45deg] opacity-[0.5] group-hover:opacity-100 transition-all duration-300"></i>
             Landing
+            <i className="fa-solid fa-arrow-up ml-2 mt-[0.2rem] scale-[0.9] rotate-[45deg] opacity-[0.5] group-hover:opacity-100 transition-all duration-300"></i>
           </Link>
         </div>
       </div>
