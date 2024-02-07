@@ -205,11 +205,15 @@ export default function Account() {
             {/* LEFT */}
             <div className="flex flex-col w-full sm:w-[40%] h-[29rem]  bg-section-rainbow text-primaryDark  truncate rounded-2xl shadow-lg gap-5 p-7 items-center justify-center">
               <h1 className="text-2xl font-semibold">Profile</h1>
-              <div className="relative w-[80%] flex group rounded-full drop-shadow-lg shadow-lg hover:shadow-xl overflow-hidden">
+              <div className="relative w-max-full w-[10rem] flex group rounded-full drop-shadow-lg shadow-lg hover:shadow-xl overflow-hidden">
                 <img
-                  src={userData?.imageUrl ? userData?.imageUrl : "/Profile.png"}
+                  src={
+                    userData?.imageUrl?.url
+                      ? userData?.imageUrl?.url
+                      : "/Profile.png"
+                  }
                   alt=""
-                  className="w-full object-cover aspect-square "
+                  className="h-[10rem] object-cover aspect-square "
                 />
                 <div className="absolute flex items-center  opacity-0  group-hover:opacity-[100] duration-300 transition-all justify-center bottom-0 right-0 w-full h-full bg-[rgba(255,255,255,0.7)]">
                   <h1 className="text-center text-xl font-semibold drop-shadow-lg text-secondary scale-0 group-hover:scale-[1] duration-100 transition-all">

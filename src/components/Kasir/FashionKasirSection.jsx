@@ -49,7 +49,7 @@ export default function FashionKasirSection({
             {props?.productPromos?.map((item, index) => (
               <img
                 key={index}
-                src={item.imageUrl}
+                src={item?.imageUrl?.url}
                 className="h-6 sm:h-12 mr-1 aspect-square object-cover object-center drop-shadow-xl rounded-sm"
                 alt=""
               />

@@ -166,7 +166,7 @@ export default function ShowMore(props) {
                                   key={size.name}
                                   onClick={() =>
                                     props?.addToCart({
-                                      _id: item?._id?.toString(),
+                                      _id: props?.data?._id?.toString(),
                                       idOnCart: idOnCart,
                                       name: props?.data?.name,
                                       variants: props?.data?.variants,
@@ -203,7 +203,9 @@ export default function ShowMore(props) {
                                       key={size?.size}
                                       className="flex gap-1 font-semibold items-center"
                                     >
-                                      <div className="sm:hidden">{item?.name}  -</div>
+                                      <div className="sm:hidden">
+                                        {item?.name} -
+                                      </div>
                                       <div>{size?.size}</div> -
                                       <div>{size?.stock} pcs</div> -
                                       <div className="text-secondary font-semibold flex flex-col items-start leading-4 justify-center">

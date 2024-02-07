@@ -158,7 +158,7 @@ export default function FashionKasirPopover({
                     key={promo._id}
                     className="relative"
                   >
-                    <img src={promo.imageUrl} className="h-7 mr-2" alt="" />
+                    <img src={promo.imageUrl.url} className="h-7 mr-2" alt="" />
                     {hoverPromo === promo._id && (
                       <motion.div
                         initial={{ opacity: 0, y: -10 }}
@@ -229,7 +229,7 @@ export default function FashionKasirPopover({
                     className="relative"
                   >
                     <img
-                      src={promo.imageUrl}
+                      src={promo.imageUrl.url}
                       className="h-3 sm:h-6 mr-2"
                       alt=""
                     />

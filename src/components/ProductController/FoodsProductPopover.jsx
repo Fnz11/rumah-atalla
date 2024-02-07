@@ -13,7 +13,7 @@ export default function FoodsProductPopover(props) {
   // PREV DATA
   const [formData, setFormData] = useState({
     name: "",
-    imageUrl: "",
+    imageUrl: {},
     type: "drinks",
     description: "",
     stock: "",
@@ -51,7 +51,9 @@ export default function FoodsProductPopover(props) {
       reader.onloadend = () => {
         setFormData((prevData) => ({
           ...prevData,
-          imageUrl: reader.result,
+          imageUrl: {
+            url: reader.result,
+          },
         }));
       };
       reader.readAsDataURL(file);
@@ -79,7 +81,7 @@ export default function FoodsProductPopover(props) {
         ));
         setFormData({
           name: "",
-          imageUrl: "",
+          imageUrl: {},
           description: "",
           stock: "",
           status: "",
@@ -115,7 +117,7 @@ export default function FoodsProductPopover(props) {
         ));
         setFormData({
           name: "",
-          imageUrl: "",
+          imageUrl: {},
           description: "",
           stock: "",
           status: "",
@@ -190,7 +192,7 @@ export default function FoodsProductPopover(props) {
                   props.togglePopover("", null);
                   setFormData({
                     name: "",
-                    imageUrl: "",
+                    imageUrl: {},
                     type: "",
                     description: "",
                     stock: "",
@@ -312,9 +314,9 @@ export default function FoodsProductPopover(props) {
                             className="w-full opacity-0 absolute h-full cursor-pointer"
                             // className="block w-full bg-white focus:outline-white p-3 text-sm text-primaryDark border rounded-lg"
                           />
-                          {formData.imageUrl ? (
+                          {formData.imageUrl.url ? (
                             <img
-                              src={formData.imageUrl}
+                              src={formData.imageUrl.url}
                               alt="Image Preview"
                               className="block h-full w-full object-cover "
                             />

@@ -28,12 +28,13 @@ export default function FashionsKasir() {
   const DBURL = import.meta.env.VITE_APP_DB_URL;
 
   // FETCHHHH
-  const [isLoadingFetch, setIsLoadingFetch] = useState(true);
+  const [isLoadingFetch, setIsLoadingFetch] = useState(false);
   // FETCH FASHION
   const [fashionProducts, setFashionProducts] = useState([]);
   const [triger, setTriger] = useState(1);
 
   const fetchFashionProducts = async () => {
+    setIsLoadingFetch(true);
     await axios
       .get(DBURL + "/products/")
       .then((res) => {
@@ -173,11 +174,10 @@ export default function FashionsKasir() {
   }
   const handleBuy = async () => {
     console.log("BUUYY", formData);
-
     requestPermission();
     setIsLoading(true);
     await axios
-      .post("http://localhost:3000/transactions", formData, {
+      .post(DBURL + "/transactions", formData, {
         headers: {
           Authorization: token,
         },
@@ -197,6 +197,7 @@ export default function FashionsKasir() {
           qty: 0,
           status: "pending",
         });
+        fetchFashionProducts();
         setFashionCartItems([]);
         setBuyer("");
         togglePopover();

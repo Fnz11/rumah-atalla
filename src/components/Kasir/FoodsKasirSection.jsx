@@ -29,7 +29,7 @@ export default function FoodsKasirSection({
                 return (
                   <img
                     key={index}
-                    src={item.imageUrl}
+                    src={item.imageUrl.url}
                     className="h-12 mr-1 drop-shadow-xl"
                     alt=""
                   />
@@ -38,7 +38,7 @@ export default function FoodsKasirSection({
             })}
           </div>
           <img
-            src={props.imageUrl}
+            src={props.imageUrl.url}
             alt={props.name}
             className="h-full w-full object-cover object-center lg:h-full lg:w-full"
           />

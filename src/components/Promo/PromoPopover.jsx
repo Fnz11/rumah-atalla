@@ -22,6 +22,8 @@ export default function PromoPopover(props) {
   useEffect(() => {
     if (props.type === "foods") {
       setTipe("foods");
+    } else if (props.type === "fashions") {
+      setTipe("fashions");
     }
   }, [props]);
 
@@ -31,15 +33,12 @@ export default function PromoPopover(props) {
     await axios
       .get(DBURL + "/products/")
       .then((res) => {
-        console.log("ININIIHHRESDATA", res);
         setProducts(res.data);
       })
       .catch((err) => {
         console.log(err);
       });
   };
-
-  console.log("ININIIHH", products);
 
   const fetchFoodProducts = async () => {
     await axios
@@ -69,7 +68,9 @@ export default function PromoPopover(props) {
     setStartDate("");
     setFormData({
       name: "",
-      imageUrl: "",
+      imageUrl: {
+        url: "",
+      },
       type: "",
       value: null,
       date: {
@@ -95,12 +96,11 @@ export default function PromoPopover(props) {
 
   //   FILTER
   const [searchValue, setSearchValue] = useState("");
-  // const filteredProducts = products
-  //   ? products?.filter((item) =>
-  //       item.name.toLowerCase().includes(searchValue.toLowerCase())
-  //     )
-  //   : [];
-  const filteredProducts = [];
+  const filteredProducts = products
+    ? products?.filter((item) =>
+        item.name.toLowerCase().includes(searchValue.toLowerCase())
+      )
+    : [];
 
   const type = {
     "diskon persentase": true,
@@ -110,11 +110,13 @@ export default function PromoPopover(props) {
   };
 
   // HANDLE POST
-  const [selectedType, setSelectedType] = useState("");
+  const [selectedType, setSelectedType] = useState("diskon persentase");
   const [formData, setFormData] = useState({
     name: "",
-    imageUrl: "",
-    type: "",
+    imageUrl: {
+      url: "",
+    },
+    type: "diskon persentase",
     value: null,
     date: {
       startDate: "",
@@ -172,13 +174,14 @@ export default function PromoPopover(props) {
   };
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
-    console.log("INI IMAGE", file);
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
         setFormData((prevData) => ({
           ...prevData,
-          imageUrl: reader.result,
+          imageUrl: {
+            url: reader.result,
+          },
         }));
       };
       reader.readAsDataURL(file);
@@ -193,6 +196,8 @@ export default function PromoPopover(props) {
       for: tipe,
     }));
   }, [fashionSelected, selectedType, tipe]);
+
+  console.log(formData, "FOFOT");
 
   // LOADING
   const [isLoading, setIsLoading] = useState(false);
@@ -301,8 +306,10 @@ export default function PromoPopover(props) {
                 transition={{ duration: 0.1 }}
                 className={`${
                   isLoading && "pointer-events-none"
-                } relative overflow-hidden bg-section  w-[24rem] px-5 sm:px-10 sm:w-[40rem] pt-0 mx-3 sm:mx-10 ${
-                  page === 1 ? "h-[40rem] sm:h-[36rem]" : "h-[95%]"
+                } relative  overflow-hidden bg-section  w-[24rem] px-5 sm:px-10 sm:w-[40rem] pt-0 mx-3 sm:mx-10 ${
+                  page === 1
+                    ? "h-[40rem] sm:h-[36rem]"
+                    : "max-h-[95%] h-[45rem]"
                 } transition-all duration-300 p-5 z-[1] rounded-2xl shadow-md`}
               >
                 {/* LOADING */}
@@ -352,6 +359,7 @@ export default function PromoPopover(props) {
                                   <option
                                     className="text-primaryDark capitalize"
                                     key={type}
+                                    selected={type === "diskon persentase"}
                                     value={type}
                                   >
                                     {type
@@ -435,7 +443,7 @@ export default function PromoPopover(props) {
                               />
                               {formData.imageUrl ? (
                                 <img
-                                  src={formData.imageUrl}
+                                  src={formData.imageUrl?.url || ""}
                                   alt="Image Preview"
                                   className="block h-full w-full object-cover "
                                 />
@@ -501,6 +509,7 @@ export default function PromoPopover(props) {
                             <option
                               className="text-primaryDark capitalize"
                               key={type}
+                              selected={type === "diskon persentase"}
                               value={type}
                             >
                               {type
@@ -557,7 +566,7 @@ export default function PromoPopover(props) {
                     </div>
 
                     {/* CONTENT */}
-                    <div className="w-full h-[55%] overflow-y-scroll overflow-x-hidden text-sm sm:text-base rounded-2xl">
+                    <div className="w-full h-[50%] overflow-y-scroll overflow-x-hidden text-sm sm:text-base rounded-2xl">
                       <div className="flex w-full bg-secondary h-[3rem] font-semibold shadow-md inset-[0.2rem]  relative text-white items-center rounded-2xl px-2">
                         <div className="w-[20%] flex justify-center">Image</div>
                         <div className="w-[60%]">Nama Barang</div>
@@ -578,11 +587,10 @@ export default function PromoPopover(props) {
                             <div className="w-[20%]">
                               <img
                                 src={
-                                  product?.imageUrl[0]
-                                    ? product?.imageUrl[0]?.url
-                                    : product?.imageUrl
+                                  product?.imageUrl?.url ||
+                                  product?.imageUrl[0].url
                                 }
-                                alt={product.imageAlt}
+                                // alt={product.imageAlt}
                                 className="w-[90%] aspect-square object-cover rounded-2xl"
                               />
                             </div>
@@ -599,9 +607,9 @@ export default function PromoPopover(props) {
                               <h1
                                 className={` font-base font-semibold text-secondary drop-shadow-sm`}
                               >
-                                Rp.{" "}
+                                {/* Rp.{" "}
                                 {product?.variants[0]?.size[0]?.price?.toLocaleString() ||
-                                  product?.price?.toLocaleString()}
+                                  product?.price?.toLocaleString()} */}
                               </h1>
                             </div>
                           </div>

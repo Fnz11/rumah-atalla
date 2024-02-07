@@ -19,7 +19,7 @@ export default function UserControllerPopover(props) {
     username: "",
     email: "",
     number: "",
-    imageUrl: "",
+    imageUrl: {},
     password: "",
   });
 
@@ -41,7 +41,7 @@ export default function UserControllerPopover(props) {
       email: "",
       number: "",
       password: "",
-      imageUrl: "",
+      imageUrl: {},
     });
     props.togglePopover("", null);
   };
@@ -65,7 +65,9 @@ export default function UserControllerPopover(props) {
       reader.onloadend = () => {
         setUserData((prevData) => ({
           ...prevData,
-          imageUrl: reader.result,
+          imageUrl: {
+            url: reader.result,
+          },
         }));
       };
       reader.readAsDataURL(file);
@@ -206,6 +208,7 @@ export default function UserControllerPopover(props) {
                       onChange={handleInputChange}
                       name="username"
                       placeholder="name"
+                      disabled={props.showPopover === "edit" && true}
                     />
                     {/* NUMBER */}
                     <TextField
@@ -231,9 +234,9 @@ export default function UserControllerPopover(props) {
                         onChange={handleImageUpload}
                         className="w-full opacity-0 absolute h-full cursor-pointer"
                       />
-                      {userData?.imageUrl ? (
+                      {userData?.imageUrl.url ? (
                         <img
-                          src={userData?.imageUrl}
+                          src={userData?.imageUrl?.url}
                           alt="Image Preview"
                           className="block h-full w-full object-cover "
                         />

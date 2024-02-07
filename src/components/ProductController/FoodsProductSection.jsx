@@ -16,7 +16,7 @@ export default function FoodsProductSection(props) {
         <div className="flex items-center z-[10] relative">
           <h1 className="flex items-center justify-center  w-[35%] sm:w-[20%] p-3">
             <img
-              src={props?.data?.imageUrl}
+              src={props?.data?.imageUrl?.url}
               className="h-full aspect-square rounded-2xl object-cover"
               alt=""
             />

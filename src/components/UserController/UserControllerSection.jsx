@@ -10,7 +10,7 @@ export default function UserControllerSection({ item, handlePopover, number }) {
           <h1 className="text-center w-[10%] py-6 ">{number}</h1>
           <h1 className="flex items-center justify-start w-[70%] sm:w-[50%] py-6 gap-4">
             <img
-              src={item?.imageUrl ? item?.imageUrl : "/Profile.png"}
+              src={item?.imageUrl ? item?.imageUrl.url : "/Profile.png"}
               className="w-20 aspect-square object-cover rounded-full drop-shadow-md"
               alt=""
             />
