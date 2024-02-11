@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { AnimatePresence, motion } from "framer-motion";
-import Button from "../../Button";
+import Button from "./Button";
 
 export default function ReadMoreDescription({
   description,
@@ -10,7 +10,7 @@ export default function ReadMoreDescription({
   return (
     <AnimatePresence>
       {readMore && (
-        <div className="fixed z-[1000] top-0 left-0 w-screen h-screen flex items-center justify-center">
+        <div className="fixed z-[1500] top-0 left-0 w-screen h-screen flex items-center justify-center">
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

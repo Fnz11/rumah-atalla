@@ -22,7 +22,7 @@ export default function FashionProductSection(props) {
           props?.data?.store === "web"
             ? "cursor-pointer group hover:shadow-xl hover:inset-0 transition-all duration-300"
             : ""
-        } rounded-2xl my-3 w-full relative  bg-section text-primaryDark text-[0.7rem] leading-5 sm:leading-normal md:text-base shadow-md border-b-2 inset-[0.2rem]  p-3`}
+        } rounded-2xl my-3 w-full relative  bg-section text-primaryDark text-[0.7rem] leading-5 sm:leading-normal sm:text-[0.7rem] 2xl:text-[0.9rem] shadow-md border-b-2 inset-[0.2rem]  p-3`}
       >
         <div className="flex items-center z-[10] relative">
           <h1
@@ -36,7 +36,7 @@ export default function FashionProductSection(props) {
               navigation
               className="h-full bg-white aspect-square flex  justify-center items-center  rounded-2xl shadow-lg"
             >
-              {typeof props?.data?.imageUrl != "string" ? (
+              {typeof props?.data?.imageUrl != "string" && props?.data?.imageUrl?.length > 0 ? (
                 props?.data?.imageUrl?.map((image) => (
                   <SwiperSlide key={image._id} className="">
                     <div className="h-full flex items-center justify-center w-full relative">

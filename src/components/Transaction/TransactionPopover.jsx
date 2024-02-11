@@ -16,23 +16,26 @@ import TransactionHeadPopoverSection from "./TransactionHeadPopoverSection";
 /* eslint-disable react/prop-types */
 export default function TransactionPopover(props) {
   const DBURL = import.meta.env.VITE_APP_DB_URL;
-  console.log("DBDBDBDBDB", DBURL)
+  console.log("DBDBDBDBDB", DBURL);
   // LOADING
   const [isLoading, setIsLoading] = useState(false);
   // HANDLE PATCH
   const token = localStorage.getItem("token");
+
+  const user = JSON.parse(localStorage.getItem("user"));
   const patchTransaction = async (status) => {
     setIsLoading(true);
+    const newData = {
+      status: status,
+      kasirId: user?.userId,
+      kasir: user?.username,
+    };
     axios
-      .patch(
-        DBURL + "/transactions/" + props.data?._id?.toString(),
-        { status: status },
-        {
-          headers: {
-            Authorization: token,
-          },
-        }
-      )
+      .patch(DBURL + "/transactions/" + props.data?._id?.toString(), newData, {
+        headers: {
+          Authorization: token,
+        },
+      })
       .then((res) => {
         props.refetch();
         toast.custom((t) => (
@@ -67,9 +70,6 @@ export default function TransactionPopover(props) {
     return formattedDate;
   }
 
-  function addDotsToNumber(number) {
-    return number?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-  }
   return (
     <>
       <Toaster />
@@ -89,7 +89,6 @@ export default function TransactionPopover(props) {
                 isLoading && "pointer-events-none"
               } relative overflow-hidden bg-section  w-[90%] px-5 sm:px-10 sm:w-[45rem] mx-2 sm:mx-10 h-[40rem] pt-0 sm:h-[46rem] max-h-[95%] sm:max-h-[95%] p-5 z-[1] rounded-2xl shadow-md`}
             >
-              {/* LOADING */}
               {/* LOADING */}
               {isLoading && <LoadingPopover />}
 

@@ -16,6 +16,9 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import toast, { Toaster } from "react-hot-toast";
+import CustomToast from "../../components/CustomToast";
+import Button from "../../components/Button";
 
 export default function Account() {
   const DBURL = import.meta.env.VITE_APP_DB_URL;
@@ -192,8 +195,53 @@ export default function Account() {
     setMonthlyChartData(monthlyChartDataValues);
   }, [transactionsData, userData]);
 
+  // USER AVATAR
+  const [userAvatar, setUserAvatar] = useState("/Profile.png");
+  const [updateUserAvatarState, setUpdateUserAvatarState] = useState(null);
+  useEffect(() => {
+    if (updateUserAvatarState?.imageUrl?.url) {
+      setUserAvatar(updateUserAvatarState?.imageUrl?.url);
+    } else if (userData?.imageUrl?.url) {
+      setUserAvatar(userData?.imageUrl?.url);
+    }
+  }, [userData, updateUserAvatarState]);
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setUpdateUserAvatarState({
+          imageUrl: {
+            url: reader.result,
+          },
+        });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+  const updateUserAvatar = async () => {
+    await axios
+      .patch(DBURL + "/users/" + User?.userId, updateUserAvatarState, {
+        headers: {
+          Authorization: token,
+        },
+      })
+      .then((res) => {
+        toast.custom((t) => (
+          <CustomToast t={t} message="Update avatar successed" type="success" />
+        ));
+      })
+      .catch((err) => {
+        toast.custom((t) => (
+          <CustomToast t={t} message="Update avatar failed" type="failed" />
+        ));
+        console.log(err);
+      });
+  };
+
   return (
     <>
+      <Toaster />
       <div className="w-full  pb-20 pt-10 ">
         {/* TITTLE */}
         <Title title={"Dashboard"} className={"mt-0"} />
@@ -201,44 +249,59 @@ export default function Account() {
         {/* CONTENT */}
         <div className="w-full gap- text-primaryDark text-sm gap-5 flex flex-col">
           {/* TOP */}
-          <div className="flex max-sm:flex-col w-full gap-5">
+          <div className="flex max-2xl:flex-col w-full gap-5">
             {/* LEFT */}
-            <div className="flex flex-col w-full sm:w-[40%] h-[29rem]  bg-section-rainbow text-primaryDark  truncate rounded-2xl shadow-lg gap-5 p-7 items-center justify-center">
+            <div className="flex flex-col w-full  2xl:w-[40%] h-[29rem] sm:h-[20rem] 2xl:h-[29rem]  bg-section-rainbow text-primaryDark relative  truncate rounded-2xl shadow-lg gap-5 p-7 items-center justify-center">
               <h1 className="text-2xl font-semibold">Profile</h1>
-              <div className="relative w-max-full w-[10rem] flex group rounded-full drop-shadow-lg shadow-lg hover:shadow-xl overflow-hidden">
-                <img
-                  src={
-                    userData?.imageUrl?.url
-                      ? userData?.imageUrl?.url
-                      : "/Profile.png"
+              <div className="flex gap-5 flex-col sm:flex-row 2xl:flex-col items-center justify-center">
+                <div className="relative w-max-full cursor-pointer w-[10rem] flex group rounded-full drop-shadow-lg shadow-lg hover:shadow-xl overflow-hidden">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    name="imageFile"
+                    onChange={handleImageUpload}
+                    className="w-full opacity-0 absolute h-full z-[10] cursor-pointer"
+                  />
+                  <img
+                    src={userAvatar}
+                    alt=""
+                    className="h-[10rem] object-cover aspect-square "
+                  />
+                  <div className="absolute flex items-center  opacity-0  group-hover:opacity-[100] duration-300 transition-all justify-center bottom-0 right-0 w-full h-full bg-[rgba(255,255,255,0.7)]">
+                    <h1 className="text-center text-sm font-semibold drop-shadow-lg text-primaryNormal scale-0 group-hover:scale-[1] duration-100 transition-all">
+                      Click to change
+                    </h1>
+                  </div>
+                </div>
+                <div className="flex gap-4">
+                  <div className="gap-3 flex flex-col text-end ">
+                    <h1>Nama</h1>
+                    <h1>Email</h1>
+                    <h1>Password</h1>
+                    <h1>No Telpon</h1>
+                    <h1>Role</h1>
+                  </div>
+                  <div className="gap-3 flex flex-col">
+                    <h1>: {userData?.username}</h1>
+                    <h1>: {userData?.email}</h1>
+                    <h1>: ********</h1>
+                    <h1>: {userData?.number}</h1>
+                    <h1 className="capitalize">
+                      : <b>{userData?.role}</b>
+                    </h1>
+                  </div>
+                </div>
+              </div>
+              {updateUserAvatarState && (
+                <Button
+                  onClick={updateUserAvatar}
+                  className={
+                    "bg-primaryDark text-white sm:min-w-[3rem] absolute right-4 bottom-4 w-[3rem] "
                   }
-                  alt=""
-                  className="h-[10rem] object-cover aspect-square "
-                />
-                <div className="absolute flex items-center  opacity-0  group-hover:opacity-[100] duration-300 transition-all justify-center bottom-0 right-0 w-full h-full bg-[rgba(255,255,255,0.7)]">
-                  <h1 className="text-center text-xl font-semibold drop-shadow-lg text-secondary scale-0 group-hover:scale-[1] duration-100 transition-all">
-                    Click to change
-                  </h1>
-                </div>
-              </div>
-              <div className="flex gap-4">
-                <div className="gap-3 flex flex-col text-end ">
-                  <h1>Nama</h1>
-                  <h1>Email</h1>
-                  <h1>Password</h1>
-                  <h1>No Telpon</h1>
-                  <h1>Role</h1>
-                </div>
-                <div className="gap-3 flex flex-col">
-                  <h1>: {userData?.username}</h1>
-                  <h1>: {userData?.email}</h1>
-                  <h1>: ********</h1>
-                  <h1>: {userData?.number}</h1>
-                  <h1 className="capitalize">
-                    : <b>{userData?.role}</b>
-                  </h1>
-                </div>
-              </div>
+                >
+                  <i className="fa-solid fa-floppy-disk"></i>
+                </Button>
+              )}
             </div>
 
             {/* MIDDLE */}
@@ -323,16 +386,16 @@ export default function Account() {
             </div>
 
             {/* RIGHT */}
-            <div className="flex flex-col w-full sm:w-[25%] h-[10rem] sm:h-[29rem] bg-rainbow text-primaryDark rounded-2xl shadow-lg gap-5 p-4 items-center justify-center">
+            <div className="flex flex-col w-full 2xl:w-[25%] h-[10rem] sm:h-auto 2xl:h-[29rem] bg-rainbow text-primaryDark rounded-2xl shadow-lg gap-5 p-4 items-center justify-center">
               <h1 className="text-2xl font-semibold">Transaction</h1>
-              <div className="flex sm:flex-col  gap-3">
-                <div className="flex items-center justify-center text-center drop-shadow-lg text-white font-semibold bg-green-400 w-full aspect-[12/10] relative rounded-2xl shadow-lg p-3 overflow-hidden">
+              <div className="flex 2xl:flex-col w-full gap-3 sm:gap-6 2xl:gap-3">
+                <div className="flex items-center justify-center text-center drop-shadow-lg text-white font-semibold bg-green-400 w-full sm:aspect-[4/2] 2xl:aspect-[12/10] max-sm:aspect-[12/10] relative rounded-2xl shadow-lg p-3 overflow-hidden">
                   Successed: {userData?.transactions?.successed}
                 </div>
-                <div className="flex items-center justify-center text-center drop-shadow-lg text-white font-semibold bg-red-400 w-full aspect-[12/10] relative rounded-2xl shadow-lg p-3 overflow-hidden">
+                <div className="flex items-center justify-center text-center drop-shadow-lg text-white font-semibold bg-red-400 w-full sm:aspect-[4/2]  2xl:aspect-[12/10] max-sm:aspect-[12/10] relative rounded-2xl shadow-lg p-3 overflow-hidden">
                   Canceled: {userData?.transactions?.canceled}
                 </div>
-                <div className="flex items-center justify-center text-center drop-shadow-lg text-white font-semibold bg-yellow-400 w-full aspect-[12/10] relative rounded-2xl shadow-lg p-3 overflow-hidden">
+                <div className="flex items-center justify-center text-center drop-shadow-lg text-white font-semibold bg-yellow-400 w-full sm:aspect-[4/2]  2xl:aspect-[12/10] max-sm:aspect-[12/10] relative rounded-2xl shadow-lg p-3 overflow-hidden">
                   Pending: {userData?.transactions?.pending}
                 </div>
               </div>

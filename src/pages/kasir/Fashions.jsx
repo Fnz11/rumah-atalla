@@ -137,6 +137,7 @@ export default function FashionsKasir() {
   const [formData, setFormData] = useState({
     buyer: "",
     kasir: "",
+    kasirId: "",
     type: "fashions",
     store: "web",
     products: [],
@@ -151,6 +152,7 @@ export default function FashionsKasir() {
       products: productsForm,
       buyer: buyer,
       kasir: user?.username,
+      kasirId: user?.userId,
       totalAmount: totalPrice.normalPrice,
       totalWithDiscount: totalPrice.discountPrice,
       totalCashback: totalPrice.cashbackPrice,
@@ -187,9 +189,10 @@ export default function FashionsKasir() {
           <CustomToast t={t} message="Transaction successed" type="success" />
         ));
         updateUser();
-        setFormData({
+        setFormData({ 
           buyer: "",
           kasir: "",
+          kasirId: "",
           type: "fashions",
           store: "web",
           products: [],

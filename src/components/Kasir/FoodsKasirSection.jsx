@@ -1,5 +1,7 @@
 /* eslint-disable react/prop-types */
 import { motion } from "framer-motion";
+import toast from "react-hot-toast";
+import CustomToast from "../CustomToast";
 
 export default function FoodsKasirSection({
   props,
@@ -8,20 +10,40 @@ export default function FoodsKasirSection({
   promos,
   type,
 }) {
+  const handleAddToCart = () => {
+    if (props?.stock == 0) {
+      toast.custom((t) => (
+        <CustomToast
+          t={t}
+          message="Failed to add to cart, stock needed"
+          type="failed"
+        />
+      ));
+      return;
+    }
+    addToCart(props._id.toString(), type);
+  };
   return (
     <>
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        onClick={() => addToCart(props._id.toString(), type)}
+        onClick={handleAddToCart}
         key={props._id.toString()}
-        className={`${
+        className={` ${props?.stock === 0 && "cursor-not-allowed"} ${
           CartItems.includes(props._id.toString())
             ? "border-4 border-primaryThin opacity-[0.6] scale-[0.95] shadow-lg group hover:shadow-xl"
             : " shadow-lg group hover:shadow-xl"
-        }  group relative bg-section rounded-2xl transition-all `}
+        }  group relative bg-section overflow-hidden rounded-2xl transition-all  text-[0.6rem] sm:text-sm `}
       >
+        <div
+          className={`w-full bg-section-dark text-white opacity-[0.8] text-sm sm:text-2xl font-semibold h-full absolute left-0 top-0 z-[10] flex items-center justify-center pb-10 ${
+            props?.stock > 0 && "hidden"
+          } `}
+        >
+          out of stock
+        </div>
         <div className="relative w-full overflow-hidden rounded-2xl bg-gray-200 group-hover:opacity-[0.85] transition-all aspect-square">
           <div className="absolute h-full w-full z-[1] flex items-end">
             {promos.map((item, index) => {
@@ -45,7 +67,7 @@ export default function FoodsKasirSection({
         </div>
         <div className="my-2 mx-4 flex flex-col justify-between">
           <div>
-            <h3 className="text-sm text-gray-700">
+            <h3 className=" text-gray-700">
               <div>
                 <span aria-hidden="true" className="absolute inset-0" />
                 {props.name}
@@ -53,8 +75,8 @@ export default function FoodsKasirSection({
             </h3>
           </div>
           <div className="flex justify-between">
-            <p className="text-sm font-medium ">{props.stock}</p>
-            <p className="text-sm font-semibold text-secondary">
+            <p className=" font-medium ">{props.stock}</p>
+            <p className=" font-semibold text-secondary">
               Rp. {props.price?.toLocaleString()}
             </p>
           </div>

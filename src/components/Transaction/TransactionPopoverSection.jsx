@@ -90,7 +90,7 @@ export default function TransactionPopoverSection({ item: props, promos }) {
               </span>
             )}
             <span
-              className={`text-primaryDark -mb-1 ${
+              className={`text-secondary -mb-1 ${
                 props.price != props?.discount &&
                 "line-through  opacity-[0.6]  w-full text-center"
               }`}

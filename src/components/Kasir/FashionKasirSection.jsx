@@ -70,10 +70,7 @@ export default function FashionKasirSection({
               </div>
             </h3>
           </div>
-          <div className="flex justify-between">
-            <p className="text-[0.6rem] sm:text-sm font-medium ">
-              {props.stock}
-            </p>
+          <div className="flex justify-end">
             <p className="text-[0.6rem] sm:text-sm font-semibold text-secondary">
               Rp. {priceRange}
             </p>

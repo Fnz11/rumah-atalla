@@ -32,7 +32,7 @@ export default function Sidebar() {
               <div className="w-[110%] h-[0.1rem] -my-[0.15rem] rounded-md bg-white" />
             </div>
           </Link>
-          <div className="lg:mx-4 mt-4 hidden lg:flex items-center h-[1px] w-auto bg-white opacity-[0.6]"></div>
+          <div className="lg:mx-4 mb-1 mt-4 hidden lg:flex items-center h-[1px] w-auto bg-white opacity-[0.6]"></div>
 
           <div className="px-4 hidden lg:flex font-semibold text-white  text-[0.6rem] opacity-[0.6]">
             DASHBOARD
@@ -83,7 +83,7 @@ export default function Sidebar() {
 
           {/* KASIR FASHIONS */}
           <LinkSide path={"/admin/fashions"} name={"Fashions"}>
-            <i className="fa-solid -ml-1 fa-shirt scale-[0.8] fa-lg"></i>
+            <i className="fa-solid -ml-1 -mr-1 fa-shirt scale-[0.8] fa-lg"></i>
           </LinkSide>
         </div>
 

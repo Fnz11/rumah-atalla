@@ -24,7 +24,7 @@ export default function FashionTransactionSection(props) {
             ? "border-b-yellow-400 "
             : "border-b-green-400 "
         }
-        rounded-2xl -ml-1 cursor-pointer group bg-section hover:shadow-xl hover:inset-0 transition-all duration-300 w-full relative  text-primaryDark text-[0.7rem] overflow-hidden leading-5 sm:leading-normal sm:text-base shadow-lg border-b-4 border-x-2 inset-[0.2rem]`}
+        rounded-2xl -ml-1 cursor-pointer group bg-section hover:shadow-xl hover:inset-0 transition-all duration-300 w-full relative  text-primaryDark text-[0.7rem] overflow-hidden leading-5 sm:leading-normal sm:text-base py-5 shadow-lg border-b-4 border-x-2 inset-[0.2rem]`}
       >
         <div className="flex items-center z-[10] relative ">
           <div
@@ -57,7 +57,7 @@ export default function FashionTransactionSection(props) {
               </>
             )}
           </h1>
-          <h1 className="text-center  w-[63%] lg:w-[30%] py-6 break-all drop-shadow-md">
+          <h1 className="text-center  w-[63%] lg:w-[30%] py-6 break-all drop-shadow-md truncate">
             <span className="font-semibold drop-shadow-sm">
               {props?.data?.buyer}{" "}
             </span>

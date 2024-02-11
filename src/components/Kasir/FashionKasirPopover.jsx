@@ -41,7 +41,11 @@ export default function FashionKasirPopover({
       handleChange({ value1: 1 }, "qty", indexOnCart);
     }
     if (quantity < 1000) {
-      setQuantity(newValue);
+      if (newValue > props?.size?.stock) {
+        setQuantity(props?.size?.stock);
+      } else {
+        setQuantity(newValue);
+      }
       handleChange({ value1: newValue }, "qty", indexOnCart);
     }
   };
@@ -57,7 +61,11 @@ export default function FashionKasirPopover({
     if (e.target.value === "") {
       setQuantity("");
     } else if (!isNaN(newValue) && newValue > 0 && newValue <= 1000) {
-      setQuantity(newValue);
+      if (newValue > props?.size?.stock) {
+        setQuantity(props?.size?.stock);
+      } else {
+        setQuantity(newValue);
+      }
       handleChange({ value1: newValue }, "qty", indexOnCart);
     }
   };
@@ -267,8 +275,16 @@ export default function FashionKasirPopover({
         <div className="w-[20%] max-sm:hidden flex items-center font-semibold text-end drop-shadow-sm">
           <JumlahComponent />
         </div>
-        <div className="w-[50%] sm:w-[20%]  pr-2 gap-2 flex flex-col justify-end items-end">
-          <div className="w-fit flex items-center">
+        <div className="w-[50%] sm:w-[20%]  pr-2  flex flex-col justify-end items-end">
+          {/*  */}
+          <h1
+            className={`${
+              props?.size?.stock < 10 && "text-red-500"
+            } font-semibold `}
+          >
+            Stock: {props?.size?.stock}
+          </h1>
+          <div className="w-fit flex items-center mb-2 ">
             <button
               onClick={handleDecrement}
               className="px-2 py-1 border-2 border-gray-300"

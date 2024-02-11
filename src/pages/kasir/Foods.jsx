@@ -131,29 +131,30 @@ export default function FoodsKasir() {
   const [buyer, setBuyer] = useState("");
   // LOADING
   const [isLoading, setIsLoading] = useState(false);
-  const updateUser = async () => {
-    console.log("DIUPDATEE", transactionsData);
-    await axios
-      .patch(
-        DBURL + `/users/` + user.userId,
-        { transactions: transactionsData },
-        {
-          headers: {
-            Authorization: token,
-          },
-        }
-      )
-      .then((res) => {
-        console.log("INI RESSS", res.data);
-      })
-      .catch((err) => {
-        console.log("INI EEEERR", err);
-      });
-  };
+  // const updateUser = async () => {
+  //   console.log("DIUPDATEE", transactionsData);
+  //   await axios
+  //     .patch(
+  //       DBURL + `/users/` + user.userId,
+  //       { transactions: transactionsData },
+  //       {
+  //         headers: {
+  //           Authorization: token,
+  //         },
+  //       }
+  //     )
+  //     .then((res) => {
+  //       console.log("INI RESSS", res.data);
+  //     })
+  //     .catch((err) => {
+  //       console.log("INI EEEERR", err);
+  //     });
+  // };
 
   const [formData, setFormData] = useState({
     buyer: "",
     kasir: "",
+    kasirId: "",
     type: "foods",
     store: "web",
     products: [],
@@ -168,6 +169,7 @@ export default function FoodsKasir() {
       products: productsForm,
       buyer: buyer,
       kasir: user?.username,
+      kasirId: user?.userId,
       totalAmount: total,
       totalWithDiscount: totalWithDiscount,
       totalCashback: totalCashback,
@@ -183,7 +185,7 @@ export default function FoodsKasir() {
         },
       })
       .then((res) => {
-        updateUser();
+        // updateUser();
         toast.custom((t) => (
           <CustomToast t={t} message="Transaction successed" type="success" />
         ));
@@ -528,13 +530,13 @@ export default function FoodsKasir() {
                 image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQl6SzfGl7TUhR-NEd2sL_rwbaBq-7dRG2Cxg&usqp=CAU"
                 setPage={() => setPage("foods")}
                 page={page}
-                text={"Foods"}
+                text={"foods"}
               />
               <ChangePageButton
                 image="https://wallpapers.com/images/hd/cocktail-drinks-glasses-on-black-background-7p9nyavhgxq3anzo.jpg"
                 setPage={() => setPage("drinks")}
                 page={page}
-                text={"Drinks"}
+                text={"drinks"}
               />
             </div>
           </div>

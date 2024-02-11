@@ -219,7 +219,6 @@ export default function Transactions() {
       .then((res) => {
         setWebProductsData(res.data);
         setAllProducts((prevData) => [...prevData, ...res.data]);
-        setIsLoading(false);
       })
       .catch((err) => {
         console.log(err);

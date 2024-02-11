@@ -25,7 +25,7 @@ export default function FoodTransactionSection(props) {
             ? "border-b-yellow-400 "
             : "border-b-green-400 "
         }
-        rounded-2xl -ml-1 cursor-pointer group bg-section hover:shadow-xl hover:inset-0 transition-all duration-300 w-full relative  text-primaryDark text-[0.7rem] overflow-hidden leading-5 sm:leading-normal sm:text-base shadow-lg border-b-4 border-x-2 inset-[0.2rem]`}
+        rounded-2xl -ml-1 cursor-pointer group bg-section hover:shadow-xl hover:inset-0 transition-all duration-300 w-full relative  text-primaryDark text-[0.7rem] overflow-hidden leading-5 sm:leading-normal sm:text-base shadow-lg border-b-4 py-5 border-x-2 inset-[0.2rem]`}
       >
         <div className="flex items-center z-[10] relative">
           <div
@@ -40,7 +40,7 @@ export default function FoodTransactionSection(props) {
           <h1 className="text-center  w-[30%] lg:w-[15%] py-6 drop-shadow-sm font-semibold">
             {props?.data?.kasir}
           </h1>
-          <h1 className="text-center  w-[70%] lg:w-[50%] py-6 break-all">
+          <h1 className="text-center  w-[70%] lg:w-[50%] py-6 break-all truncate">
             <span className="font-semibold drop-shadow-sm">
               {props?.data?.buyer}{" "}
             </span>

@@ -2,7 +2,7 @@
 export default function SearchBar({ onChange, value, placeholder }) {
   return (
     <>
-      <div className="relative shadow-sm w-full">
+      <div className="relative  w-full rounded-lg">
         <div className="absolute  w-auto inset-y-0 left-0 bottom-1 flex items-center pl-3 pointer-events-none">
           <svg
             aria-hidden="true"
@@ -20,7 +20,7 @@ export default function SearchBar({ onChange, value, placeholder }) {
         </div>
         <input
           type="text"
-          className="block w-full placeholder:text-primaryDark bg-white focus:outline-white p-3 pl-10 text-[0.6rem] sm:text-sm text-primaryDark border rounded-lg "
+          className="block w-full placeholder:text-primaryDark bg-white shadow-sm focus:outline-white p-3 pl-10 text-[0.6rem] sm:text-sm text-primaryDark border  rounded-lg"
           placeholder={placeholder}
           value={value}
           onChange={onChange}

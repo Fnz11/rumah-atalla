@@ -6,7 +6,7 @@ import Button from "../Button";
 import toast, { Toaster } from "react-hot-toast";
 import CustomToast from "../../components/CustomToast";
 import { Swiper, SwiperSlide } from "swiper/react";
-import ReadMoreDescription from "./components/ReadMoreDescription";
+import ReadMoreDescription from "../ReadMoreDescription";
 import BlackScreenPopover from "../BlackScreenPopover";
 import LoadingPopover from "../LoadingPopover";
 import LogoPopover from "../LogoPopover";
@@ -839,10 +839,7 @@ export default function FashionProductPopover(props) {
                                   {item?.name}
                                 </h1>
                                 <h1
-                                  className={`w-full max-sm:justify-center sm:w-[70%] h-full flex items-center justify-center font-medium flex-col gap-2 ${
-                                    index < formData?.variants?.length - 1 &&
-                                    "border-b-2"
-                                  }  border-gray-200 py-3`}
+                                  className={`w-full max-sm:justify-center sm:w-[70%] h-full flex items-center justify-center font-medium flex-col gap-2  py-3`}
                                 >
                                   {item?.size?.map((size) => (
                                     <div

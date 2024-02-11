@@ -10,7 +10,6 @@ export default function FoodsKasirPopover({
   productsForm,
   promos,
 }) {
-  console.log(props, "EEPPEPEPPPPPPPPPP");
   // QUANTITY
   const [quantity, setQuantity] = useState(1);
   useEffect(() => {

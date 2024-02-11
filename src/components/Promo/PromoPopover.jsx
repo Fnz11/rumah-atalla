@@ -197,8 +197,6 @@ export default function PromoPopover(props) {
     }));
   }, [fashionSelected, selectedType, tipe]);
 
-  console.log(formData, "FOFOT");
-
   // LOADING
   const [isLoading, setIsLoading] = useState(false);
 
@@ -213,7 +211,6 @@ export default function PromoPopover(props) {
         },
       })
       .then((res) => {
-        console.log("BERHASIL UPPPPP", res.data);
         props.refetch();
         toast.custom((t) => (
           <CustomToast t={t} message="Add promo successed" type="success" />
@@ -241,7 +238,6 @@ export default function PromoPopover(props) {
         },
       })
       .then((res) => {
-        console.log("BERHASIL PAAATTTT", res.data);
         props.refetch();
         toast.custom((t) => (
           <CustomToast t={t} message="Edit promo successed" type="success" />
@@ -573,47 +569,108 @@ export default function PromoPopover(props) {
                         <div className="w-[20%]">Harga</div>
                       </div>
                       <div>
-                        {filteredProducts.map((product) => (
-                          <div
-                            onClick={() => addToCart(product?._id?.toString())}
-                            className={` ${
-                              fashionSelected.includes(product._id?.toString())
-                                ? "border-[4px] border-secondary opacity-[0.8] shadow-md  inset-0"
-                                : "bg-white border-y-[1px] shadow-sm hover:shadow-md inset-[0.2rem]  hover:inset-0"
-                            } cursor-pointer group flex w-full bg-white my-2 shadow-sm py-2 min-h-[3rem] text-primaryDark items-center rounded-2xl px-2 relative duration-200 transition-all text-[0.7rem] sm:text-sm `}
-                            key={product._id?.toString()}
-                          >
-                            {/* IMAGE */}
-                            <div className="w-[20%]">
-                              <img
-                                src={
-                                  product?.imageUrl?.url ||
-                                  product?.imageUrl[0].url
-                                }
-                                // alt={product.imageAlt}
-                                className="w-[90%] aspect-square object-cover rounded-2xl"
-                              />
-                            </div>
+                        {filteredProducts.map((product) => {
+                          let lowestPrice = 0;
+                          let highestPrice = 0;
+                          // VARIANT
+                          for (let i = 0; i <= product?.variants?.length; i++) {
+                            // SIZE
+                            for (
+                              let j = 0;
+                              j <= product?.variants[i]?.size?.length;
+                              j++
+                            ) {
+                              if (
+                                product?.variants[i]?.size[j]?.price <
+                                lowestPrice
+                              ) {
+                                lowestPrice =
+                                  product?.variants[i]?.size[j]?.price;
+                              }
+                              if (
+                                product?.variants[i]?.size[j]?.price >
+                                highestPrice
+                              ) {
+                                highestPrice =
+                                  product?.variants[i]?.size[j]?.price;
+                              }
+                            }
+                          }
+                          let rangePrice;
+                          let rangeDiscountPrice;
+                          if (
+                            lowestPrice === highestPrice ||
+                            lowestPrice === 0
+                          ) {
+                            if (formData.type === "diskon persentase") {
+                              rangeDiscountPrice = `${(
+                                (highestPrice * formData?.value) /
+                                100
+                              )?.toLocaleString()}`;
+                            }
+                            rangePrice = highestPrice?.toLocaleString();
+                          } else {
+                            rangePrice = `${lowestPrice?.toLocaleString()} - ${highestPrice?.toLocaleString()}`;
+                          }
+                          return (
+                            <div
+                              onClick={() =>
+                                addToCart(product?._id?.toString())
+                              }
+                              className={` ${
+                                fashionSelected.includes(
+                                  product._id?.toString()
+                                )
+                                  ? "border-[4px] border-secondary opacity-[0.8] shadow-md  inset-0"
+                                  : "bg-white border-y-[1px] shadow-sm hover:shadow-md inset-[0.2rem]  hover:inset-0"
+                              } cursor-pointer group flex w-full bg-white my-2 shadow-sm py-2 min-h-[3rem] text-primaryDark items-center rounded-2xl px-2 relative duration-200 transition-all text-[0.7rem] sm:text-sm `}
+                              key={product._id?.toString()}
+                            >
+                              {/* IMAGE */}
+                              <div className="w-[20%]">
+                                <img
+                                  src={
+                                    product?.imageUrl?.url ||
+                                    product?.imageUrl[0].url
+                                  }
+                                  // alt={product.imageAlt}
+                                  className="w-[90%] aspect-square object-cover rounded-2xl"
+                                />
+                              </div>
 
-                            {/* NAME */}
-                            <div className="flex flex-col h-full justify-center w-[55%]">
-                              <p className="-mb-1 font-semibold">
-                                {product.name}
-                              </p>
-                            </div>
+                              {/* NAME */}
+                              <div className="flex flex-col h-full justify-center w-[55%]">
+                                <p className="-mb-1 font-semibold">
+                                  {product.name}
+                                </p>
+                              </div>
 
-                            {/* RIGHT SIDE */}
-                            <div className="flex flex-col items-center justify-center w-[25%]">
-                              <h1
-                                className={` font-base font-semibold text-secondary drop-shadow-sm`}
-                              >
-                                {/* Rp.{" "}
-                                {product?.variants[0]?.size[0]?.price?.toLocaleString() ||
-                                  product?.price?.toLocaleString()} */}
-                              </h1>
+                              {/* RIGHT SIDE */}
+                              <div className="flex flex-col items-center justify-center w-[25%]">
+                                <h1
+                                  className={` font-base font-semibold text-secondary drop-shadow-sm leading-4`}
+                                >
+                                  {fashionSelected.includes(
+                                    product._id?.toString()
+                                  ) && <span>Rp. {rangeDiscountPrice}</span>}
+                                  <br />
+                                  <span
+                                    className={`
+                                    ${
+                                      fashionSelected.includes(
+                                        product._id?.toString()
+                                      )
+                                        ? "line-through opacity-[0.7]"
+                                        : ""
+                                    }`}
+                                  >
+                                    Rp. {rangePrice}
+                                  </span>
+                                </h1>
+                              </div>
                             </div>
-                          </div>
-                        ))}
+                          );
+                        })}
                       </div>
                     </div>
 

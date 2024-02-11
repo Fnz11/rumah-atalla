@@ -4,53 +4,57 @@ import { AnimatePresence, motion } from "framer-motion";
 import Title from "../Title";
 import { SwiperSlide, Swiper } from "swiper/react";
 import Button from "../Button";
+import { useState } from "react";
+import ReadMoreDescription from "../ReadMoreDescription";
+import BlackScreenPopover from "../BlackScreenPopover";
+import LogoPopover from "../LogoPopover";
 
 export default function ShowMore(props) {
   if (props.showPopover) {
     console.log("IN IPROSP", props);
   }
+  // READMORE
+  const [readMore, setReadMore] = useState(false);
+  console.log(readMore);
+
+  // HOVER PROMO
+  const [hoverPromo, setHoverPromo] = useState("");
+  const handleHoverPromo = (promo) => {
+    console.log("PMPM", promo);
+    setHoverPromo(promo);
+  };
   return (
     <>
+      <ReadMoreDescription
+        description={props?.data?.description}
+        handleClose={() => setReadMore(false)}
+        readMore={readMore}
+      />
       <AnimatePresence>
         {props.showPopover && (
           <div className="fixed z-[1000] top-0 left-0 w-screen h-screen flex items-center justify-center">
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
+            <BlackScreenPopover
               onClick={() => {
                 props?.togglePopover();
               }}
-              className={` w-screen h-screen bg-[rgba(0,0,0,0.5)] backdrop-blur-sm absolute`}
-            ></motion.div>
+              isLoading={false}
+            />
             <motion.div
               initial={{ opacity: 0, y: -100 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -100 }}
               transition={{ duration: 0.3, ease: "easeInOut" }}
-              className={` relative overflow-hidden bg-section w-[24rem] px-4 sm:px-10 h-[49rem] sm:h-[48rem] transition-all duration-300 max-h-[95vh] sm:w-[40rem] mx-2 sm:mx-10  p-5 z-[1] rounded-2xl shadow-md`}
+              className={` relative overflow-hidden bg-section w-[24rem] px-4 pt-0 sm:px-10 h-[49rem] sm:h-[48rem] transition-all duration-300 max-h-[95vh] sm:w-[40rem] mx-2 sm:mx-10  p-5 z-[1] rounded-2xl shadow-md`}
             >
               {/* LOGO */}
-              <div className="flex w-full h-fit -ml-2 justify-center drop-shadow items-center ">
-                <img
-                  src="/LogoGreen.png"
-                  className="scale-[2.3] pointer-events-none w-[8rem] h-[8rem] aspect-square"
-                  alt="Logo"
-                />
-                <div className="uppercase ml-1 text-[2.8rem] leading-[3rem] mb-[0.5rem] text-primaryNormal hidden sm:block">
-                  <h1 className="-mb-[0.4rem]">Rumah</h1>
-                  <h1 className="font-bold">Atalla</h1>
-                  <div className="w-[120%] h-[0.3rem] -my-[0.15rem] rounded-md bg-primaryNormal" />
-                </div>
-              </div>
+              <LogoPopover />
 
               <Title title="Detail" className={"my-2"} />
 
-              {/* FORM */}
+              {/* DATA */}
               <div className="flex flex-col  gap-4 h-[62%] sm:h-[70%] pb-4 w-full justify-between">
                 <div className="h-full sm:h-[90%] ">
-                  <div className="w-full h-full flex flex-col gap-3 text-sm max-sm:overflow-y-scroll max-sm:overflow-x-hidden">
+                  <div className="w-full h-full flex flex-col gap-3 text-sm overflow-y-scroll overflow-x-hidden">
                     <div className="h-[100%] max-sm:mt-[2.6rem] sm:h-[40%]  w-full flex max-sm:flex-col-reverse justify-between items-center text-primaryDark font-[600]">
                       <div className="w-full flex flex-col items-center sm:justify-between sm:h-full sm:py-3">
                         <div className="w-full flex py-1">
@@ -85,10 +89,68 @@ export default function ShowMore(props) {
                           </span>
                           <button
                             className="ml-1 hover:opacity-[0.6]"
-                            // onClick={() => props?.setReadMore(!readMore)}
+                            onClick={() => setReadMore(!readMore)}
                           >
                             ...
                           </button>
+                        </div>
+                        <div className={`w-full flex py-1 `}>
+                          <span className="w-[35%] sm:w-[25%] flex">Promo</span>
+                          <span className="sm:w-[75%] gap-1 flex">
+                            :{" "}
+                            <span>
+                              {props?.data?.productPromos?.length > 0
+                                ? props?.data?.productPromos?.map(
+                                    (promo, index) => (
+                                      <>
+                                        <div
+                                          onMouseDown={() =>
+                                            handleHoverPromo(promo._id)
+                                          }
+                                          onMouseEnter={() =>
+                                            handleHoverPromo(promo._id)
+                                          }
+                                          onMouseLeave={() =>
+                                            handleHoverPromo("")
+                                          }
+                                          key={index}
+                                          className="relative w-full h-full group"
+                                        >
+                                          <img
+                                            src={promo?.imageUrl?.url}
+                                            className="h-6 sm:h-7 mr-1 group-hover:scale-[1.05] border-2 group-hover:border-primaryThin aspect-square object-cover object-center drop-shadow-xl rounded-md"
+                                            alt=""
+                                          />
+                                          {hoverPromo === promo._id && (
+                                            <motion.div
+                                              initial={{ opacity: 0, y: -4 }}
+                                              animate={{ opacity: 1, y: 1 }}
+                                              transition={{ duration: 0.2 }}
+                                              className=" text-center text-[0.7rem] sm:text-[0.8rem] p-3 z-[100] shadow-md bg-gradient-to-r from-primaryDark to-primaryThin text-white border-2 border-primaryNormal h-20 w-36 absolute -top-[5.3rem] -left-14 flex flex-col items-center justify-center rounded-2xl"
+                                            >
+                                              <h1 className="">{promo.name}</h1>
+                                              <h1>
+                                                {(promo.type ===
+                                                  "diskon nominal" ||
+                                                  promo.type ===
+                                                    "cashback nominal") &&
+                                                  "Rp. "}
+                                                {promo.value}
+                                                {(promo.type ===
+                                                  "diskon persentase" ||
+                                                  promo.type ===
+                                                    "cashback persentase") &&
+                                                  "%"}
+                                              </h1>
+                                            </motion.div>
+                                          )}
+                                        </div>
+                                      </>
+                                    )
+                                  )
+                                : "-"}
+                            </span>
+                          </span>
                         </div>
                       </div>
                       <div className="max-sm:w-full max-sm:pb-3 sm:h-[105%] aspect-square ">
@@ -130,10 +192,11 @@ export default function ShowMore(props) {
                           Size
                         </h1>
                       </div>
-                      <div className="w-[101.7%] h-auto mt-2 overflow-y-scroll overflow-x-hidden flex flex-col">
+                      <div className="w-[101.7%] h-auto mt-2 flex flex-col pr-3">
                         {props?.data?.variants?.map((item, indexVariant) => (
                           <div key={indexVariant}>
                             {item?.size?.map((size, indexSize) => {
+                              console.log(size);
                               const idOnCart =
                                 item?._id?.toString() +
                                 "?variant=" +
@@ -164,7 +227,8 @@ export default function ShowMore(props) {
                               return (
                                 <button
                                   key={size.name}
-                                  onClick={() =>
+                                  onClick={() => {
+                                    if (size?.stock === 0) return;
                                     props?.addToCart({
                                       _id: props?.data?._id?.toString(),
                                       idOnCart: idOnCart,
@@ -184,15 +248,22 @@ export default function ShowMore(props) {
                                         props?.data?.cashbackPersentase,
                                       productPromos: props?.data?.productPromos,
                                       price: size?.price,
-                                    })
-                                  }
+                                    });
+                                  }}
                                   className={` 
                                 ${
                                   isAdded &&
                                   "border-4 border-primaryThin scale-[0.95]"
-                                }
-                                transition-all duration-200 hover:shadow-xl min-h-[6rem] hover:inset-0 inset-[0.2rem] relative w-full bg-white mb-4 px-5 sm:py-6 py-3  rounded-2xl shadow-lg  flex text-primaryDark font-semibold items-center justify-center text-[0.8rem] max-sm:flex-col`}
+                                } ${size?.stock === 0 && "cursor-not-allowed"}
+                                transition-all overflow-hidden duration-200 hover:shadow-xl min-h-[6rem] hover:inset-0 inset-[0.2rem] relative w-full bg-white mb-4 px-5 sm:py-6 py-3 rounded-2xl shadow-lg  flex text-primaryDark font-semibold items-center justify-center text-[0.8rem] max-sm:flex-col`}
                                 >
+                                  <div
+                                    className={`w-full bg-section-dark text-white opacity-[0.9] text-sm sm:text-lg font-semibold h-full absolute left-0 top-0 z-[10] flex items-center justify-center ${
+                                      size?.stock > 0 && "hidden"
+                                    }`}
+                                  >
+                                    out of stock
+                                  </div>
                                   <h1 className="max-sm:hidden w-full justify-center sm:w-[30%] flex h-full items-center text-center truncate">
                                     {item?.name}
                                   </h1>
