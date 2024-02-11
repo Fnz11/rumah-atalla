@@ -12,7 +12,6 @@ export default function Navbar() {
 
   const navigate = useNavigate();
   const [userOpen, setUserOpen] = useState(false);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
   const location = useLocation();
   const adminPage = location.pathname.startsWith("/admin");
 
