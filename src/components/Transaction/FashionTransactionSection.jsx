@@ -65,7 +65,7 @@ export default function FashionTransactionSection(props) {
             <br />
             {props?.data?._id?.toString()}
           </h1>
-          <h1 className="text-center py-6 w-[25%] lg:block hidden font-semibold drop-shadow-md">
+          <h1 className="text-center py-6 w-[25%] lg:block hidden text-secondary font-semibold drop-shadow-md">
             Rp. {props?.data?.totalAmount?.toLocaleString()}
           </h1>
           <div className="max-sm:hidden text-center drop-shadow-md font-semibold flex items-center justify-center relative  w-[15%]  py-6">

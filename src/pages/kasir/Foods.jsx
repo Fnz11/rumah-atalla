@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import FoodsKasirPopover from "../../components/Kasir/FoodsKasirPopover";
 import axios from "axios";
 import { motion, AnimatePresence } from "framer-motion";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import CustomToast from "../../components/CustomToast";
 import Title from "../../components/Title";
 import Button from "../../components/Button";
@@ -467,7 +467,7 @@ export default function FoodsKasir() {
                     Total:
                     <div className="flex flex-col text-end ml-2 leading-4">
                       {totalWithDiscount != total && (
-                        <span className="text-secondary  ">
+                        <span className="text-purple  ">
                           Rp. {totalWithDiscount?.toLocaleString()}
                         </span>
                       )}
@@ -480,7 +480,7 @@ export default function FoodsKasir() {
                         Rp. {total?.toLocaleString()}
                       </span>
                       {totalCashback > 0 && (
-                        <span className="text-primaryThin  ">
+                        <span className="text-orange  ">
                           + Rp. {totalCashback?.toLocaleString()}
                         </span>
                       )}
@@ -501,8 +501,6 @@ export default function FoodsKasir() {
       </AnimatePresence>
 
       {/* TOAST */}
-      <Toaster />
-
       <div className=" w-full  pb-20 pt-10  min-h-screen text-primaryDark">
         {/* BUY BUTTON */}
         <BuyButton

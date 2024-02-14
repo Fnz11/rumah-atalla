@@ -73,7 +73,7 @@ export default function FoodsKasirPopover({
       <>
         <div className="flex flex-col leading-3 sm:leading-4 ">
           {props?.discount != props.price && (
-            <span className="text-secondary ">
+            <span className="text-purple ">
               Rp. {addDotsToNumber(props?.discount)}
             </span>
           )}
@@ -86,7 +86,7 @@ export default function FoodsKasirPopover({
             Rp. {addDotsToNumber(props.price)}
           </span>
           {props?.cashback > 0 && (
-            <span className="text-primaryThin  text-center">
+            <span className="text-orange  text-center">
               + Rp. {addDotsToNumber(props?.cashback)}
             </span>
           )}
@@ -100,7 +100,7 @@ export default function FoodsKasirPopover({
       <>
         <div className="flex flex-col leading-3 sm:leading-4 ">
           {props?.discount != props.price && (
-            <span className="text-secondary ">
+            <span className="text-purple ">
               Rp. {addDotsToNumber(props?.discount * quantity)}
             </span>
           )}
@@ -113,7 +113,7 @@ export default function FoodsKasirPopover({
             Rp. {addDotsToNumber(props.price * quantity)}
           </span>
           {props?.cashback > 0 && (
-            <span className="text-primaryThin  text-center">
+            <span className="text-orange  text-center">
               + Rp. {addDotsToNumber(props?.cashback * quantity)}
             </span>
           )}

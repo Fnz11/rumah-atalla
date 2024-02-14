@@ -661,11 +661,12 @@ export default function Transactions() {
                 </div>
                 {User?.role === "owner" && (
                   <Button
-                    className="min-w-[2rem] w-[3rem] scale-[0.95] h-fit max-sm:-mt-1"
-                    variant={"green"}
-                    onClick={() => handleDownload()}
+                    variant="green"
+                    className={"max-sm:min-w-[3rem]"}
+                    onClick={handleDownload}
                   >
-                    <i className="fa-solid fa-file-arrow-down fa-lg"></i>
+                    <i className="fa-solid fa-file-arrow-down mr-2"></i>
+                    <span className="max-sm:hidden">Download</span>
                   </Button>
                 )}
               </div>
@@ -789,21 +790,8 @@ export default function Transactions() {
               <TransactionFashionHeadSection />
 
               <div>
-                {isLoading &&
-                  [...Array(10)].map((i) => (
-                    <motion.div
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.2 }}
-                      key={i}
-                      className="my-3"
-                    >
-                      <TransactionSectionSkeleton />
-                    </motion.div>
-                  ))}
                 <AnimatePresence>
-                  {filteredFashionTransaction.length > 0 &&
+                  {filteredFashionTransaction.length > 0 ? (
                     filteredFashionTransaction.map((item) => (
                       <motion.div
                         initial={{ opacity: 0 }}
@@ -818,7 +806,23 @@ export default function Transactions() {
                           handlePopover={togglePopover}
                         />
                       </motion.div>
-                    ))}
+                    ))
+                  ) : (
+                    <>
+                      {[...Array(10)].map((i) => (
+                        <motion.div
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          exit={{ opacity: 0 }}
+                          transition={{ duration: 0.2 }}
+                          key={i}
+                          className="my-3"
+                        >
+                          <TransactionSectionSkeleton />
+                        </motion.div>
+                      ))}
+                    </>
+                  )}
                 </AnimatePresence>
               </div>
             </>
@@ -828,20 +832,7 @@ export default function Transactions() {
               <TransactionFoodHeadSection />
 
               <div>
-                {isLoading &&
-                  [...Array(10)].map((i) => (
-                    <motion.div
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.2 }}
-                      key={i}
-                      className="my-3"
-                    >
-                      <TransactionSectionSkeleton />
-                    </motion.div>
-                  ))}
-                {filteredFashionTransaction.length > 0 &&
+                {filteredFashionTransaction.length > 0 ? (
                   filteredFashionTransaction.map((item) => (
                     <motion.div
                       initial={{ opacity: 0 }}
@@ -855,7 +846,23 @@ export default function Transactions() {
                         handlePopover={togglePopover}
                       />
                     </motion.div>
-                  ))}
+                  ))
+                ) : (
+                  <>
+                    {[...Array(10)].map((i) => (
+                      <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.2 }}
+                        key={i}
+                        className="my-3"
+                      >
+                        <TransactionSectionSkeleton />
+                      </motion.div>
+                    ))}
+                  </>
+                )}
               </div>
             </>
           )}

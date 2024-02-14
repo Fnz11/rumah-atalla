@@ -1,4 +1,4 @@
-console.log("THIS IS FROM SW MAIN");
+console.log("THIS IS FROM SW PUBLIC");
 
 import { getToken, getMessaging } from "firebase/messaging";
 import { registerMessaging } from "firebase/messaging";

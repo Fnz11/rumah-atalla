@@ -50,7 +50,7 @@ export default function FoodTransactionSection(props) {
             <br />
             {props?.data?._id?.toString()}
           </h1>
-          <h1 className="text-center py-6 w-[25%] lg:block hidden font-semibold drop-shadow-sm">
+          <h1 className="text-center py-6 w-[25%] text-secondary lg:block hidden font-semibold drop-shadow-sm">
             Rp.{" "}
             {props.data.totalWithDiscount
               ? props?.data?.totalWithDiscount?.toLocaleString()

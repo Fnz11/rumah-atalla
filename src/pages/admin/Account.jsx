@@ -16,7 +16,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import CustomToast from "../../components/CustomToast";
 import Button from "../../components/Button";
 
@@ -241,7 +241,6 @@ export default function Account() {
 
   return (
     <>
-      <Toaster />
       <div className="w-full  pb-20 pt-10 ">
         {/* TITTLE */}
         <Title title={"Dashboard"} className={"mt-0"} />

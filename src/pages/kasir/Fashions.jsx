@@ -6,7 +6,7 @@ import FashionKasirPopover from "../../components/Kasir/FashionKasirPopover";
 import axios from "axios";
 import { motion, AnimatePresence } from "framer-motion";
 import Button from "../../components/Button";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import CustomToast from "../../components/CustomToast";
 import Title from "../../components/Title";
 import ShowMore from "../../components/Kasir/ShowMore";
@@ -176,44 +176,45 @@ export default function FashionsKasir() {
   }
   const handleBuy = async () => {
     console.log("BUUYY", formData);
+    subscribeToTopic();
     requestPermission();
-    setIsLoading(true);
-    await axios
-      .post(DBURL + "/transactions", formData, {
-        headers: {
-          Authorization: token,
-        },
-      })
-      .then(async (res) => {
-        toast.custom((t) => (
-          <CustomToast t={t} message="Transaction successed" type="success" />
-        ));
-        updateUser();
-        setFormData({ 
-          buyer: "",
-          kasir: "",
-          kasirId: "",
-          type: "fashions",
-          store: "web",
-          products: [],
-          totalAmount: 0,
-          qty: 0,
-          status: "pending",
-        });
-        fetchFashionProducts();
-        setFashionCartItems([]);
-        setBuyer("");
-        togglePopover();
-      })
-      .catch((error) => {
-        toast.custom((t) => (
-          <CustomToast t={t} message="Transaction failed" type="failed" />
-        ));
-        console.error(error);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+    // setIsLoading(true);
+    // await axios
+    //   .post(DBURL + "/transactions", formData, {
+    //     headers: {
+    //       Authorization: token,
+    //     },
+    //   })
+    //   .then(async (res) => {
+    //     toast.custom((t) => (
+    //       <CustomToast t={t} message="Transaction successed" type="success" />
+    //     ));
+    //     updateUser();
+    //     setFormData({
+    //       buyer: "",
+    //       kasir: "",
+    //       kasirId: "",
+    //       type: "fashions",
+    //       store: "web",
+    //       products: [],
+    //       totalAmount: 0,
+    //       qty: 0,
+    //       status: "pending",
+    //     });
+    //     fetchFashionProducts();
+    //     setFashionCartItems([]);
+    //     setBuyer("");
+    //     togglePopover();
+    //   })
+    //   .catch((error) => {
+    //     toast.custom((t) => (
+    //       <CustomToast t={t} message="Transaction failed" type="failed" />
+    //     ));
+    //     console.error(error);
+    //   })
+    //   .finally(() => {
+    //     setIsLoading(false);
+    //   });
   };
 
   //   POPOVER
@@ -425,20 +426,20 @@ export default function FashionsKasir() {
                     Total:
                     <div className="flex flex-col leading-4 text-end ml-2">
                       {totalPrice.discountPrice != totalPrice.normalPrice && (
-                        <span className="text-secondary ">
+                        <span className="text-purple ">
                           Rp. {totalPrice.discountPrice.toLocaleString()}
                         </span>
                       )}
                       <span
                         className={`text-secondary ${
-                          totalPrice != totalPrice.discountPrice &&
+                          totalPrice.discountPrice != totalPrice.normalPrice &&
                           "line-through opacity-[0.6] "
                         } w-full`}
                       >
                         Rp. {totalPrice.normalPrice.toLocaleString()}
                       </span>
                       {totalPrice.cashbackPrice > 0 && (
-                        <span className="text-primaryThin">
+                        <span className="text-orange">
                           + Rp. {totalPrice.cashbackPrice.toLocaleString()}
                         </span>
                       )}
@@ -467,8 +468,6 @@ export default function FashionsKasir() {
         addToCart={addToCart}
         data={showMoreData}
       />
-
-      <Toaster />
 
       <div className=" w-full  pb-20 pt-10  min-h-screen text-primaryDark">
         {/* BUY BUTTON */}

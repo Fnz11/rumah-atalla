@@ -7,7 +7,7 @@ import FoodsProductSection from "../../components/ProductController/FoodsProduct
 import FoodsProductPopover from "../../components/ProductController/FoodsProductPopover";
 import { AnimatePresence, motion } from "framer-motion";
 import Title from "../../components/Title";
-import toast, { Toaster } from "react-hot-toast";
+import toast  from "react-hot-toast";
 import CustomToast from "../../components/CustomToast";
 import Button from "../../components/Button";
 import Title2 from "../../components/Title2";
@@ -268,7 +268,6 @@ export default function ProductControl() {
 
   return (
     <>
-      <Toaster />
       <AnimatePresence>
         {/* POPOVER */}
         {page === "fashions" ? (
@@ -347,14 +346,16 @@ export default function ProductControl() {
                 {/* RIGHT */}
                 <div className="flex max-sm:flex-col gap-1 ">
                   <Button
-                    className="min-w-[2rem] w-[3rem] scale-[0.95] max-sm:-mt-1"
-                    variant={"green"}
-                    onClick={() => handleDownload()}
+                    variant="green"
+                    className={"max-sm:min-w-[3rem]"}
+                    onClick={handleDownload}
                   >
-                    <i className="fa-solid fa-file-arrow-down fa-lg"></i>
+                    <i className="fa-solid fa-file-arrow-down mr-2"></i>
+                    <span className="max-sm:hidden">Download</span>
                   </Button>
                   <Button
-                    className="min-w-[2rem] w-[3rem] scale-[0.95] pl-[0.9rem]"
+                    variant="secondary"
+                    className={"max-sm:min-w-[3rem]"}
                     onClick={() =>
                       togglePopover({
                         param: "add",
@@ -363,7 +364,8 @@ export default function ProductControl() {
                       })
                     }
                   >
-                    <i className="fa-solid fa-plus fa-lg"></i>
+                    <i className="fa-solid fa-plus mr-2"></i>
+                    <span className="max-sm:hidden">Add</span>
                   </Button>
                 </div>
               </div>
@@ -391,60 +393,64 @@ export default function ProductControl() {
           {/* TITTLE */}
           <Title title={"Fashions"} />
 
-          {/* FASHIONS PROFDUCTS */}
-          {page === "fashions" && (
-            <div className="w-full  text-base sm:text-lg  h-auto mb-10">
-              {/* HEAD */}
-              <FashionHeadSection />
+          {filteredProducts?.length > 0 ? (
+            <>
+              {/* FASHIONS PROFDUCTS */}
+              {page === "fashions" && (
+                <div className="w-full  text-base sm:text-lg  h-auto mb-10">
+                  {/* HEAD */}
+                  <FashionHeadSection />
+                  {filteredProducts.map((item, i) => (
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                      key={item.id}
+                      className="my-2"
+                    >
+                      <FashionProductSection
+                        number={i + 1}
+                        data={item}
+                        handlePopover={togglePopover}
+                      />
+                    </motion.div>
+                  ))}
+                </div>
+              )}
 
-              {isLoading &&
-                [...Array(10)].map((i) => (
-                  <>
-                    <FashionProductSectionSkeleton />
-                  </>
-                ))}
-              {filteredProducts.map((item, i) => (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                  key={item.id}
-                  className="my-2"
-                >
-                  <FashionProductSection
-                    number={i + 1}
-                    data={item}
-                    handlePopover={togglePopover}
-                  />
-                </motion.div>
+              {/* FOODS PRODUCTS */}
+              {page === "foods" && (
+                <div className="w-full  text-base sm:text-lg  h-auto mb-10">
+                  {/* HEAD */}
+                  <FoodHeadSection />
+                  {filteredProducts.map((item, i) => (
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                      key={item.id}
+                      className="my-2"
+                    >
+                      <FoodsProductSection
+                        number={i + 1}
+                        data={item}
+                        handlePopover={togglePopover}
+                      />
+                    </motion.div>
+                  ))}
+                </div>
+              )}
+            </>
+          ) : (
+            <>
+              {[...Array(10)].map((i) => (
+                <>
+                  <FashionProductSectionSkeleton />
+                </>
               ))}
-            </div>
-          )}
-
-          {/* FOODS PRODUCTS */}
-          {page === "foods" && (
-            <div className="w-full  text-base sm:text-lg  h-auto mb-10">
-              {/* HEAD */}
-              <FoodHeadSection />
-
-              {filteredProducts.map((item, i) => (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                  key={item.id}
-                  className="my-2"
-                >
-                  <FoodsProductSection
-                    number={i + 1}
-                    data={item}
-                    handlePopover={togglePopover}
-                  />
-                </motion.div>
-              ))}
-            </div>
+            </>
           )}
         </div>
       </AnimatePresence>

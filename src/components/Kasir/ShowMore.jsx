@@ -279,9 +279,9 @@ export default function ShowMore(props) {
                                       </div>
                                       <div>{size?.size}</div> -
                                       <div>{size?.stock} pcs</div> -
-                                      <div className="text-secondary font-semibold flex flex-col items-start leading-4 justify-center">
+                                      <div className=" font-semibold flex flex-col items-start leading-4 justify-center">
                                         {discountPrice !== size?.price && (
-                                          <h1>
+                                          <h1 className="text-purple">
                                             Rp.{" "}
                                             {discountPrice?.toLocaleString()}
                                           </h1>
@@ -290,12 +290,12 @@ export default function ShowMore(props) {
                                           className={`${
                                             discountPrice !== size?.price &&
                                             "line-through opacity-70"
-                                          }`}
+                                          } text-secondary `}
                                         >
                                           Rp. {size?.price?.toLocaleString()}
                                         </h1>
                                         {cashBackTotal !== 0 && (
-                                          <h1 className="text-primaryThin">
+                                          <h1 className="text-orange">
                                             +Rp.{" "}
                                             {cashBackTotal?.toLocaleString()}
                                           </h1>

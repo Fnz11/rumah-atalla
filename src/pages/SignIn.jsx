@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import CustomToast from "../components/CustomToast";
 
 export default function SignIn() {
@@ -71,7 +71,6 @@ export default function SignIn() {
 
   return (
     <>
-      <Toaster />
       <div className="overflow-hidden relative h-screen w-screen sm:justify-start items-center justify-center">
         <img
           src="/Header.jpg"

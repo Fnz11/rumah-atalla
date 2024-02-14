@@ -1,9 +1,9 @@
 /* eslint-disable no-unused-vars */
 import axios from "axios";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Button from "../Button";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import CustomToast from "../../components/CustomToast";
 import { Swiper, SwiperSlide } from "swiper/react";
 import ReadMoreDescription from "../ReadMoreDescription";
@@ -424,7 +424,6 @@ export default function FashionProductPopover(props) {
 
   return (
     <>
-      <Toaster />
       <AnimatePresence>
         {(props.showPopover === "add" || props.showPopover === "edit") &&
           props.popoverType === "fashions" && (

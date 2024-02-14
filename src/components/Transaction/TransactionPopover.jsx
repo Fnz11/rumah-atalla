@@ -3,7 +3,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import TransactionPopoverSection from "./TransactionPopoverSection";
 import { motion, AnimatePresence } from "framer-motion";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import CustomToast from "../../components/CustomToast";
 import BlackScreenPopover from "../BlackScreenPopover";
 import LoadingPopover from "../LoadingPopover";
@@ -72,7 +72,6 @@ export default function TransactionPopover(props) {
 
   return (
     <>
-      <Toaster />
       <AnimatePresence>
         {props.showPopover && (
           <div className="fixed z-[1000] top-0 left-0 w-screen h-screen flex items-center justify-center">
@@ -136,6 +135,7 @@ export default function TransactionPopover(props) {
                   <div className="flex flex-col text-[0.7rem] ml-2  sm:text-sm">
                     <PopoverDetail
                       left={"Price: "}
+                      className={"font-semibold text-secondary"}
                       right={"Rp." + props?.data?.totalAmount?.toLocaleString()}
                     />
 
@@ -143,7 +143,7 @@ export default function TransactionPopover(props) {
                       props.data.totalAmount && (
                       <PopoverDetail
                         left={"Discount: "}
-                        className={"text-secondary"}
+                        className={"text-purple font-semibold"}
                         right={
                           "Rp." +
                           (
@@ -156,7 +156,7 @@ export default function TransactionPopover(props) {
                     {props?.data?.totalCashback > 0 && (
                       <PopoverDetail
                         left={"Cashback: "}
-                        className={"text-primaryNormal"}
+                        className={"text-orange font-semibold"}
                         right={
                           "+Rp." + props?.data?.totalCashback?.toLocaleString()
                         }

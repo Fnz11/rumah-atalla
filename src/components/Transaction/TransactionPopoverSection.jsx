@@ -85,7 +85,7 @@ export default function TransactionPopoverSection({ item: props, promos }) {
         <div className="w-[22.5%] flex items-center font-bold  drop-shadow-sm">
           <div className="flex flex-col ml-1  font-semibold sm:">
             {props?.discount != props.price && (
-              <span className="text-secondary -mb-1">
+              <span className="text-purple -mb-1">
                 Rp.{props?.discount?.toLocaleString()}
               </span>
             )}
@@ -98,7 +98,7 @@ export default function TransactionPopoverSection({ item: props, promos }) {
               Rp.{(props.price / props.qty).toLocaleString()}
             </span>
             {props?.cashback > 0 && (
-              <span className="text-primaryThin  text-center">
+              <span className="text-orange text-center">
                 +Rp.{props?.cashback?.toLocaleString()}
               </span>
             )}
@@ -107,7 +107,7 @@ export default function TransactionPopoverSection({ item: props, promos }) {
         <div className="w-[22.5%] flex items-center   drop-shadow-sm f">
           <div className="flex flex-col ml-1 font-semibold sm:">
             {props?.discount != props.price && (
-              <span className="text-secondary -mb-1">
+              <span className="text-purple -mb-1">
                 Rp.{props?.discount?.toLocaleString()}
               </span>
             )}
@@ -120,7 +120,7 @@ export default function TransactionPopoverSection({ item: props, promos }) {
               Rp.{props.price?.toLocaleString()}
             </span>
             {props?.cashback > 0 && (
-              <span className="text-primaryThin text-center">
+              <span className="text-orange text-center">
                 +Rp.{(props?.cashback * props.qty)?.toLocaleString()}
               </span>
             )}

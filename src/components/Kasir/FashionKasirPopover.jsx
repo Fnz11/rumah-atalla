@@ -74,7 +74,7 @@ export default function FashionKasirPopover({
     return (
       <div className="flex flex-col leading-4">
         {props?.size?.discountPrice != props.price && (
-          <span className="text-secondary ">
+          <span className="text-purple ">
             Rp. {props?.size?.discountPrice?.toLocaleString()}
           </span>
         )}
@@ -87,7 +87,7 @@ export default function FashionKasirPopover({
           Rp. {props.price?.toLocaleString()}
         </span>
         {props?.size?.cashBackTotal > 0 && (
-          <span className="text-primaryThin  text-center">
+          <span className="text-orange  text-center">
             + Rp. {props?.size?.cashBackTotal?.toLocaleString()}
           </span>
         )}
@@ -99,7 +99,7 @@ export default function FashionKasirPopover({
     return (
       <div className="flex flex-col leading-4">
         {props?.size?.discountPrice != props.price && (
-          <span className="text-secondary ">
+          <span className="text-purple ">
             Rp. {(props?.size?.discountPrice * quantity)?.toLocaleString()}
           </span>
         )}
@@ -112,7 +112,7 @@ export default function FashionKasirPopover({
           Rp. {(props.price * quantity)?.toLocaleString()}
         </span>
         {props?.size?.cashBackTotal > 0 && (
-          <span className="text-primaryThin  text-center">
+          <span className="text-orange  text-center">
             + Rp. {(props?.size?.cashBackTotal * quantity)?.toLocaleString()}
           </span>
         )}

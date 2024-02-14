@@ -172,15 +172,16 @@ export default function PromoControl() {
               />
               {/* DOWNLOAD  */}
               <Button
-                className="min-w-[2rem] w-[3rem] scale-[0.95]"
-                variant={"green"}
-                onClick={() => handleDownload()}
+                variant="green"
+                className={"max-sm:min-w-[3rem]"}
+                onClick={handleDownload}
               >
-                <i className="fa-solid fa-file-arrow-down fa-lg"></i>
+                <i className="fa-solid fa-file-arrow-down mr-2"></i>
+                <span className="max-sm:hidden">Download</span>
               </Button>
-              {/* ADD */}
               <Button
-                className="min-w-[2rem] w-[3rem] scale-[0.95] pl-[0.9rem]"
+                variant="secondary"
+                className={"max-sm:min-w-[3rem]"}
                 onClick={() =>
                   togglePopover({
                     param: "add",
@@ -189,7 +190,8 @@ export default function PromoControl() {
                   })
                 }
               >
-                <i className="fa-solid fa-plus fa-lg"></i>
+                <i className="fa-solid fa-plus mr-2"></i>
+                <span className="max-sm:hidden">Add</span>
               </Button>
             </div>
           </div>
@@ -230,49 +232,55 @@ export default function PromoControl() {
               Tipe
             </h1>
           </div>
-          {isLoading &&
-            [...Array(10)].map((i) => (
-              <>
-                <PromoSectionSkeleton />
-              </>
-            ))}
           <AnimatePresence>
-            {page === "fashions" ? (
+            {filteredFashionPromos?.length > 0 ? (
               <>
-                {filteredFashionPromos.map((item) => (
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                    key={item.id}
-                    className="my-2"
-                  >
-                    <PromoSection
-                      item={item}
-                      handlePopover={togglePopover}
-                      type={"fashions"}
-                    />
-                  </motion.div>
-                ))}
+                {page === "fashions" ? (
+                  <>
+                    {filteredFashionPromos.map((item) => (
+                      <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.2 }}
+                        key={item.id}
+                        className="my-2"
+                      >
+                        <PromoSection
+                          item={item}
+                          handlePopover={togglePopover}
+                          type={"fashions"}
+                        />
+                      </motion.div>
+                    ))}
+                  </>
+                ) : (
+                  <>
+                    {filteredFoodPromos.map((item) => (
+                      <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.2 }}
+                        key={item.id}
+                        className="my-2"
+                      >
+                        <PromoSection
+                          item={item}
+                          handlePopover={togglePopover}
+                          type={"foods"}
+                        />
+                      </motion.div>
+                    ))}
+                  </>
+                )}
               </>
             ) : (
               <>
-                {filteredFoodPromos.map((item) => (
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                    key={item.id}
-                    className="my-2"
-                  >
-                    <PromoSection
-                      item={item}
-                      handlePopover={togglePopover}
-                      type={"foods"}
-                    />
-                  </motion.div>
+                {[...Array(10)].map((i) => (
+                  <>
+                    <PromoSectionSkeleton />
+                  </>
                 ))}
               </>
             )}

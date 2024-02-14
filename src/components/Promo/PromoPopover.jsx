@@ -3,7 +3,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Button from "../Button";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import CustomToast from "../../components/CustomToast";
 import BlackScreenPopover from "../BlackScreenPopover";
 import LoadingPopover from "../LoadingPopover";
@@ -286,7 +286,6 @@ export default function PromoPopover(props) {
 
   return (
     <>
-      <Toaster />
       <AnimatePresence>
         {(props.showPopover === "add" || props.showPopover === "edit") && (
           <div className="fixed z-[1000] top-0 left-0 w-screen h-screen flex items-center justify-center">

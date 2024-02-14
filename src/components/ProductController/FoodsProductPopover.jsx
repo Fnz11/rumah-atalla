@@ -1,9 +1,9 @@
 /* eslint-disable no-unused-vars */
 import axios from "axios";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Button from "../Button";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import CustomToast from "../../components/CustomToast";
 
 /* eslint-disable react/prop-types */
@@ -314,9 +314,9 @@ export default function FoodsProductPopover(props) {
                             className="w-full opacity-0 absolute h-full cursor-pointer"
                             // className="block w-full bg-white focus:outline-white p-3 text-sm text-primaryDark border rounded-lg"
                           />
-                          {formData.imageUrl.url ? (
+                          {formData?.imageUrl?.url ? (
                             <img
-                              src={formData.imageUrl.url}
+                              src={formData?.imageUrl?.url}
                               alt="Image Preview"
                               className="block h-full w-full object-cover "
                             />

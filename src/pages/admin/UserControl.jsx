@@ -5,7 +5,7 @@ import UserControllerSection from "../../components/UserController/UserControlle
 import UserControllerPopover from "../../components/UserController/UserControllerPopover";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { AnimatePresence, motion } from "framer-motion";
+import {  motion } from "framer-motion";
 import {
   Bar,
   BarChart,
@@ -17,8 +17,6 @@ import {
   YAxis,
 } from "recharts";
 import Button from "../../components/Button";
-import toast, { Toaster } from "react-hot-toast";
-import CustomToast from "../../components/CustomToast";
 import Title from "../../components/Title";
 import UserControllerSectionSkeleton from "../../components/UserController/UserControllerSectionSkeleton";
 import Title2 from "../../components/Title2";
@@ -274,29 +272,32 @@ export default function UserControl() {
             {/* <h1 className="text-center text-white w-[15%] py-6">Status</h1> */}
           </div>
 
-          {isLoading &&
-            [...Array(10)].map((i) => (
-              <>
-                <UserControllerSectionSkeleton />
-              </>
-            ))}
-
-          {filteredUsers.map((item, i) => (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              key={item._id}
-              className="my-2"
-            >
-              <UserControllerSection
-                number={i + 1}
-                handlePopover={togglePopover}
-                item={item}
-              />
-            </motion.div>
-          ))}
+          {filteredUsers?.length > 0 ? (
+            filteredUsers.map((item, i) => (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }}
+                key={item._id}
+                className="my-2"
+              >
+                <UserControllerSection
+                  number={i + 1}
+                  handlePopover={togglePopover}
+                  item={item}
+                />
+              </motion.div>
+            ))
+          ) : (
+            <>
+              {[...Array(10)].map((i) => (
+                <>
+                  <UserControllerSectionSkeleton />
+                </>
+              ))}
+            </>
+          )}
 
           <div></div>
         </div>
