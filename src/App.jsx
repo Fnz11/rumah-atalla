@@ -22,6 +22,7 @@ import NotFound4040 from "./pages/NotFound404";
 
 import { getToken } from "firebase/messaging";
 import { messaging } from "./lib/FirebaseConfigure";
+import axios from "axios";
 
 const router = createBrowserRouter([
   {
@@ -93,9 +94,9 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  const { VITE_APP_VAPID_KEY } = import.meta.env;
+  const { VITE_APP_VAPID_KEY, VITE_APP_DB_URL } = import.meta.env;
 
-  async function requestPermission() {
+  async function requestPermission({ userToken, userId }) {
     //requesting permission using Notification API
     const permission = await Notification.requestPermission();
 
@@ -105,8 +106,32 @@ function App() {
       });
 
       //We can send token to server
-      console.log("Token generated : ", token);
-      alert("Token generated");
+      axios
+        .get(VITE_APP_DB_URL + "/users/" + userId, {
+          headers: { Authorization: userToken },
+        })
+        .then((res) => {
+          if (res.data.role === "admin") return;
+          const oldFCMToken = res.data.FCMToken ?? [];
+          if (oldFCMToken.includes(token)) return;
+          axios
+            .patch(
+              VITE_APP_DB_URL + "/users/" + userId,
+              {
+                FCMToken: [...oldFCMToken, token],
+              },
+              {
+                headers: { Authorization: userToken },
+              }
+            )
+            .then((res) => {
+              console.log("Successfully added new token", token);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        });
+      console.log("Token generated : ", token, userToken, userId);
     } else if (permission === "denied") {
       //notifications are blocked
       alert("You denied for the notification");
@@ -114,7 +139,21 @@ function App() {
   }
 
   React.useEffect(() => {
-    requestPermission();
+    let user;
+    let stop;
+    setTimeout(() => {
+      if (!stop) {
+        user = JSON.parse(localStorage.getItem("user"));
+        if (user) {
+          const token = localStorage.getItem("token");
+          if (user.role === "owner") {
+            requestPermission({ userToken: token, userId: user.userId });
+          }
+          stop = true;
+        }
+      }
+    }, 1000);
+    clearInterval();
   }, []);
 
   return (
