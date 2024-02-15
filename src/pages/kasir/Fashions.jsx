@@ -165,45 +165,45 @@ export default function FashionsKasir() {
   // }, []);
 
   const handleBuy = async () => {
-    console.log("BUUYY", formData);
+    // console.log("BUUYY", formData);
     // subscribeToTopic();
-    // setIsLoading(true);
-    // await axios
-    //   .post(DBURL + "/transactions", formData, {
-    //     headers: {
-    //       Authorization: token,
-    //     },
-    //   })
-    //   .then(async (res) => {
-    //     toast.custom((t) => (
-    //       <CustomToast t={t} message="Transaction successed" type="success" />
-    //     ));
-    //     updateUser();
-    //     setFormData({
-    //       buyer: "",
-    //       kasir: "",
-    //       kasirId: "",
-    //       type: "fashions",
-    //       store: "web",
-    //       products: [],
-    //       totalAmount: 0,
-    //       qty: 0,
-    //       status: "pending",
-    //     });
-    //     fetchFashionProducts();
-    //     setFashionCartItems([]);
-    //     setBuyer("");
-    //     togglePopover();
-    //   })
-    //   .catch((error) => {
-    //     toast.custom((t) => (
-    //       <CustomToast t={t} message="Transaction failed" type="failed" />
-    //     ));
-    //     console.error(error);
-    //   })
-    //   .finally(() => {
-    //     setIsLoading(false);
-    //   });
+    setIsLoading(true);
+    await axios
+      .post(DBURL + "/transactions", formData, {
+        headers: {
+          Authorization: token,
+        },
+      })
+      .then(async (res) => {
+        toast.custom((t) => (
+          <CustomToast t={t} message="Transaction successed" type="success" />
+        ));
+        updateUser();
+        setFormData({
+          buyer: "",
+          kasir: "",
+          kasirId: "",
+          type: "fashions",
+          store: "web",
+          products: [],
+          totalAmount: 0,
+          qty: 0,
+          status: "pending",
+        });
+        fetchFashionProducts();
+        setFashionCartItems([]);
+        setBuyer("");
+        togglePopover();
+      })
+      .catch((error) => {
+        toast.custom((t) => (
+          <CustomToast t={t} message="Transaction failed" type="failed" />
+        ));
+        console.error(error);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   //   POPOVER
