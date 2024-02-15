@@ -12,14 +12,8 @@ const firebaseConfig = {
   measurementId: "G-ETTVXTE6V6",
 };
 
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const messaging = getMessaging(app);
 
-// Function untuk subscribe topic
-const subscribeToTopic = () => {
-  console.log("TEssS", messaging);
-  // messaging?.subscribeToTopic("owner_notifications");
-};
-
-export default messaging;
-export { subscribeToTopic };
+// Messaging service
+export const messaging = getMessaging(app);

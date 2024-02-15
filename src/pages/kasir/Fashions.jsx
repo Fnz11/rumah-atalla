@@ -10,9 +10,9 @@ import toast from "react-hot-toast";
 import CustomToast from "../../components/CustomToast";
 import Title from "../../components/Title";
 import ShowMore from "../../components/Kasir/ShowMore";
-import { getToken } from "firebase/messaging";
-import messaging from "../../lib/FirebaseConfigure";
-import { subscribeToTopic } from "../../lib/FirebaseConfigure";
+// import { getToken } from "firebase/messaging";
+// import messaging from "../../lib/FirebaseConfigure";
+// import { subscribeToTopic } from "../../lib/FirebaseConfigure";
 import Title2 from "../../components/Title2";
 import FashionKasirSection from "../../components/Kasir/FashionKasirSection";
 import FashionKasirSectionSkeleton from "../../components/Kasir/FashionKasirSectionSkeleton";
@@ -159,14 +159,14 @@ export default function FashionsKasir() {
     }));
   }, [productsForm, buyer]);
 
-  useEffect(() => {
-    // messaging.subscribeToTopic("notifications");
-    subscribeToTopic();
-  }, []);
+  // useEffect(() => {
+  //   // messaging.subscribeToTopic("notifications");
+  //   subscribeToTopic();
+  // }, []);
 
   const handleBuy = async () => {
     console.log("BUUYY", formData);
-    subscribeToTopic();
+    // subscribeToTopic();
     // setIsLoading(true);
     // await axios
     //   .post(DBURL + "/transactions", formData, {
