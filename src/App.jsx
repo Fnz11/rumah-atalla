@@ -20,6 +20,9 @@ import FashionsKasir from "./pages/kasir/Fashions";
 import "swiper/css";
 import NotFound4040 from "./pages/NotFound404";
 
+import { getToken } from "firebase/messaging";
+import messaging from "./lib/FirebaseConfigure";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -90,6 +93,26 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
+  const { VITE_APP_VAPID_KEY } = import.meta.env;
+
+  async function requestPermission() {
+    //requesting permission using Notification API
+    const permission = await Notification.requestPermission();
+    console.log("VAPID", VITE_APP_VAPID_KEY);
+    if (permission === "granted") {
+      const token = await getToken(messaging, {
+        vapidKey: VITE_APP_VAPID_KEY,
+      });
+      console.log("Token generated : ", token);
+    } else if (permission === "denied") {
+      alert("You denied for the notification");
+    }
+  }
+
+  React.useEffect(() => {
+    requestPermission();
+  }, []);
+
   return (
     <>
       <React.StrictMode>
