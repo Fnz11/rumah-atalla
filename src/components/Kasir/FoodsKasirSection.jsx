@@ -47,12 +47,22 @@ export default function FoodsKasirSection({
         <div className="relative w-full overflow-hidden rounded-2xl bg-gray-200 group-hover:opacity-[0.85] transition-all aspect-square">
           <div className="absolute h-full w-full z-[1] flex items-end">
             {promos.map((item, index) => {
-              if (item?.products?.includes(props?._id?.toString())) {
+              let included = false;
+              const currentDate = new Date();
+
+              if (
+                item.products.includes(props._id.toString()) &&
+                new Date(item.date.startDate) < currentDate &&
+                new Date(item.date.endDate) > currentDate
+              ) {
+                included = true;
+              }
+              if (included) {
                 return (
                   <img
                     key={index}
-                    src={item.imageUrl.url}
-                    className="h-12 mr-1 drop-shadow-xl"
+                    src={item?.imageUrl?.url}
+                    className="h-6 sm:h-12 mr-1 aspect-square object-cover object-center drop-shadow-xl rounded-sm"
                     alt=""
                   />
                 );

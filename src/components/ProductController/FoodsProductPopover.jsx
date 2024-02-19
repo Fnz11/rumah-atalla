@@ -1,10 +1,17 @@
 /* eslint-disable no-unused-vars */
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useDebugValue, useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Button from "../Button";
 import toast from "react-hot-toast";
 import CustomToast from "../../components/CustomToast";
+import LogoPopover from "../LogoPopover";
+import LoadingPopover from "../LoadingPopover";
+import BlackScreenPopover from "../BlackScreenPopover";
+import Title from "../Title";
+import TextField from "../TextField";
+import Title2 from "../Title2";
+import ConfirmDelete from "../ConfirmDelete";
 
 /* eslint-disable react/prop-types */
 export default function FoodsProductPopover(props) {
@@ -147,8 +154,14 @@ export default function FoodsProductPopover(props) {
     }
   };
 
+  const [isLoadingDelete, setIsLoadingDelete] = useState(false);
+  const [isDeleteConfirmShow, setIsDeleteConfirmShow] = useState(false);
+  const handleDeleteConfirm = () => {
+    setIsDeleteConfirmShow(!isDeleteConfirmShow);
+  };
+
   const handleDelete = async () => {
-    setIsLoading(true);
+    setIsLoadingDelete(true);
     await axios
       .delete(DBURL + "/foods/" + id.toString(), {
         headers: {
@@ -174,20 +187,25 @@ export default function FoodsProductPopover(props) {
         ));
       })
       .finally(() => {
-        setIsLoading(false);
+        setIsLoadingDelete(false);
+        setIsDeleteConfirmShow(false);
       });
   };
   return (
     <>
+      <ConfirmDelete
+        onConfirm={handleDelete}
+        onCancel={handleDeleteConfirm}
+        isShow={isDeleteConfirmShow}
+        isLoading={isLoadingDelete}
+        text={formData?.name}
+      />
+
       <AnimatePresence>
         {(props.showPopover === "add" || props.showPopover === "edit") &&
           props.popoverType === "foods" && (
             <div className="fixed z-[1000] top-0 left-0 w-screen h-screen flex items-center justify-center">
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.2 }}
+              <BlackScreenPopover
                 onClick={() => {
                   props.togglePopover("", null);
                   setFormData({
@@ -199,10 +217,9 @@ export default function FoodsProductPopover(props) {
                     price: "",
                   });
                 }}
-                className={` ${
-                  isLoading && "pointer-events-none"
-                } w-screen h-screen bg-[rgba(0,0,0,0.5)] backdrop-blur-sm absolute`}
-              ></motion.div>
+                isLoading={isLoading}
+              />
+
               <motion.div
                 initial={{ opacity: 0, y: -100 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -210,54 +227,20 @@ export default function FoodsProductPopover(props) {
                 transition={{ duration: 0.3 }}
                 className={` ${
                   isLoading && "pointer-events-none"
-                } relative overflow-hidden bg-section  w-[24rem] px-7 sm:px-10 sm:w-[40rem] mx-10 h-[39rem] sm:h-[42rem] p-5 z-[1] rounded-2xl shadow-md`}
+                } relative overflow-hidden bg-section  w-[24rem] px-7 sm:px-10  pt-0 sm:w-[40rem] mx-10 h-[39rem] sm:h-[42rem] p-5 z-[1] rounded-2xl shadow-md`}
               >
                 {/* LOADING */}
-                {isLoading && (
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                    className="absolute w-full h-full top-0 z-[100] left-0 flex items-center justify-center"
-                  >
-                    <div className="w-full h-full bg-[rgba(255,255,255,0.4)] absolute top-0 left-0 scale-[1.2]"></div>
-                    <div className="relative flex w-full h-full items-center justify-center">
-                      <motion.img
-                        initial={{ scale: 0 }}
-                        animate={{ scale: 1 }}
-                        exit={{ scale: 0 }}
-                        transition={{ duration: 0.3, delay: 0.2 }}
-                        src="/loading.png"
-                        className="h-14 opacity-[0.7] animate-spin"
-                        alt=""
-                      />
-                    </div>
-                  </motion.div>
-                )}
+                {isLoading && <LoadingPopover />}
 
                 {/* LOGO */}
-                <div className="flex w-full -ml-2 justify-center drop-shadow items-center ">
-                  <img
-                    src="/LogoGreen.png"
-                    className="scale-[2.3] pointer-events-none w-[8rem] h-[8rem] aspect-square"
-                    alt="Logo"
-                  />
-                  <div className="uppercase ml-1 text-[2.8rem] leading-[3rem] mb-[0.5rem] text-primaryNormal hidden sm:block">
-                    <h1 className="-mb-[0.4rem]">Rumah</h1>
-                    <h1 className="font-bold">Atalla</h1>
-                    <div className="w-[120%] h-[0.3rem] -my-[0.15rem] rounded-md bg-primaryNormal" />
-                  </div>
-                </div>
+                <LogoPopover />
 
-                <div className="flex items-center gap-3 w-full mb-2">
-                  <div className="w-full h-1 bg-secondary rounded-[0.05rem] mt-3 shadow-md"></div>
-                  <h1 className="w-[37rem] sm:w-[35rem] text-[1.6rem] sm:text-[2rem] text-center font-semibold text-primaryNormal drop-shadow-md">
-                    {props.showPopover === "add" ? "Add Foods" : "Edit Foods"}
-                  </h1>
-                  <div className="w-full h-1 bg-secondary rounded-[0.05rem] mt-3 shadow-md"></div>
-                </div>
-
+                <Title
+                  title={
+                    props.showPopover === "add" ? "Add Foods" : "Edit Foods"
+                  }
+                  className={" my-3"}
+                />
                 {/* FORM */}
                 <form action="" className="flex flex-col gap-3">
                   <div className="flex w-full gap-3">
@@ -413,7 +396,7 @@ export default function FoodsProductPopover(props) {
                     {props.showPopover === "edit" && (
                       <Button
                         variant="red"
-                        onClick={() => handleDelete()}
+                        onClick={handleDeleteConfirm}
                         className={`ml-auto`}
                       >
                         <i className="fa-solid fa-trash mr-2 scale-[0.95] fa-lg"></i>{" "}

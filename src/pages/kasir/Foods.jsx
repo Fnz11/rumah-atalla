@@ -109,6 +109,49 @@ export default function FoodsKasir() {
   const [productsForm, setProductsForm] = useState([]);
   const [foodsCartItems, setFoodsCartItems] = useState([]);
   const [drinksCartItems, setDrinksCartItems] = useState([]);
+
+  const handleProductsForm = (product) => {
+    console.log(product);
+    let newProductForm = [];
+    productsForm.map((item) => {
+      if (item.productId !== product) {
+        newProductForm.push(item);
+      }
+    });
+    setProductsForm(newProductForm);
+
+    let newCartItems = [];
+    if (foodsCartItems.includes(product)) {
+      newCartItems = foodsCartItems.filter((i) => i !== product);
+      setFoodsCartItems(newCartItems);
+    } else if (drinksCartItems.includes(product)) {
+      newCartItems = drinksCartItems.filter((i) => i !== product);
+      setDrinksCartItems(newCartItems);
+    }
+
+    let newFoodsPop = [];
+    foodsPop?.map((food) => {
+      if (food._id !== product) {
+        newFoodsPop.push(food);
+      }
+    });
+    setFoodsPop(newFoodsPop);
+
+    let newDrinksPop = [];
+    drinksPop?.map((drink) => {
+      if (drink._id !== product) {
+        newDrinksPop.push(drink);
+      }
+    });
+    setDrinksPop(newDrinksPop);
+  };
+
+  useEffect(() => {
+    if (productsForm.length <= 0 && showPopover) {
+      togglePopover();
+    }
+  }, [productsForm]);
+
   const addToCart = (item, type) => {
     if (type === "foods") {
       if (foodsCartItems.includes(item)) {
@@ -294,7 +337,17 @@ export default function FoodsKasir() {
       // console.log("INI PRODUCRT", product)
 
       promos.forEach((promo) => {
-        if (promo.products.includes(product._id.toString())) {
+        let included;
+        const currentDate = new Date();
+
+        if (
+          promo.products.includes(product._id.toString()) &&
+          new Date(promo.date.startDate) < currentDate &&
+          new Date(promo.date.endDate) > currentDate
+        ) {
+          included = true;
+        }
+        if (included) {
           if (promo.type === "diskon persentase") {
             discount -= (discount * promo.value) / 100;
           } else if (promo.type === "diskon nominal") {
@@ -324,7 +377,17 @@ export default function FoodsKasir() {
       let cashbackValue = 0;
       let promoInclude = [];
       promos.map((promo) => {
-        if (promo.products.includes(item._id.toString())) {
+        let included = false;
+        const currentDate = new Date();
+
+        if (
+          promo.products.includes(item._id.toString()) &&
+          new Date(promo.date.startDate) < currentDate &&
+          new Date(promo.date.endDate) > currentDate
+        ) {
+          included = true;
+        }
+        if (included) {
           promoInclude.push(promo._id.toString());
           if (promo.type === "diskon persentase") {
             discountValue -= (discountValue * promo.value) / 100;
@@ -433,6 +496,7 @@ export default function FoodsKasir() {
                           handleTotal={updateProductQty}
                           item={item}
                           productsForm={productsForm}
+                          handleProductsForm={handleProductsForm}
                           promos={promos}
                         />
                       </div>
@@ -453,6 +517,7 @@ export default function FoodsKasir() {
                           handleTotal={updateProductQty}
                           item={item}
                           productsForm={productsForm}
+                          handleProductsForm={handleProductsForm}
                           promos={promos}
                         />
                       </div>

@@ -17,6 +17,8 @@ import {
   ResponsiveContainer,
   LabelList,
 } from "recharts";
+import format from "date-fns/format";
+import idLocale from "date-fns/locale/id";
 import Button from "../../components/Button";
 import Title from "../../components/Title";
 import Title2 from "../../components/Title2";
@@ -33,147 +35,147 @@ export default function Transactions() {
   // OWNER
   const user = JSON.parse(localStorage.getItem("user"));
 
-  const transactions = [
-    {
-      kasir: "mamaraffi",
-      id: 1,
-      store: "web",
-      buyer: "John Doe",
-      products: [
-        { productId: "657aba8acb516d87717e8170", qty: 2, price: 10000 },
-      ],
-      _id: "293R92ND938N2DRNUR000000001",
-      qty: 3,
-      status: "successed",
-      totalAmount: "150000",
-    },
-    {
-      kasir: "mamaraffi",
+  // const transactions = [
+  //   {
+  //     kasir: "mamaraffi",
+  //     id: 1,
+  //     store: "web",
+  //     buyer: "John Doe",
+  //     products: [
+  //       { productId: "657aba8acb516d87717e8170", qty: 2, price: 10000 },
+  //     ],
+  //     _id: "293R92ND938N2DRNUR000000001",
+  //     qty: 3,
+  //     status: "successed",
+  //     totalAmount: "150000",
+  //   },
+  //   {
+  //     kasir: "mamaraffi",
 
-      id: 2,
-      store: "shopee",
-      buyer: "Alice Smith",
-      products: [
-        { productId: "657aba8acb516d87717e8170", qty: 2, price: 10000 },
-      ],
-      _id: "293R92ND938N2DRNUR000000002",
-      qty: 3,
-      status: "pending",
-      totalAmount: "90000",
-    },
-    {
-      kasir: "mamaraffi",
+  //     id: 2,
+  //     store: "shopee",
+  //     buyer: "Alice Smith",
+  //     products: [
+  //       { productId: "657aba8acb516d87717e8170", qty: 2, price: 10000 },
+  //     ],
+  //     _id: "293R92ND938N2DRNUR000000002",
+  //     qty: 3,
+  //     status: "pending",
+  //     totalAmount: "90000",
+  //   },
+  //   {
+  //     kasir: "mamaraffi",
 
-      id: 3,
-      store: "tokopedia",
-      buyer: "Bob Johnson",
-      products: [
-        { productId: "657aba8acb516d87717e8170", qty: 2, price: 10000 },
-      ],
-      _id: "293R92ND938N2DRNUR000000003",
-      qty: 3,
-      status: "canceled",
-      totalAmount: "210000",
-    },
-    {
-      kasir: "mamaraffi",
+  //     id: 3,
+  //     store: "tokopedia",
+  //     buyer: "Bob Johnson",
+  //     products: [
+  //       { productId: "657aba8acb516d87717e8170", qty: 2, price: 10000 },
+  //     ],
+  //     _id: "293R92ND938N2DRNUR000000003",
+  //     qty: 3,
+  //     status: "canceled",
+  //     totalAmount: "210000",
+  //   },
+  //   {
+  //     kasir: "mamaraffi",
 
-      id: 4,
-      store: "web",
-      buyer: "Eva Brown",
-      products: [
-        { productId: "657aba8acb516d87717e8170", qty: 2, price: 10000 },
-      ],
-      _id: "293R92ND938N2DRNUR000000004",
-      qty: 3,
-      status: "pending",
-      totalAmount: "75000",
-    },
-    {
-      kasir: "mamaraffi",
+  //     id: 4,
+  //     store: "web",
+  //     buyer: "Eva Brown",
+  //     products: [
+  //       { productId: "657aba8acb516d87717e8170", qty: 2, price: 10000 },
+  //     ],
+  //     _id: "293R92ND938N2DRNUR000000004",
+  //     qty: 3,
+  //     status: "pending",
+  //     totalAmount: "75000",
+  //   },
+  //   {
+  //     kasir: "mamaraffi",
 
-      id: 5,
-      store: "shopee",
-      buyer: "Michael Davis",
-      products: [
-        { productId: "657aba8acb516d87717e8170", qty: 2, price: 10000 },
-      ],
-      _id: "293R92ND938N2DRNUR000000005",
-      qty: 3,
-      status: "pending",
-      totalAmount: "130005",
-    },
-    {
-      kasir: "mamaraffi",
+  //     id: 5,
+  //     store: "shopee",
+  //     buyer: "Michael Davis",
+  //     products: [
+  //       { productId: "657aba8acb516d87717e8170", qty: 2, price: 10000 },
+  //     ],
+  //     _id: "293R92ND938N2DRNUR000000005",
+  //     qty: 3,
+  //     status: "pending",
+  //     totalAmount: "130005",
+  //   },
+  //   {
+  //     kasir: "mamaraffi",
 
-      id: 6,
-      store: "tokopedia",
-      buyer: "Olivia Wilson",
-      products: [
-        { productId: "657aba8acb516d87717e8170", qty: 2, price: 10000 },
-      ],
-      _id: "293R92ND938N2DRNUR000000006",
-      qty: 3,
-      status: "pending",
-      totalAmount: "180000",
-    },
-    {
-      kasir: "mamaraffi",
+  //     id: 6,
+  //     store: "tokopedia",
+  //     buyer: "Olivia Wilson",
+  //     products: [
+  //       { productId: "657aba8acb516d87717e8170", qty: 2, price: 10000 },
+  //     ],
+  //     _id: "293R92ND938N2DRNUR000000006",
+  //     qty: 3,
+  //     status: "pending",
+  //     totalAmount: "180000",
+  //   },
+  //   {
+  //     kasir: "mamaraffi",
 
-      id: 7,
-      store: "web",
-      buyer: "Sophia Martinez",
-      products: [
-        { productId: "657aba8acb516d87717e8170", qty: 2, price: 10000 },
-      ],
-      _id: "293R92ND938N2DRNUR000000007",
-      qty: 3,
-      status: "successed",
-      totalAmount: "160005",
-    },
-    {
-      kasir: "mamaraffi",
+  //     id: 7,
+  //     store: "web",
+  //     buyer: "Sophia Martinez",
+  //     products: [
+  //       { productId: "657aba8acb516d87717e8170", qty: 2, price: 10000 },
+  //     ],
+  //     _id: "293R92ND938N2DRNUR000000007",
+  //     qty: 3,
+  //     status: "successed",
+  //     totalAmount: "160005",
+  //   },
+  //   {
+  //     kasir: "mamaraffi",
 
-      id: 8,
-      store: "shopee",
-      buyer: "William Anderson",
-      products: [
-        { productId: "657aba8acb516d87717e8170", qty: 2, price: 10000 },
-      ],
-      _id: "293R92ND938N2DRNUR000000008",
-      qty: 3,
-      status: "canceled",
-      totalAmount: "100005",
-    },
-    {
-      kasir: "mamaraffi",
+  //     id: 8,
+  //     store: "shopee",
+  //     buyer: "William Anderson",
+  //     products: [
+  //       { productId: "657aba8acb516d87717e8170", qty: 2, price: 10000 },
+  //     ],
+  //     _id: "293R92ND938N2DRNUR000000008",
+  //     qty: 3,
+  //     status: "canceled",
+  //     totalAmount: "100005",
+  //   },
+  //   {
+  //     kasir: "mamaraffi",
 
-      id: 9,
-      store: "tokopedia",
-      buyer: "Emma Garcia",
-      products: [
-        { productId: "657aba8acb516d87717e8170", qty: 2, price: 10000 },
-      ],
-      _id: "293R92ND938N2DRNUR000000009",
-      qty: 3,
-      status: "successed",
-      totalAmount: "240000",
-    },
-    {
-      kasir: "mamaraffi",
+  //     id: 9,
+  //     store: "tokopedia",
+  //     buyer: "Emma Garcia",
+  //     products: [
+  //       { productId: "657aba8acb516d87717e8170", qty: 2, price: 10000 },
+  //     ],
+  //     _id: "293R92ND938N2DRNUR000000009",
+  //     qty: 3,
+  //     status: "successed",
+  //     totalAmount: "240000",
+  //   },
+  //   {
+  //     kasir: "mamaraffi",
 
-      id: 10,
-      store: "web",
-      buyer: "Isabella Thompson",
-      products: [
-        { productId: "657aba8acb516d87717e8170", qty: 2, price: 10000 },
-      ],
-      _id: "293R92ND938N2DRNUR000000010",
-      qty: 3,
-      status: "pending",
-      totalAmount: "120000",
-    },
-  ];
+  //     id: 10,
+  //     store: "web",
+  //     buyer: "Isabella Thompson",
+  //     products: [
+  //       { productId: "657aba8acb516d87717e8170", qty: 2, price: 10000 },
+  //     ],
+  //     _id: "293R92ND938N2DRNUR000000010",
+  //     qty: 3,
+  //     status: "pending",
+  //     totalAmount: "120000",
+  //   },
+  // ];
 
   // PAGE
   const [page, setPage] = useState("fashions");
@@ -209,27 +211,8 @@ export default function Transactions() {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  // FETCH PRODUCT FASHION
-  const [allProducts, setAllProducts] = useState([]);
-  // WEB
-  const [webProductsData, setWebProductsData] = useState([]);
-  const fetchWebProducts = async () => {
-    await axios
-      .get(DBURL + "/products/")
-      .then((res) => {
-        setWebProductsData(res.data);
-        setAllProducts((prevData) => [...prevData, ...res.data]);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-  useEffect(() => {
-    fetchWebProducts();
-  }, []);
-
   // FETCH TRANSACTIONS
-  const [transactionsData, setTransactionsData] = useState([...transactions]);
+  const [transactionsData, setTransactionsData] = useState([]);
   const [transactionsWeb, setTransactionsWeb] = useState([]);
   const token = localStorage.getItem("token");
   const fetchTransactions = async () => {
@@ -275,7 +258,7 @@ export default function Transactions() {
   const [endDate, setEndDate] = useState("");
 
   useEffect(() => {
-    let allTransactions = [...transactions, ...transactionsWeb];
+    let allTransactions = [...transactionsWeb];
     if (startDate && endDate) {
       allTransactions = allTransactions.filter((transaction) => {
         const transactionDate = new Date(transaction.createdAt);
@@ -291,15 +274,12 @@ export default function Transactions() {
       );
     } else {
       setTransactionsData(allTransactions);
+      setFilteredFashionTransaction(allTransactions);
     }
-  }, [transactionsWeb, startDate, endDate]);
+  }, [startDate, endDate, transactionsWeb]);
 
   //   FILTER
   const [selectedKasir, setSelectedKasir] = useState("");
-
-  const handleKasirFilterChange = (selected) => {
-    setSelectedKasir(selected);
-  };
 
   const [searchValue, setSearchValue] = useState("");
   const [idValue, setidValue] = useState("");
@@ -444,9 +424,16 @@ export default function Transactions() {
 
   const [chartData, setChartData] = useState([]);
   useEffect(() => {
+    if (page === "foods") {
+      setStoreFilters((prevFilters) => ({
+        ...prevFilters,
+        web: true,
+      }));
+    }
     function groupDataByDateRange(data) {
       const groupedData = data.reduce((result, item) => {
         if (item?.type === page) {
+          console.log(item.createdAt, new Date(item.createdAt));
           const createdAt = new Date(item.createdAt);
           const startDate = new Date(
             createdAt.getFullYear(),
@@ -504,9 +491,10 @@ export default function Transactions() {
         ...data,
       })
     );
-
+    console.log("CACACAR", transactionsData);
     setChartData(chartDataValues);
   }, [transactionsData, page]);
+  console.log("CHARTDATA", chartData, transactionsData);
 
   // DOWNLOAD DATA
   const handleDownload = async () => {
@@ -791,7 +779,7 @@ export default function Transactions() {
 
               <div>
                 <AnimatePresence>
-                  {filteredFashionTransaction.length > 0 ? (
+                  {filteredFashionTransaction.length > 0 && !isLoading ? (
                     filteredFashionTransaction.map((item) => (
                       <motion.div
                         initial={{ opacity: 0 }}
@@ -807,7 +795,7 @@ export default function Transactions() {
                         />
                       </motion.div>
                     ))
-                  ) : (
+                  ) : isLoading ? (
                     <>
                       {[...Array(10)].map((i) => (
                         <motion.div
@@ -822,6 +810,8 @@ export default function Transactions() {
                         </motion.div>
                       ))}
                     </>
+                  ) : (
+                    ""
                   )}
                 </AnimatePresence>
               </div>
@@ -832,7 +822,7 @@ export default function Transactions() {
               <TransactionFoodHeadSection />
 
               <div>
-                {filteredFashionTransaction.length > 0 ? (
+                {filteredFashionTransaction.length > 0 && !isLoading ? (
                   filteredFashionTransaction.map((item) => (
                     <motion.div
                       initial={{ opacity: 0 }}
@@ -847,7 +837,7 @@ export default function Transactions() {
                       />
                     </motion.div>
                   ))
-                ) : (
+                ) : isLoading ? (
                   <>
                     {[...Array(10)].map((i) => (
                       <motion.div
@@ -862,6 +852,8 @@ export default function Transactions() {
                       </motion.div>
                     ))}
                   </>
+                ) : (
+                  ""
                 )}
               </div>
             </>

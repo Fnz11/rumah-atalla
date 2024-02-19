@@ -10,6 +10,7 @@ import Title from "../Title";
 import LogoPopover from "../LogoPopover";
 import LoadingPopover from "../LoadingPopover";
 import BlackScreenPopover from "../BlackScreenPopover";
+import ConfirmDelete from "../ConfirmDelete";
 
 /* eslint-disable react/prop-types */
 export default function UserControllerPopover(props) {
@@ -21,6 +22,7 @@ export default function UserControllerPopover(props) {
     number: "",
     imageUrl: {},
     password: "",
+    role: "admin",
   });
 
   useEffect(() => {
@@ -30,6 +32,7 @@ export default function UserControllerPopover(props) {
         email: props.data.email,
         number: props.data.number,
         imageUrl: props.data.imageUrl,
+        role: props.data.role,
         password: "",
       });
     }
@@ -141,8 +144,14 @@ export default function UserControllerPopover(props) {
     }
   };
 
+  // DELETE
+  const [isDeleteConfirmShow, setIsDeleteConfirmShow] = useState(false);
+  const [isLoadingDelete, setIsLoadingDelete] = useState(false);
+  const handleDeleteConfirm = () => {
+    setIsDeleteConfirmShow(!isDeleteConfirmShow);
+  };
   const handleDelete = async () => {
-    setIsLoading(true);
+    setIsLoadingDelete(true);
     await axios
       .delete(DBURL + "/users/" + id.toString(), {
         headers: {
@@ -163,11 +172,19 @@ export default function UserControllerPopover(props) {
         ));
       })
       .finally(() => {
-        setIsLoading(false);
+        setIsDeleteConfirmShow(false);
+        setIsLoadingDelete(false);
       });
   };
   return (
     <>
+      <ConfirmDelete
+        onConfirm={handleDelete}
+        onCancel={handleDeleteConfirm}
+        isShow={isDeleteConfirmShow}
+        isLoading={isLoadingDelete}
+        text={userData?.username}
+      />
       <AnimatePresence>
         {(props.showPopover === "add" || props.showPopover === "edit") && (
           <div className="fixed z-[1000] top-0 left-0 w-screen h-screen flex items-center justify-center">
@@ -271,7 +288,8 @@ export default function UserControllerPopover(props) {
                   {props.showPopover === "edit" && (
                     <Button
                       variant="red"
-                      onClick={() => handleDelete()}
+                      disabledParam={userData?.role === "owner"}
+                      onClick={handleDeleteConfirm}
                       className={`sm:ml-auto min-w-[3rem]`}
                     >
                       <i className="fa-solid fa-trash sm:mr-2 scale-[0.95] fa-lg"></i>{" "}

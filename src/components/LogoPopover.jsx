@@ -3,8 +3,8 @@ export default function LogoPopover() {
     <>
       <div className="flex w-full -ml-2  mt-4 sm:mt-7 justify-center drop-shadow items-center ">
         <img
-          src="/LogoGreen.png"
-          className="scale-[2.3] pointer-events-none w-[8rem] h-[8rem] aspect-square"
+          src="/LogoBlack.png"
+          className="pointer-events-none w-[8rem] h-[8rem] aspect-square"
           alt="Logo"
         />
         <div className="uppercase ml-1 text-[2.8rem] leading-[3rem] mb-[0.5rem] text-primaryNormal hidden sm:block">

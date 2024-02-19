@@ -12,6 +12,7 @@ import LoadingPopover from "../LoadingPopover";
 import LogoPopover from "../LogoPopover";
 import Title from "../Title";
 import TextField from "../TextField";
+import ConfirmDelete from "../ConfirmDelete";
 
 /* eslint-disable react/prop-types */
 export default function FashionProductPopover(props) {
@@ -306,6 +307,7 @@ export default function FashionProductPopover(props) {
     });
     setPage(1);
     setUploadedImages([]);
+    setImages([]);
     setVariantsData([
       {
         name: "",
@@ -392,8 +394,14 @@ export default function FashionProductPopover(props) {
     }
   };
 
+  // DELETE
+  const [isDeleteConfirmShow, setIsDeleteConfirmShow] = useState(false);
+  const [isLoadingDelete, setIsLoadingDelete] = useState(false);
+  const handleDeleteConfirm = () => {
+    setIsDeleteConfirmShow(!isDeleteConfirmShow);
+  };
   const handleDelete = async () => {
-    setIsLoading(true);
+    setIsLoadingDelete(true);
     await axios
       .delete(DBURL + "/products/" + id?.toString(), {
         headers: {
@@ -418,12 +426,21 @@ export default function FashionProductPopover(props) {
         ));
       })
       .finally(() => {
-        setIsLoading(false);
+        setIsLoadingDelete(false);
+        setIsDeleteConfirmShow(false);
       });
   };
 
   return (
     <>
+      <ConfirmDelete
+        onConfirm={handleDelete}
+        onCancel={handleDeleteConfirm}
+        isShow={isDeleteConfirmShow}
+        isLoading={isLoadingDelete}
+        text={formData?.name + " - " + formData?.brand}
+      />
+
       <AnimatePresence>
         {(props.showPopover === "add" || props.showPopover === "edit") &&
           props.popoverType === "fashions" && (
@@ -880,7 +897,7 @@ export default function FashionProductPopover(props) {
                         <Button
                           variant="red"
                           className={"max-sm:min-w-[3rem]"}
-                          onClick={() => handleDelete()}
+                          onClick={handleDeleteConfirm}
                         >
                           <i className="fa-solid fa-trash sm:mr-2 scale-[0.95] fa-lg"></i>{" "}
                           <span className="max-sm:hidden">Delete</span>

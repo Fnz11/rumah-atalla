@@ -54,7 +54,7 @@ export default function TransactionPopoverSection({ item: props, promos }) {
                   className="relative"
                 >
                   <img
-                    src={promo.imageUrl}
+                    src={promo?.imageUrl?.url}
                     className="h-3 sm:h-6 mr-2"
                     alt=""
                   />
@@ -63,7 +63,7 @@ export default function TransactionPopoverSection({ item: props, promos }) {
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.2 }}
-                      className=" text-center p-3 z-[100] shadow-md bg-gradient-to-r from-primaryDark to-primaryThin text-white border-2 border-primaryNormal h-20 w-36 absolute flex flex-col items-center justify-center rounded-2xl"
+                      className=" text-center text-[0.6rem] sm:text-sm p-3 z-[100] shadow-md bg-gradient-to-r from-primaryDark to-primaryThin text-white border-2 border-primaryNormal min-h-20 min-w-[9rem] max-w-[12rem]  absolute flex flex-col items-center justify-center rounded-2xl"
                     >
                       <h1 className="">{promo.name}</h1>
                       <h1>
@@ -86,7 +86,7 @@ export default function TransactionPopoverSection({ item: props, promos }) {
           <div className="flex flex-col ml-1  font-semibold sm:">
             {props?.discount != props.price && (
               <span className="text-purple -mb-1">
-                Rp.{props?.discount?.toLocaleString()}
+                Rp.{(props?.discount / props?.qty)?.toLocaleString()}
               </span>
             )}
             <span
@@ -121,7 +121,7 @@ export default function TransactionPopoverSection({ item: props, promos }) {
             </span>
             {props?.cashback > 0 && (
               <span className="text-orange text-center">
-                +Rp.{(props?.cashback * props.qty)?.toLocaleString()}
+                +Rp.{props?.cashback?.toLocaleString()}
               </span>
             )}
           </div>

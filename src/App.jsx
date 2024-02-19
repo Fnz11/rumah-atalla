@@ -134,7 +134,7 @@ function App() {
       console.log("Token generated : ", token, userToken, userId);
     } else if (permission === "denied") {
       //notifications are blocked
-      alert("You denied for the notification");
+      console.log("You denied for the notification");
     }
   }
 

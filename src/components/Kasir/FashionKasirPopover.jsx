@@ -1,17 +1,19 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 
 export default function FashionKasirPopover({
   item: props,
   indexOnCart,
   handleChange,
   FashionCartItems,
+  handleFashionCartItems,
 }) {
   console.log("DILEMPAR", props, FashionCartItems);
   // QUANTITY
   const [quantity, setQuantity] = useState(1);
+  const [showDeleteItems, setShowDeleteItems] = useState(false);
   const handleDecrement = () => {
     const newValue = parseInt(quantity) - 1;
     if (
@@ -26,6 +28,8 @@ export default function FashionKasirPopover({
     if (quantity > 1) {
       setQuantity(newValue);
       handleChange({ value1: newValue }, "qty", indexOnCart);
+    } else {
+      setShowDeleteItems(true);
     }
   };
 
@@ -73,7 +77,7 @@ export default function FashionKasirPopover({
   const HargaComponent = () => {
     return (
       <div className="flex flex-col leading-4">
-        {props?.size?.discountPrice != props.price && (
+        {props?.size?.discountPrice != props?.price && (
           <span className="text-purple ">
             Rp. {props?.size?.discountPrice?.toLocaleString()}
           </span>
@@ -157,35 +161,42 @@ export default function FashionKasirPopover({
         <div className="w-[50%] sm:w-[40%] flex flex-col ">
           <div className="sm:hidden">
             {props?.productPromos?.length > 0 && (
-              <div className="h-6 w-fit z-[1] flex items-end">
+              <div className="h-6 w-fit z-[1] flex items-end max-sm:mb-2">
                 {props?.productPromos?.map((promo) => (
                   <div
                     onMouseDown={() => handleHoverPromo(promo._id)}
                     onMouseEnter={() => handleHoverPromo(promo._id)}
                     onMouseLeave={() => handleHoverPromo("")}
                     key={promo._id}
-                    className="relative"
+                    className="relative group"
                   >
-                    <img src={promo.imageUrl.url} className="h-7 mr-2" alt="" />
-                    {hoverPromo === promo._id && (
-                      <motion.div
-                        initial={{ opacity: 0, y: -10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.2 }}
-                        className="text-sm text-center left-0 p-3 z-[100] shadow-md bg-gradient-to-r from-[#FFB000] to-[#FFE569] text-white border-2 border-[#FFE569] h-20 w-36 absolute flex flex-col items-center justify-center rounded-2xl"
-                      >
-                        <h1 className="drop-shadow-sm">{promo.name}</h1>
-                        <h1 className="drop-shadow-sm">
-                          {(promo.type === "diskon nominal" ||
-                            promo.type === "cashback nominal") &&
-                            "Rp. "}
-                          {promo.value}
-                          {(promo.type === "diskon persentase" ||
-                            promo.type === "cashback persentase") &&
-                            "%"}
-                        </h1>
-                      </motion.div>
-                    )}
+                    <img
+                      src={promo.imageUrl.url}
+                      className="h-8 sm:h-7 mr-1 group-hover:scale-[1.05] border-2 group-hover:border-primaryThin aspect-square object-cover object-center drop-shadow-xl rounded-md"
+                      alt=""
+                    />
+                    <AnimatePresence>
+                      {hoverPromo === promo._id && (
+                        <motion.div
+                          initial={{ opacity: 0, y: -10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -10 }}
+                          transition={{ duration: 0.2 }}
+                          className=" text-center text-[0.7rem] sm:text-[0.8rem] p-3 z-[100] shadow-md bg-gradient-to-r from-primaryDark to-primaryThin text-white border-2 border-primaryNormal h-20 w-36 absolute -top-[5.3rem] left-0 flex flex-col items-center justify-center rounded-2xl"
+                        >
+                          <h1 className="drop-shadow-sm">{promo.name}</h1>
+                          <h1 className="drop-shadow-sm">
+                            {(promo.type === "diskon nominal" ||
+                              promo.type === "cashback nominal") &&
+                              "Rp. "}
+                            {promo.value}
+                            {(promo.type === "diskon persentase" ||
+                              promo.type === "cashback persentase") &&
+                              "%"}
+                          </h1>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </div>
                 ))}
               </div>
@@ -234,32 +245,35 @@ export default function FashionKasirPopover({
                     onMouseEnter={() => handleHoverPromo(promo._id)}
                     onMouseLeave={() => handleHoverPromo("")}
                     key={promo._id}
-                    className="relative"
+                    className="relative group"
                   >
                     <img
                       src={promo.imageUrl.url}
-                      className="h-3 sm:h-6 mr-2"
+                      className="h-6 sm:h-7 mr-1 group-hover:scale-[1.05] border-2 group-hover:border-primaryThin aspect-square object-cover object-center drop-shadow-xl rounded-md"
                       alt=""
                     />
-                    {hoverPromo === promo._id && (
-                      <motion.div
-                        initial={{ opacity: 0, y: -10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.2 }}
-                        className="text-sm text-center left-0 p-3 z-[100] shadow-md bg-gradient-to-r from-[#FFB000] to-[#FFE569] text-white border-2 border-[#FFE569] h-20 w-36 absolute flex flex-col items-center justify-center rounded-2xl"
-                      >
-                        <h1 className="drop-shadow-sm">{promo.name}</h1>
-                        <h1 className="drop-shadow-sm">
-                          {(promo.type === "diskon nominal" ||
-                            promo.type === "cashback nominal") &&
-                            "Rp. "}
-                          {promo.value}
-                          {(promo.type === "diskon persentase" ||
-                            promo.type === "cashback persentase") &&
-                            "%"}
-                        </h1>
-                      </motion.div>
-                    )}
+                    <AnimatePresence>
+                      {hoverPromo === promo._id && (
+                        <motion.div
+                          initial={{ opacity: 0, y: -10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -10 }}
+                          transition={{ duration: 0.2 }}
+                          className=" text-center text-[0.7rem] sm:text-[0.8rem] p-3 z-[100] shadow-md bg-gradient-to-r from-primaryDark to-primaryThin text-white border-2 border-primaryNormal h-20 w-36 absolute -top-[5.3rem] left-0 flex flex-col items-center justify-center rounded-2xl"
+                        >
+                          <h1 className="drop-shadow-sm">{promo.name}</h1>
+                          <h1 className="drop-shadow-sm">
+                            {(promo.type === "diskon nominal" ||
+                              promo.type === "cashback nominal") &&
+                              "Rp. "}
+                            {promo.value}
+                            {(promo.type === "diskon persentase" ||
+                              promo.type === "cashback persentase") &&
+                              "%"}
+                          </h1>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </div>
                 ))}
               </div>
@@ -284,25 +298,47 @@ export default function FashionKasirPopover({
           >
             Stock: {props?.size?.stock}
           </h1>
-          <div className="w-fit flex items-center mb-2 ">
+          <div className="w-fit flex items-center mb-2 relative gap-[0.1rem] ">
             <button
               onClick={handleDecrement}
-              className="px-2 py-1 border-2 border-gray-300"
+              className="px-2 py-2 text-white bg-section-dark rounded-full "
             >
               -
             </button>
             <input
               type="text"
-              className={`px-2 py-2 border-2 w-10 border-gray-300 text-center text-sm`}
+              className={`px-2 py-2 text-center text-white bg-section-dark rounded-md w-10 `}
               value={quantity}
               onChange={handleQuantity}
             />
             <button
               onClick={handleIncrement}
-              className="px-2 py-1 border-2 border-gray-300 "
+              className="px-2 py-2 text-white bg-section-dark rounded-full  "
             >
               +
             </button>
+            <AnimatePresence>
+              {showDeleteItems && (
+                <>
+                  <div
+                    onClick={() => setShowDeleteItems(false)}
+                    className="w-full h-full fixed  left-0 top-0"
+                  ></div>
+                  <motion.button
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                    onClick={() =>
+                      handleFashionCartItems({ idOnCart: props?.idOnCart })
+                    }
+                    className="text-white cursor-pointer flex flex-col hover:scale-[0.95] transition-all duration-300 items-center justify-center bg-section-dark h-10 w-20 absolute -left-[5.2rem] rounded-full"
+                  >
+                    Delete?
+                  </motion.button>
+                </>
+              )}
+            </AnimatePresence>
           </div>
           <div className="sm:hidden w-fit flex flex-col leading-4 font-semibold">
             <JumlahComponent />

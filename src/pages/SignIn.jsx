@@ -81,11 +81,11 @@ export default function SignIn() {
           {/* LOGO */}
           <div className="flex w-full h-20 -ml-4 justify-center drop-shadow items-center ">
             <img
-              src="/LogoGreen.png"
-              className="scale-[1.5] pointer-events-none w-[8rem] h-[8rem] aspect-square"
+              src="/LogoBlack.png"
+              className="pointer-events-none w-[5.5rem] h-[5.5rem] aspect-square"
               alt="Logo"
             />
-            <div className="uppercase -ml-3 text-[1.7rem] leading-[2.3rem] mb-[0.5rem] text-primaryNormal block">
+            <div className="uppercase  text-[1.7rem] leading-[2.3rem] mb-[0.5rem] text-primaryNormal block">
               <h1 className="-mb-[0.4rem]">Rumah</h1>
               <h1 className="font-bold">Atalla</h1>
               <div className="w-[120%] h-[0.2rem] -my-[0.1rem] rounded-md bg-primaryNormal" />

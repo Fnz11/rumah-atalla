@@ -14,7 +14,7 @@ export default function Button({
         onClick={onClick}
         disabled={disabledParam}
         type="button"
-        className={` ${className} border-2 shadow-lg hover:shadow-xl ${
+        className={` ${className} ${disabledParam && "opacity-[0.7] pointer-events-none"} border-2 shadow-lg hover:shadow-xl ${
           variant === "secondary" || !variant
             ? "border-secondary hover:bg-transparent hover:text-secondary bg-secondary text-thirdyNormal"
             : variant === "red"

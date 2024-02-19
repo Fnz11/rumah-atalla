@@ -16,7 +16,7 @@ import TransactionHeadPopoverSection from "./TransactionHeadPopoverSection";
 /* eslint-disable react/prop-types */
 export default function TransactionPopover(props) {
   const DBURL = import.meta.env.VITE_APP_DB_URL;
-  console.log("DBDBDBDBDB", DBURL);
+  // console.log("DBDBDBDBDB", DBURL);
   // LOADING
   const [isLoading, setIsLoading] = useState(false);
   // HANDLE PATCH
@@ -98,7 +98,7 @@ export default function TransactionPopover(props) {
               <Title className={"my-3"} title={"Transaction Detail"} />
 
               {/* CONTENT */}
-              <div className="flex gap-10 w-full text-[0.7rem] sm:text-base mb-1">
+              <div className="flex gap-10 w-full text-[0.7rem] sm:text-sm mb-1">
                 <div className="flex flex-col w-[50%]">
                   <PopoverDetail
                     bold
@@ -167,7 +167,7 @@ export default function TransactionPopover(props) {
               </div>
 
               {/* PRODUCTS */}
-              <div className="w-full h-[15rem] sm:h-[20rem] overflow-y-scroll overflow-x-hidden">
+              <div className="w-full h-[15rem] sm:h-[44%] overflow-y-scroll overflow-x-hidden">
                 {props.products.length > 0 && (
                   <>
                     <TransactionHeadPopoverSection />

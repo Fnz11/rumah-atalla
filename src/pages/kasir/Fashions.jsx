@@ -106,6 +106,9 @@ export default function FashionsKasir() {
   // CART
   const [productsForm, setProductsForm] = useState([]);
   const [FashionCartItems, setFashionCartItems] = useState([]);
+  const handleFashionCartItems = (item) => {
+    addToCart(item);
+  };
   const addToCart = (item) => {
     const cartIndex = FashionCartItems.findIndex(
       (product) => product?.idOnCart === item?.idOnCart
@@ -231,6 +234,12 @@ export default function FashionsKasir() {
     setFashionCartItems(updatedFashionCartItems);
   };
 
+  useEffect(() => {
+    if (FashionCartItems.length <= 0 && showPopover) {
+      togglePopover();
+    }
+  }, [FashionCartItems]);
+
   const converToProductForm = () => {
     let total = 0;
     let discount = 0;
@@ -287,7 +296,18 @@ export default function FashionsKasir() {
       let cashbackPersentase = 0;
       let productPromos = [];
       promos.map((promo, i) => {
-        if (promo.products.includes(product._id.toString())) {
+        let included = false;
+        const currentDate = new Date();
+
+        if (
+          promo.products.includes(product._id.toString()) &&
+          new Date(promo.date.startDate) < currentDate &&
+          new Date(promo.date.endDate) > currentDate
+        ) {
+          included = true;
+        }
+        console.log("INCLUD KAHH" + promo.name, included);
+        if (included) {
           productPromos.push(promo);
           if (promo.type === "diskon persentase") {
             discountPersentase += promo.value;
@@ -395,13 +415,14 @@ export default function FashionsKasir() {
                     <FashionHeadPopover />
 
                     {FashionCartItems.map((item, index) => (
-                      <div key={item._id.toString()}>
+                      <div key={item?._id}>
                         <FashionKasirPopover
                           item={item}
                           indexOnCart={index}
                           handleChange={handleChange}
                           productsForm={productsForm}
                           FashionCartItems={FashionCartItems}
+                          handleFashionCartItems={handleFashionCartItems}
                         />
                       </div>
                     ))}

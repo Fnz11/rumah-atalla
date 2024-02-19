@@ -12,6 +12,7 @@ import Title from "../Title";
 import TextField from "../TextField";
 import Title2 from "../Title2";
 import SearchBar from "../SearchBar";
+import ConfirmDelete from "../ConfirmDelete";
 
 /* eslint-disable react/prop-types */
 export default function PromoPopover(props) {
@@ -255,8 +256,15 @@ export default function PromoPopover(props) {
         setIsLoading(false);
       });
   };
+
+  // DELETE
+  const [isDeleteConfirmShow, setIsDeleteConfirmShow] = useState(false);
+  const [isLoadingDelete, setIsLoadingDelete] = useState(false);
+  const handleDeleteConfirm = () => {
+    setIsDeleteConfirmShow(!isDeleteConfirmShow);
+  };
   const handleDelete = async () => {
-    setIsLoading(true);
+    setIsLoadingDelete(true);
 
     await axios
       .delete(DBURL + "/promos/" + props.data?._id?.toString(), {
@@ -280,12 +288,21 @@ export default function PromoPopover(props) {
         setPage(1);
       })
       .finally(() => {
-        setIsLoading(false);
+        setIsDeleteConfirmShow(false);
+        setIsLoadingDelete(false);
       });
   };
 
   return (
     <>
+      <ConfirmDelete
+        onConfirm={handleDelete}
+        onCancel={handleDeleteConfirm}
+        isShow={isDeleteConfirmShow}
+        isLoading={isLoadingDelete}
+        text={formData?.name}
+      />
+
       <AnimatePresence>
         {(props.showPopover === "add" || props.showPopover === "edit") && (
           <div className="fixed z-[1000] top-0 left-0 w-screen h-screen flex items-center justify-center">
@@ -523,7 +540,7 @@ export default function PromoPopover(props) {
                           <>
                             <Button
                               variant="red"
-                              onClick={() => handleDelete()}
+                              onClick={handleDeleteConfirm}
                               className={"sm:ml-auto max-sm:min-w-[3rem]"}
                             >
                               <i className="fa-solid fa-trash sm:mr-2 scale-[0.95] fa-lg"></i>{" "}
@@ -651,7 +668,15 @@ export default function PromoPopover(props) {
                                 >
                                   {fashionSelected.includes(
                                     product._id?.toString()
-                                  ) && <span>Rp. {rangeDiscountPrice}</span>}
+                                  ) && (
+                                    <span>
+                                      Rp.{" "}
+                                      {(
+                                        (highestPrice * formData?.value) /
+                                        100
+                                      )?.toLocaleString()}
+                                    </span>
+                                  )}
                                   <br />
                                   <span
                                     className={`
