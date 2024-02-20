@@ -1,8 +1,13 @@
-export default function Footer() {
+/* eslint-disable react/prop-types */
+export default function Footer({ adminPage }) {
   return (
     <>
-      <footer className="text-white bg-section-dark rounded-2xl shadow-xl mb-6">
-        <div className="container py-14 sm:py-20 mx-auto ">
+      <footer
+        className={`text-white bg-section-dark  shadow-xl ${
+          adminPage && "mb-6 rounded-2xl"
+        }`}
+      >
+        <div className={`container py-14 sm:py-20 mx-auto `}>
           <div className="flex flex-wrap md:text-left text-center justify-center w-full">
             <div className="w-64 flex-shrink-0 md:mx-0 mx-auto text-center md:text-left">
               {/* LOGO */}
@@ -29,24 +34,16 @@ export default function Footer() {
               </h2>
               <nav className="list-none mb-10">
                 <li>
-                  <a className=" hover:text-gray-800">
-                    First Link
-                  </a>
+                  <a className=" hover:text-gray-800">First Link</a>
                 </li>
                 <li>
-                  <a className=" hover:text-gray-800">
-                    Second Link
-                  </a>
+                  <a className=" hover:text-gray-800">Second Link</a>
                 </li>
                 <li>
-                  <a className=" hover:text-gray-800">
-                    Third Link
-                  </a>
+                  <a className=" hover:text-gray-800">Third Link</a>
                 </li>
                 <li>
-                  <a className=" hover:text-gray-800">
-                    Fourth Link
-                  </a>
+                  <a className=" hover:text-gray-800">Fourth Link</a>
                 </li>
               </nav>
             </div>
@@ -56,24 +53,16 @@ export default function Footer() {
               </h2>
               <nav className="list-none mb-10">
                 <li>
-                  <a className=" hover:text-gray-800">
-                    First Link
-                  </a>
+                  <a className=" hover:text-gray-800">First Link</a>
                 </li>
                 <li>
-                  <a className=" hover:text-gray-800">
-                    Second Link
-                  </a>
+                  <a className=" hover:text-gray-800">Second Link</a>
                 </li>
                 <li>
-                  <a className=" hover:text-gray-800">
-                    Third Link
-                  </a>
+                  <a className=" hover:text-gray-800">Third Link</a>
                 </li>
                 <li>
-                  <a className=" hover:text-gray-800">
-                    Fourth Link
-                  </a>
+                  <a className=" hover:text-gray-800">Fourth Link</a>
                 </li>
               </nav>
             </div>
@@ -83,24 +72,16 @@ export default function Footer() {
               </h2>
               <nav className="list-none mb-10">
                 <li>
-                  <a className=" hover:text-gray-800">
-                    First Link
-                  </a>
+                  <a className=" hover:text-gray-800">First Link</a>
                 </li>
                 <li>
-                  <a className=" hover:text-gray-800">
-                    Second Link
-                  </a>
+                  <a className=" hover:text-gray-800">Second Link</a>
                 </li>
                 <li>
-                  <a className=" hover:text-gray-800">
-                    Third Link
-                  </a>
+                  <a className=" hover:text-gray-800">Third Link</a>
                 </li>
                 <li>
-                  <a className=" hover:text-gray-800">
-                    Fourth Link
-                  </a>
+                  <a className=" hover:text-gray-800">Fourth Link</a>
                 </li>
               </nav>
             </div>
@@ -110,24 +91,16 @@ export default function Footer() {
               </h2>
               <nav className="list-none mb-10">
                 <li>
-                  <a className=" hover:text-gray-800">
-                    First Link
-                  </a>
+                  <a className=" hover:text-gray-800">First Link</a>
                 </li>
                 <li>
-                  <a className=" hover:text-gray-800">
-                    Second Link
-                  </a>
+                  <a className=" hover:text-gray-800">Second Link</a>
                 </li>
                 <li>
-                  <a className=" hover:text-gray-800">
-                    Third Link
-                  </a>
+                  <a className=" hover:text-gray-800">Third Link</a>
                 </li>
                 <li>
-                  <a className=" hover:text-gray-800">
-                    Fourth Link
-                  </a>
+                  <a className=" hover:text-gray-800">Fourth Link</a>
                 </li>
               </nav>
             </div>

@@ -453,9 +453,9 @@ export default function Navbar() {
             } `}
           >
             {/* <AdminNavbar /> */}
-            <AdminNavbar User={User} />
+            <AdminNavbar adminPage={adminPage} User={User} />
             <Outlet />
-            <Footer />
+            <Footer adminPage={adminPage} />
           </div>
         </div>
       </div>

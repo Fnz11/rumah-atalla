@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
 
 /* eslint-disable react/prop-types */
-export default function AdminNavbar({ User }) {
+export default function AdminNavbar({ User, adminPage }) {
   return (
     <>
-      <div className="w-full flex flex-col justify-center items-center">
+      <div className={` ${!adminPage && "hidden"} w-full flex flex-col justify-center items-center`}>
         <div className="justify-between bg-section-dark w-full h-[4rem] rounded-2xl shadow-lg mt-5 flex items-center px-5 py-3 text-white">
           <span>
             {User?.role === "owner" ? (
