@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import Button from "../Button";
 
-export default function About() {
+export default function Header() {
   return (
     <>
       <div className="flex flex-col lg:flex-row w-full h-[90vh] overflow-hidden justify-center bg-gray-900 shadow-xl mt-20">
