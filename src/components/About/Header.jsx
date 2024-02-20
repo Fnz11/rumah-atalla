@@ -24,7 +24,7 @@ export default function Header() {
             </h1>
             <div className="flex gap-5 mt-6 items-center w-full justify-center">
               <Link to={"/login"}>
-                <Button variant="">Log In Kasir</Button>
+                <Button variant="">Log In as a Kasir</Button>
               </Link>
               <Link to={"/fashions"}>
                 <Button variant="red">Buy Products</Button>
