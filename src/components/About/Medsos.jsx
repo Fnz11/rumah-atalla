@@ -37,19 +37,16 @@ export default function Medsos() {
   return (
     <>
       <div className="w-screen mt-12 sm:mt-20 relative">
-        <div className="w-screen h-56 sm:h-72 bg-secondary shadow-md absolute z-[-1] -top-20 sm:-top-32"></div>
-
         <section className="text-primaryDark body-font z-[10] items-center w-screen justify-center xl:px-32 mt-20">
           <div className="flex flex-wrap ">
             {medsos.map((item) => (
-              <Link
-                to={item.link}
-                target="_blank"
-                key={item.title}
-                className="p-5 h-min-72 w-screen sm:w-1/2"
-              >
-                <div className="w-full drop-shadow-md hover:drop-shadow-xl group hover:scale-[1.02] transition-all duration-300 bg-section pb-5 rounded-2xl border-2 border-primaryVeryThin h-full relative">
-                  <div className="p-5 lg:p-10 z-[10] flex items-center max-sm:justify-center">
+              <div key={item.title} className="p-5 h-min-72 w-screen sm:w-1/2">
+                <div className="w-full drop-shadow-md hover:drop-shadow-xl group hover:scale-[1.02] transition-all duration-300 bg-thirdyThin pb-5 rounded-2xl border-2 border-primaryVeryThin hover:border-secondary h-full relative">
+                  <Link
+                    to={item.link}
+                    target="_blank"
+                    className="p-5 lg:p-10 z-[10] flex items-center max-sm:justify-center"
+                  >
                     <div className="w-10 h-10 px-3 hidden sm:inline-flex items-center justify-center rounded-full  text-thirdyThin mb-4 transition-all duration-300">
                       <img
                         src={item.image}
@@ -74,9 +71,9 @@ export default function Medsos() {
                         {item.text}
                       </p>
                     </div>
-                  </div>
+                  </Link>
                 </div>
-              </Link>
+              </div>
             ))}
           </div>
         </section>

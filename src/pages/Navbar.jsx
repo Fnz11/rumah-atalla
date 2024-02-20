@@ -437,10 +437,10 @@ export default function Navbar() {
         ></div>
         <div
           className={` w-full flex  translate-y-[2.5vh] ${
-            adminPage ? "sm:translate-x-[1rem]" : "-translate-x-[14.5rem]"
+            adminPage ? "sm:translate-x-[1rem]" : "-translate-x-[14.5rem] hidden"
           } fixed z-[100]`}
         >
-          <Sidebar />
+          <Sidebar adminPage={adminPage} />
         </div>
         <div
           className={`${

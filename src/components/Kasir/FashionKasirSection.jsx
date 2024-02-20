@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 
 export default function FashionKasirSection({
   props,
@@ -26,6 +27,26 @@ export default function FashionKasirSection({
   } else {
     priceRange = `${lowestPrice?.toLocaleString()}`;
   }
+
+  console.log(
+    "HOFEHIJOEFHOUFE",
+    FashionCartItems,
+    props._id.toString(),
+    FashionCartItems[0]?._id,
+    FashionCartItems[0]?._id === props._id
+  );
+
+  const [isIncluded, setIsIncluded] = useState(false);
+
+  useEffect(() => {
+    let isAdded = FashionCartItems?.some((product) => {
+      if (product?._id === props?._id) {
+        return true;
+      }
+    });
+    setIsIncluded(isAdded);
+  }, [FashionCartItems]);
+
   return (
     <>
       <motion.div
@@ -39,10 +60,10 @@ export default function FashionKasirSection({
         }}
         key={props._id.toString()}
         className={`${
-          FashionCartItems.includes(props._id.toString())
+          isIncluded  
             ? "border-4 border-primaryThin opacity-[0.6] scale-[0.95] shadow-lg group hover:shadow-xl"
             : " shadow-lg group hover:shadow-xl"
-        } rounded-2xl m-1 group relative bg-section inset-[0.1rem] hover:inset-0 overflow-hidden transition-all `}
+        } rounded-2xl m-1 group relative  bg-section inset-[0.1rem] hover:inset-0 overflow-hidden transition-all `}
       >
         <div className=" w-full relative overflow-hidden rounded-b-2xl bg-gray-200 group-hover:opacity-[0.85]  transition-all aspect-square">
           <div className="absolute h-full w-full z-[1] flex items-end">

@@ -2,7 +2,7 @@
 import "./App.css";
 import * as React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Products from "./pages/Products";
+import FashionProducts from "./pages/FashionProducts";
 import Navbar from "./pages/Navbar";
 import About from "./pages/About";
 import Foods from "./pages/Foods";
@@ -37,10 +37,10 @@ const router = createBrowserRouter([
       //   path: "/about",
       //   element: <About />,
       // },
-      // {
-      //   path: "/products",
-      //   element: <Products />,
-      // },
+      {
+        path: "/fashions",
+        element: <FashionProducts />,
+      },
       // {
       //   path: "/foods",
       //   element: <Foods />,
