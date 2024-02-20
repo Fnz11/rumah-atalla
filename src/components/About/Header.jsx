@@ -13,18 +13,21 @@ export default function Header() {
             alt="Header"
           />
           <div className="text-center mb-18 z-[2] drop-shadow-md">
-            <h1 className="text-[2.5rem] lg:text-8xl font-semibold tracking-tight mb-2 text-thirdyNormal">
+            <h1 className="text-[2.5rem] lg:text-8xl font-semibold tracking-tight mb-2 text-thirdyThin ">
               Pilihan Terbaik
             </h1>
-            <h1 className="text-[2.5rem] lg:text-8xl font-semibold tracking-tight mb-5 text-thirdyNormal">
+            <h1 className="text-[2.5rem] lg:text-8xl font-semibold tracking-tight mb-5 text-thirdyThin ">
               Untuk Fashion Anda
             </h1>
-            <h1 className="text-xl lg:text-3xl font-semibold tracking-tight text-thirdyNormal">
+            <h1 className="text-xl lg:text-3xl font-semibold tracking-tight text-thirdyThin ">
               Jangan lewatkan promo-promo menarik!
             </h1>
             <div className="flex gap-5 mt-6 items-center w-full justify-center">
               <Link to={"/login"}>
-                <Button variant="">Log In</Button>
+                <Button variant="">Log In Kasir</Button>
+              </Link>
+              <Link to={"/fashions"}>
+                <Button variant="red">Buy Products</Button>
               </Link>
               {/* <Button variant="secondary">Fashions</Button> */}
             </div>
