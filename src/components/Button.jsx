@@ -14,17 +14,19 @@ export default function Button({
         onClick={onClick}
         disabled={disabledParam}
         type="button"
-        className={` ${className} ${disabledParam && "opacity-[0.7] pointer-events-none"} border-2 shadow-lg hover:shadow-xl ${
+        className={` ${className} ${
+          disabledParam && "opacity-[0.7] pointer-events-none"
+        } border-2 shadow-lg hover:shadow-xl ${
           variant === "secondary" || !variant
-            ? "border-secondary hover:bg-transparent hover:text-secondary bg-secondary text-thirdyNormal"
+            ? "border-secondary  bg-secondary text-thirdyThin"
             : variant === "red"
-            ? "border-red-400  hover:text-red-400 hover:bg-transparent bg-red-400 text-thirdyNormal"
+            ? "border-red-400   bg-red-400 text-thirdyThin"
             : variant === "thirdy"
-            ? "border-thirdyNormal  hover:bg-transparent bg-thirdyNormal hover:text-thirdyNormal text-secondary"
+            ? "border-thirdyNormal  bg-thirdyNormal  text-secondary"
             : variant === "green"
-            ? "border-green-500  hover:text-green-500 hover:bg-transparent bg-green-500 text-thirdyNormal"
-            : "border-yellow-500  hover:bg-transparent bg-yellow-500 hover:text-yellow-500 text-thirdyThin"
-        }  hover:scale-[1.05] hover:drop-shadow-lg transition-all duration-300  font-bold py-3 px-4 rounded-2xl sm:min-w-[9rem] `}
+            ? "border-green-500   bg-green-500  text-thirdyThin"
+            : "border-yellow-500  bg-yellow-500  text-thirdyThin"
+        }  hover:scale-[1.02] hover:opacity-[0.9] hover:drop-shadow-lg transition-all duration-300  font-bold py-[0.75rem] px-5 rounded-lg sm:min-w-[9rem] `}
       >
         {children}
       </button>

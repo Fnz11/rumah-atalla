@@ -4,7 +4,7 @@ export default function Title2({ title, className }) {
     <>
       <h1
         className={
-          "text-2xl mb-3 drop-shadow-sm h-fit font-semibold text-primaryNormal " +
+          "text-2xl mb-3 drop-shadow-md h-fit font-semibold text-primaryNormal " +
           className
         }
       >

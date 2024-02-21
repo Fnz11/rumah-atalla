@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 import Sidebar from "./admin/Sidebar";
 import axios from "axios";
 import AdminNavbar from "./AdminNavbar";
+import Button from "../components/Button";
+import { motion } from "framer-motion";
 
 export default function Navbar() {
   const DBURL = import.meta.env.VITE_APP_DB_URL;
@@ -46,7 +48,7 @@ export default function Navbar() {
   return (
     <>
       {!adminPage && (
-        <div className="h-20 w-screen px-5 xl:px-28 py-6 bg-primaryNormal flex justify-between shadow-md fixed z-[150]">
+        <div className="h-20 w-screen px-5 xl:px-28 py-6 flex justify-between shadow-md bg-section-dark fixed z-[150]">
           {userOpen && (
             <div
               onClick={() => setUserOpen(!userOpen)}
@@ -58,17 +60,17 @@ export default function Navbar() {
             {/* LOGO */}
             <Link
               to={"/"}
-              className="flex mr-3 lg:mr-16 w-[3.7rem] drop-shadow items-center"
+              className="flex mr-3 lg:mr-16 w-[3.7rem]  drop-shadow items-center"
             >
               <img
                 src="/LogoWhite.png"
                 className="w-[3.7rem] h-[3.7rem] aspect-square"
                 alt="Logo"
               />
-              <div className="uppercase ml-1 text-base text-thirdyNormal hidden sm:block">
+              <div className="uppercase ml-1 text-base text-thirdyThin hidden sm:block">
                 <h1 className="-mb-[0.4rem]">Rumah</h1>
                 <h1 className="font-bold">Atalla</h1>
-                <div className="w-[120%] h-[0.1rem] -my-[0.15rem] rounded-md bg-thirdyNormal" />
+                <div className="w-[120%] h-[0.1rem] -my-[0.15rem] rounded-md bg-thirdyThin" />
               </div>
             </Link>
 
@@ -124,51 +126,46 @@ export default function Navbar() {
                 required
               />
             </div> */}
-              <button className=" flex items-center gap-2 hover:opacity-[0.8] hover:scale-[0.95] transition-all duration-300 text-thirdyThin drop-shadow-sm  px-4 py-5 lg:py-3 justify-start ">
-                {userData ? (
-                  <>
-                    <i className="fa-solid fa-arrow-right-from-bracket scale-[0.8] fa-lg"></i>
-                    <h1
-                      onClick={() => {
-                        localStorage.removeItem("token");
-                        localStorage.removeItem("user");
-                        setUserData(null);
-                        navigate("/");
-                      }}
-                      className=" lg:flex hidden whitespace-nowrap"
-                    >
-                      Log Out
-                    </h1>
-                  </>
-                ) : (
-                  <h1
-                    onClick={() => navigate("login")}
-                    className=" lg:flex hidden whitespace-nowrap"
+              {userData ? (
+                <div className="scale-[0.85]">
+                  <Button
+                    variant="red"
+                    onClick={() => {
+                      localStorage.removeItem("token");
+                      localStorage.removeItem("user");
+                      setUserData(null);
+                      navigate("/");
+                    }}
+                    className=" mr-2"
                   >
-                    Log In
-                  </h1>
-                )}
-              </button>
+                    <i className="fa-solid fa-arrow-right-from-bracket scale-[0.8] mr-2 fa-lg"></i>
+                    Log Out
+                  </Button>
+                </div>
+              ) : (
+                <div className="flex gap-3 scale-[0.85]">
+                  <Link to={"/login"}>
+                    <Button variant="">Log In as a Kasir</Button>
+                  </Link>
+                  <Link to={"/fashions"}>
+                    <Button variant="red">Buy Products</Button>
+                  </Link>
+                </div>
+              )}
             </div>
             {userData && (
               <div className="text-white items-center flex gap-3 lg:gap-6 font-medium ">
-                {/* LOGOUT */}
-
-                {/* <Link
-              to="/cart"
-              className="text-thirdyThin drop-shadow hover:text-thirdyNormal"
-            >
-              <i className="fa-solid fa-cart-shopping fa-lg scale-[0.8]"></i>
-            </Link> */}
                 {/* USER */}
                 <div className="flex items-center justify-center ">
                   <button
                     onClick={() => setUserOpen(!userOpen)}
-                    className="text-thirdyThin hidden lg:flex items-center drop-shadow hover:text-thirdyNormal hover:opacity-[0.8] hover:scale-[0.95] transition-all duration-300"
+                    className="text-thirdyThin hidden lg:flex items-center drop-shadow hover:text-thirdyNormal hover:opacity-[0.9] hover:scale-[1.05] transition-all duration-300"
                   >
                     <img
                       src={
-                        userData?.imageUrl ? userData?.imageUrl : "/Profile.png"
+                        userData?.imageUrl?.url
+                          ? userData?.imageUrl?.url
+                          : "/Profile.png"
                       }
                       className="h-10 aspect-square object-cover rounded-full drop-shadow-md"
                       alt=""
@@ -205,8 +202,8 @@ export default function Navbar() {
                         <div className="h-20 w-20 rounded-full">
                           <img
                             src={
-                              userData?.imageUrl
-                                ? userData?.imageUrl
+                              userData?.imageUrl?.url
+                                ? userData?.imageUrl?.url
                                 : "/Profile.png"
                             }
                             className="h-20 aspect-square object-cover rounded-full drop-shadow-md"
@@ -437,7 +434,9 @@ export default function Navbar() {
         ></div>
         <div
           className={` w-full flex  translate-y-[2.5vh] ${
-            adminPage ? "sm:translate-x-[1rem]" : "-translate-x-[14.5rem] hidden"
+            adminPage
+              ? "sm:translate-x-[1rem]"
+              : "-translate-x-[14.5rem] hidden"
           } fixed z-[100]`}
         >
           <Sidebar adminPage={adminPage} />
@@ -454,7 +453,7 @@ export default function Navbar() {
           >
             {/* <AdminNavbar /> */}
             <AdminNavbar adminPage={adminPage} User={User} />
-            <Outlet />
+            <Outlet User={User} />
             <Footer adminPage={adminPage} />
           </div>
         </div>

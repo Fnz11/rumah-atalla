@@ -5,6 +5,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import CustomToast from "../components/CustomToast";
+import Button from "../components/Button";
+import Title2 from "../components/Title2";
 
 export default function SignIn() {
   const DBURL = import.meta.env.VITE_APP_DB_URL;
@@ -71,13 +73,13 @@ export default function SignIn() {
 
   return (
     <>
-      <div className="overflow-hidden relative h-screen w-screen sm:justify-start items-center justify-center">
+      <div className="overflow-hidden relative bg-section-dark h-screen w-screen flex items-center justify-center">
         <img
-          src="/Header.jpg"
-          className="min-h-screen w-screen min-w-fit absolute z-[-1]"
+          src="/LandingFashion2.jpg"
+          className="absolute w-full opacity-[0.15] h-full object-cover object-center"
           alt=""
         />
-        <div className="flex z-[10] items-start bg-thirdyThin mx-auto h-screen w-[90%] sm:w-96 sm:px-6 px-4 py-12 sm:ml-32 shadow-xl flex-col">
+        <div className="flex z-[10] items-start bg-section h-[90%] rounded-2xl w-[90%] sm:w-[35%] sm:px-[3vw] py-12 shadow-xl flex-col">
           {/* LOGO */}
           <div className="flex w-full h-20 -ml-4 justify-center drop-shadow items-center ">
             <img
@@ -93,12 +95,9 @@ export default function SignIn() {
           </div>
 
           {/* TITLE */}
-          <h1 className="w-full text-start text-xl sm:text-2xl mt-3 font-semibold text-primaryNormal drop-shadow-md">
-            Sign In
-          </h1>
-
+          <Title2 title={"Sign In"} />
           {/* FORM */}
-          <form action="" className="w-full flex flex-col mt-3 gap-3">
+          <form action="" className="w-full flex  flex-col gap-3">
             <div>
               <label
                 className="text-sm sm:text-base drop-shadow-sm font-semibold text-primaryNormal"
@@ -129,23 +128,13 @@ export default function SignIn() {
                 className="block w-full shadow-sm placeholder:text-gray-300 bg-white focus:outline-white p-3 text-sm text-primaryDark border rounded-lg "
               />
             </div>
-            <div className="flex items-center justify-between">
-              {isError && (
-                <h1 className="text-sm sm:text-base text-red-500 font-semibold">
+            <div className="flex flex-col w-fit justify-between ml-auto mt-3">
+              <Button onClick={handleLogin}>Log In</Button>
+              {!isError && (
+                <h1 className="mt-2 text-sm sm:text-base text-red-500 font-semibold">
                   Error Sign In
                 </h1>
               )}
-              <button
-                type="button"
-                onClick={handleLogin}
-                className={`${
-                  isLoading
-                    ? "bg-secondary text-thirdyNormal scale-[1.05] drop-shadow-lg opacity-[0.5]"
-                    : "text-secondary hover:bg-secondary hover:text-thirdyNormal   hover:scale-[1.05] hover:drop-shadow-lg"
-                }  mt-2 sm:text-base text-sm  ml-auto border-2 border-secondary transition-all duration-300  font-bold py-2 px-2 rounded w-28 justify-center flex items-center`}
-              >
-                Sign In
-              </button>
             </div>
           </form>
         </div>
