@@ -79,7 +79,7 @@ export default function SignIn() {
           className="absolute w-full opacity-[0.15] h-full object-cover object-center"
           alt=""
         />
-        <div className="flex z-[10] items-start bg-section h-[90%] rounded-2xl w-[90%] sm:w-[35%] sm:px-[3vw] py-12 shadow-xl flex-col">
+        <div className="flex z-[10] items-start bg-section h-[90%] rounded-2xl w-[90%] lg:w-[35%] px-5 sm:px-[15vw] lg:px-[3vw] py-12 shadow-xl flex-col">
           {/* LOGO */}
           <div className="flex w-full h-20 -ml-4 justify-center drop-shadow items-center ">
             <img

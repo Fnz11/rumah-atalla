@@ -99,33 +99,8 @@ export default function Navbar() {
 
           {/* RIGHT SIDE */}
           <div className="flex w-full ">
-            <div className="flex items-center justify-center lg:justify-end w-full ">
-              {/* SEARCH */}
-              {/* <div className="relative">
-              <div className="absolute w-full inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                <svg
-                  aria-hidden="true"
-                  className="w-5 h-5 text-primaryDark"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                    clipRule="evenodd"
-                  ></path>
-                </svg>
-              </div>
-              <input
-                type="text"
-                id="search-navbar"
-                className="block w-[45vw] lg:w-[20rem] placeholder:text-primaryDark bg-[#F6FAF2] focus:outline-white p-2 pl-10 text-sm text-primaryDark border rounded-lg "
-                placeholder="Search..."
-                // style="color: white"
-                required
-              />
-            </div> */}
+            {/* BUTTON */}
+            <div className="flex items-center justify-end w-full ">
               {userData ? (
                 <div className="scale-[0.85]">
                   <Button
@@ -145,10 +120,16 @@ export default function Navbar() {
               ) : (
                 <div className="flex gap-3 scale-[0.85]">
                   <Link to={"/login"}>
-                    <Button variant="">Log In as a Kasir</Button>
+                    <Button variant="">
+                      Log In
+                      <span className="max-sm:hidden">as a Kasir</span>
+                    </Button>
                   </Link>
                   <Link to={"/fashions"}>
-                    <Button variant="red">Buy Products</Button>
+                    <Button variant="red">
+                      <span className="max-sm:hidden">Buy</span>
+                      Products
+                    </Button>
                   </Link>
                 </div>
               )}
@@ -159,7 +140,7 @@ export default function Navbar() {
                 <div className="flex items-center justify-center ">
                   <button
                     onClick={() => setUserOpen(!userOpen)}
-                    className="text-thirdyThin hidden lg:flex items-center drop-shadow hover:text-thirdyNormal hover:opacity-[0.9] hover:scale-[1.05] transition-all duration-300"
+                    className="text-thirdyThin flex items-center drop-shadow hover:text-thirdyNormal hover:opacity-[0.9] hover:scale-[1.05] transition-all duration-300"
                   >
                     <img
                       src={
@@ -174,29 +155,41 @@ export default function Navbar() {
                   </button>
 
                   {/* DROPDOWN USER */}
-                  <div
-                    className={` relative lg:flex  justify-center hidden text-lg`}
-                  >
+                  <div className={` relative flex  justify-center  text-lg`}>
+                    <div
+                      onClick={() => {
+                        if (userOpen) {
+                          setUserOpen(false);
+                        }
+                      }}
+                      className={` ${
+                        !userOpen
+                          ? "invisible opacity-0"
+                          : "opacity-100 visible"
+                      } duration-300 transition-all fixed w-full h-full top-0 left-0 `}
+                    >
+                      <div className="bg-section-dark w-full h-full opacity-[0.5]"></div>
+                    </div>
                     <div
                       onMouseMove={() => {
                         if (userOpen) {
                           setUserOpen(true);
                         }
                       }}
-                      className={`absolute rounded-2xl top-6 bg-white shadow-xl right-[0.5rem] xl:-right-[4.8rem] z-[100]  ${
+                      className={`fixed sm:absolute rounded-t-2xl  sm:rounded-2xl sm:top-6 bg-white shadow-xl right-0 sm:right-[0.5rem] xl:-right-[4.8rem] z-[100]  ${
                         userOpen
-                          ? "h-[36rem] opacity-100 visible"
-                          : "h-0 opacity-0 shadow-md invisible"
-                      } w-[25rem] flex flex-col p-3 transition-all duration-700 items-center text-center gap-3`}
+                          ? "max-h-[90vhd] max-sm:bottom-0  sm:h-[36rem] h-[36rem] opacity-100 visible duration-500"
+                          : "sm:h-0 opacity-0 max-sm:-bottom-[80vh] shadow-md invisible delay-500  duration-700"
+                      } w-[100vw] sm:w-[25rem] flex  flex-col p-3 transition-all  items-center text-center gap-3`}
                     >
                       <Link
-                        to={"/admin/dashboard"}
+                        to={userOpen ? "/admin/dashboard" : ""}
                         onClick={() => setUserOpen(false)}
                         className={`
                        font-semibold text-xl  drop-shadow-sm text-primaryDark ${
                          userOpen
-                           ? "opacity-100 translate-x-0"
-                           : "opacity-0 translate-x-20"
+                           ? "opacity-100 translate-y-0"
+                           : "opacity-0 translate-y-20 sm:-translate-y-20"
                        } transition-all delay-[0.15s] duration-300 flex items-center flex-col w-[90%] py-2`}
                       >
                         <div className="h-20 w-20 rounded-full">
@@ -217,12 +210,12 @@ export default function Navbar() {
                       </Link>
                       <div className="flex w-full gap-3">
                         <Link
-                          to={"/admin/transactions"}
+                          to={userOpen ? "/admin/transactions" : ""}
                           onClick={() => setUserOpen(false)}
                           className={`w-[50%] flex items-center overflow-hidden rounded-2xl relative justify-center bg-[rgba(0,0,0,0.5)] group h-[7rem] font-medium drop-shadow-sm text-white ${
                             userOpen
-                              ? "opacity-100 translate-x-0"
-                              : "opacity-0 translate-x-20"
+                              ? "opacity-100 translate-y-0"
+                              : "opacity-0 translate-y-20 sm:-translate-y-20"
                           } transition-all delay-[0.2s] duration-300  w-[90%] py-2`}
                         >
                           <img
@@ -247,12 +240,12 @@ export default function Navbar() {
                           </h1>
                         </Link>
                         <Link
-                          to={"/admin/promo"}
+                          to={userOpen ? "/admin/promo" : ""}
                           onClick={() => setUserOpen(false)}
                           className={`w-[50%] flex items-center rounded-2xl relative  justify-center bg-secondary h-[7rem] font-medium drop-shadow-sm text-white ${
                             userOpen
-                              ? "opacity-100 translate-x-0"
-                              : "opacity-0 translate-x-20"
+                              ? "opacity-100 translate-y-0"
+                              : "opacity-0 translate-y-20 sm:-translate-y-20"
                           } transition-all delay-[0.25s] group rounded-2xl overflow-hidden duration-300  w-[90%] py-2`}
                         >
                           <img
@@ -280,12 +273,12 @@ export default function Navbar() {
 
                       <div className="flex w-full gap-3">
                         <Link
-                          to={"/admin/product"}
+                          to={userOpen ? "/admin/product" : ""}
                           onClick={() => setUserOpen(false)}
                           className={`w-[50%] flex items-center overflow-hidden rounded-2xl relative justify-center bg-[rgba(0,0,0,0.5)] group h-[7rem] font-medium drop-shadow-sm text-white ${
                             userOpen
-                              ? "opacity-100 translate-x-0"
-                              : "opacity-0 translate-x-20"
+                              ? "opacity-100 translate-y-0"
+                              : "opacity-0 translate-y-20 sm:-translate-y-20"
                           } transition-all delay-[0.2s] duration-300  w-[90%] py-2`}
                         >
                           <img
@@ -310,12 +303,12 @@ export default function Navbar() {
                           </h1>
                         </Link>
                         <Link
-                          to={"/admin/user"}
+                          to={userOpen ? "/admin/user" : ""}
                           onClick={() => setUserOpen(false)}
                           className={`w-[50%] flex items-center rounded-2xl relative  justify-center bg-secondary h-[7rem] font-medium drop-shadow-sm text-white ${
                             userOpen
-                              ? "opacity-100 translate-x-0"
-                              : "opacity-0 translate-x-20"
+                              ? "opacity-100 translate-y-0"
+                              : "opacity-0 translate-y-20 sm:-translate-y-20"
                           } transition-all delay-[0.25s] group rounded-2xl overflow-hidden duration-300  w-[90%] py-2`}
                         >
                           <img
@@ -343,12 +336,12 @@ export default function Navbar() {
 
                       <div className="flex w-full gap-3">
                         <Link
-                          to={"/admin/foods"}
+                          to={userOpen ? "/admin/foods" : ""}
                           onClick={() => setUserOpen(false)}
                           className={`w-[50%] flex items-center overflow-hidden rounded-2xl relative justify-center bg-[rgba(0,0,0,0.5)] group h-[7rem] font-medium drop-shadow-sm text-white ${
                             userOpen
-                              ? "opacity-100 translate-x-0"
-                              : "opacity-0 translate-x-20"
+                              ? "opacity-100 translate-y-0"
+                              : "opacity-0 translate-y-20 sm:-translate-y-20"
                           } transition-all delay-[0.2s] duration-300  w-[90%] py-2`}
                         >
                           <img
@@ -373,12 +366,12 @@ export default function Navbar() {
                           </h1>
                         </Link>
                         <Link
-                          to={"/admin/fashions"}
+                          to={userOpen ? "/admin/fashions" : ""}
                           onClick={() => setUserOpen(false)}
                           className={`w-[50%] flex items-center rounded-2xl relative  justify-center bg-secondary h-[7rem] font-medium drop-shadow-sm text-white ${
                             userOpen
-                              ? "opacity-100 translate-x-0"
-                              : "opacity-0 translate-x-20"
+                              ? "opacity-100 translate-y-0"
+                              : "opacity-0 translate-y-20 sm:-translate-y-20"
                           } transition-all delay-[0.25s] group rounded-2xl overflow-hidden duration-300  w-[90%] py-2`}
                         >
                           <img
@@ -404,16 +397,12 @@ export default function Navbar() {
                         </Link>
                       </div>
 
-                      <h1 className="text-sm mt-3 text-primaryDark">
+                      <h1 className="text-sm mt-3 text-primaryDark ">
                         © 2023 Rumah Atalla —@Raffi Atalla Atmaja
                       </h1>
                     </div>
                   </div>
                 </div>
-                {/* DROPDOWN BUTTON */}
-                <button className="text-thirdyThin lg:hidden flex items-center drop-shadow hover:text-thirdyNormal ">
-                  <i className="fa-solid fa-bars fa-xl scale-[0.85]"></i>
-                </button>
               </div>
             )}
           </div>
