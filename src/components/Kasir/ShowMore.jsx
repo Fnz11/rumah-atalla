@@ -44,7 +44,7 @@ export default function ShowMore(props) {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -100 }}
               transition={{ duration: 0.3, ease: "easeInOut" }}
-              className={` relative overflow-hidden bg-section w-[24rem] px-4 pt-0 sm:px-10 h-[49rem] sm:h-[48rem] transition-all duration-300 max-h-[95vh] sm:w-[40rem] mx-2 sm:mx-10  p-5 z-[1] rounded-2xl shadow-md`}
+              className={` relative overflow-hidden bg-section w-[24rem] px-4 pt-0 sm:px-10 h-[85vh] sm:h-[48rem] transition-all duration-300 max-h-[95vh] sm:w-[40rem] mx-2 sm:mx-10  p-5 z-[1] rounded-2xl shadow-md`}
             >
               {/* LOGO */}
               <LogoPopover />
@@ -55,7 +55,7 @@ export default function ShowMore(props) {
               <div className="flex flex-col  gap-4 h-[62%] sm:h-[70%] pb-4 w-full justify-between">
                 <div className="h-full sm:h-[90%] ">
                   <div className="w-full h-full flex flex-col gap-3 text-sm overflow-y-scroll overflow-x-hidden">
-                    <div className="h-[100%] max-sm:mt-[2.6rem] sm:h-[40%]  w-full flex max-sm:flex-col-reverse justify-between items-center text-primaryDark font-[600]">
+                    <div className="h-[100%] max-sm:mt-[4.5rem] sm:h-[40%]  w-full flex max-sm:flex-col-reverse justify-between items-center text-primaryDark font-[600]">
                       <div className="w-full flex flex-col items-center sm:justify-between sm:h-full sm:py-3">
                         <div className="w-full flex py-1">
                           <span className="w-[35%] sm:w-[25%] flex">Name</span>
@@ -319,6 +319,7 @@ export default function ShowMore(props) {
                       variant={"secondary"}
                       onClick={() => props?.togglePopover()}
                     >
+                      <i className="fa-solid fa-angle-left mr-2"></i>
                       Back
                     </Button>
                   </div>

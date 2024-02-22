@@ -115,26 +115,29 @@ export default function About({ User }) {
         <Gallery />
 
         {/* PRODUCT REKOMENDASI */}
-        <div className="w-screen h-auto flex xl:px-32 flex-col items-center bg-thirdyThin pt-20 mb-20 ">
+        <div className="w-screen h-auto flex xl:px-52 flex-col items-center bg-thirdyThin pt-20 mb-20 ">
           {/* TITTLE */}
           <Title title="Recent Fashion" />
 
           {/* PRODUCT */}
-          <div className="grid grid-cols-3 gap-x-2 gap-y-10 lg:grid-cols-6 xl:gap-x-4">
+          <div className="grid grid-cols-3 gap-x-2  w-full gap-y-10 ">
             {fashionProducts.map((product, index) => {
-              if (index > 5) return;
+              if (index < fashionProducts?.length - 6) return;
               return (
-                <FashionKasirSection
-                  props={product}
-                  key={index}
-                  FashionCartItems={[]}
-                  toggleShowMore={{}}
-                />
+                <Link key={index} to={"/fashions/?search=" + product.name}>
+                  <FashionKasirSection
+                    props={product}
+                    key={index}
+                    FashionCartItems={[]}
+                    toggleShowMore={{}}
+                  />
+                </Link>
               );
             })}
           </div>
           <Link to="/fashions">
             <Button className={"mt-7"} variant="secondary">
+              <i className="fa-solid fa-shirt mr-2"></i>
               More
             </Button>
           </Link>

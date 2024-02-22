@@ -17,7 +17,7 @@ export default function FashionAndFoods() {
           <div className="h-auto relative sm:w-[50%] lg:w-[40%] aspect-square sm:aspect-[9/16] overflow-hidden rounded-2xl shadow-xl hover:shadow-2xl group hover:scale-95 transition-all duration-500 flex items-end ">
             <img
               src="LandingFashion.jpg"
-              className="absolute sm:w-auto aspect-square h-full object-cover saturate-[1.3]  transition-all duration-700 group-hover:scale-105 group-hover:rotate-2"
+              className="absolute sm:w-auto aspect-square h-full object-cover  transition-all duration-700 group-hover:scale-105 group-hover:rotate-2"
               alt="LandingFashion"
             />
             <div className="w-full h-full bg-section-dark opacity-[0.2] absolute"></div>
@@ -124,7 +124,7 @@ export default function FashionAndFoods() {
           <div className="h-auto w-full relative sm:w-[50%] lg:w-[40%] aspect-square sm:aspect-[9/16] overflow-hidden rounded-2xl shadow-xl hover:shadow-2xl  group hover:scale-95 transition-all duration-500 flex items-end ">
             <img
               src="LandingFood.jpg"
-              className="absolute sm:w-auto aspect-square h-full saturate-[1.2] object-cover  transition-all duration-700 group-hover:scale-105 group-hover:rotate-2"
+              className="absolute sm:w-auto aspect-square h-full object-cover  transition-all duration-700 group-hover:scale-105 group-hover:rotate-2"
               alt="LandingFashion"
             />
             <div className="w-full h-full bg-section-dark opacity-[0.2] absolute"></div>

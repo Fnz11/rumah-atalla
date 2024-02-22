@@ -73,28 +73,6 @@ export default function Navbar() {
                 <div className="w-[120%] h-[0.1rem] -my-[0.15rem] rounded-md bg-thirdyThin" />
               </div>
             </Link>
-
-            {/* Link */}
-            <div className="text-white ml-10 gap-6 text-lg font-medium lg:flex items-center hidden">
-              {/* <Link
-              to="/"
-              className="text-thirdyThin drop-shadow hover:text-thirdyNormal"
-            >
-              About
-            </Link> */}
-              {/* <Link
-              to="/products"
-              className="text-thirdyThin drop-shadow hover:text-thirdyNormal"
-            >
-              Products
-            </Link>
-            <Link
-              to="/foods"
-              className="text-thirdyThin drop-shadow hover:text-thirdyNormal"
-            >
-              Foods
-            </Link> */}
-            </div>
           </div>
 
           {/* RIGHT SIDE */}
@@ -122,12 +100,12 @@ export default function Navbar() {
                   <Link to={"/login"}>
                     <Button variant="">
                       Log In
-                      <span className="max-sm:hidden">as a Kasir</span>
+                      <span className="max-sm:hidden"> as a Kasir</span>
                     </Button>
                   </Link>
                   <Link to={"/fashions"}>
                     <Button variant="red">
-                      <span className="max-sm:hidden">Buy</span>
+                      <span className="max-sm:hidden" >Buy </span>
                       Products
                     </Button>
                   </Link>
@@ -184,7 +162,7 @@ export default function Navbar() {
                     >
                       <Link
                         to={userOpen ? "/admin/dashboard" : ""}
-                        onClick={() => setUserOpen(false)}
+                        onClick={() => setUserOpen(!userOpen)}
                         className={`
                        font-semibold text-xl  drop-shadow-sm text-primaryDark ${
                          userOpen

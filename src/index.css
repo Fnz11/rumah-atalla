@@ -9,6 +9,11 @@
 
 html {
   overflow-x: hidden;
+  height: 100vhd;
+}
+
+body {
+  height: 100vhd;
 }
 
 * {

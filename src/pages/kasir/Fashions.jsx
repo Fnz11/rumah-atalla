@@ -458,10 +458,18 @@ export default function FashionsKasir() {
                 </div>
 
                 <Button
-                  variant="secondary"
-                  onClick={() => handleBuy()}
-                  className={`ml-auto`}
+                  variant={"red"}
+                  onClick={togglePopover}
+                  className={"flex items-center justify-center ml-auto"}
                 >
+                  <i className="fa-solid fa-angle-left mr-2"></i>
+                  Back
+                </Button>
+                <Button
+                  onClick={() => handleBuy()}
+                  className={"flex items-center justify-center"}
+                >
+                  <i className="fa-solid fa-cart-shopping mr-2"></i>
                   Buy
                 </Button>
               </div>

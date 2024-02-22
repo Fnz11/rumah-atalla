@@ -39,7 +39,7 @@ export default function Sidebar() {
           </div>
           {/* DASHBOARD */}
           <LinkSide path={"/admin/dashboard"} name={"Dashboard"}>
-            <i className="fa-solid fa-user scale-[0.8] fa-lg"></i>
+            <i className="fa-solid fa-table scale-[0.8] fa-lg"></i>
           </LinkSide>
 
           {/* TRANSACTION */}

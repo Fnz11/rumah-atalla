@@ -84,7 +84,10 @@ export default function Header({ User }) {
                     Log Out
                   </Button>
                   <Link to={"/admin/dashboard"}>
-                    <Button variant="">Go to dashboard</Button>
+                    <Button variant="">
+                      <i className="fa-solid fa-table scale-[0.8] fa-lg mr-2 "></i>
+                      Go to dashboard
+                    </Button>
                   </Link>
                 </>
               )}

@@ -300,6 +300,15 @@ export default function FashionProducts() {
 
   //   FILTER
   const [searchValue, setSearchValue] = useState("");
+  useEffect(() => {
+    // get from params
+    const getSearchValue = new URLSearchParams(window.location.search).get(
+      "search"
+    );
+    if (getSearchValue) {
+      setSearchValue(getSearchValue);
+    }
+  }, []);
   const filteredFashions = fashionProducts.filter((item) =>
     item.name.toLowerCase().includes(searchValue.toLowerCase())
   );
@@ -332,7 +341,7 @@ export default function FashionProducts() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -100 }}
                 transition={{ duration: 0.3, delay: 0.1 }}
-                className={`bg-thirdyThin relative w-[40rem] h-[47rem] max-h-[95%] overflow-hidden pt-0  p-5 z-[1] rounded-2xl shadow-lg ${
+                className={`bg-thirdyThin relative w-[40rem] h-[80vh] sm:h-[47rem] max-h-[95%] overflow-hidden pt-0  p-5 z-[1] rounded-2xl shadow-lg ${
                   isLoading && "pointer-events-none"
                 } `}
               >
@@ -354,7 +363,7 @@ export default function FashionProducts() {
                 </form>
 
                 {/* ITEM */}
-                <div className="w-full h-[60%] overflow-y-scroll overflow-x-hidden">
+                <div className="w-full h-[55%] sm:h-[60%] overflow-y-scroll overflow-x-hidden">
                   {FashionCartItems.length > 0 && (
                     <>
                       {/* TITTLE */}
@@ -405,12 +414,19 @@ export default function FashionProducts() {
                       </div>
                     </h1>
                   </div>
-
                   <Button
-                    variant="secondary"
-                    onClick={() => handleBuy()}
-                    className={`ml-auto`}
+                    variant={"red"}
+                    onClick={togglePopover}
+                    className={"flex items-center justify-center ml-auto"}
                   >
+                    <i className="fa-solid fa-angle-left mr-2"></i>
+                    Back
+                  </Button>
+                  <Button
+                    onClick={() => handleBuy()}
+                    className={"flex items-center justify-center"}
+                  >
+                    <i className="fa-solid fa-cart-shopping mr-2"></i>
                     Buy
                   </Button>
                 </div>

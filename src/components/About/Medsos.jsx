@@ -39,9 +39,19 @@ export default function Medsos() {
       <div className="w-screen mt-12 sm:mt-20 relative">
         <section className="text-primaryDark body-font z-[10] items-center w-screen justify-center xl:px-32 mt-20">
           <div className="flex flex-wrap ">
-            {medsos.map((item) => (
+            {medsos.map((item, index) => (
               <div key={item.title} className="p-5 h-min-72 w-screen sm:w-1/2">
-                <div className="w-full drop-shadow-md hover:drop-shadow-xl group hover:scale-[1.02] transition-all duration-300 bg-thirdyThin pb-5 rounded-2xl border-2 border-primaryVeryThin hover:border-secondary h-full relative">
+                <div
+                  className={`w-full shadow-lg  hover:shadow-xl ${
+                    index === 0
+                      ? "shadow-purple-100 hover:shadow-purple-100"
+                      : index === 1
+                      ? "shadow-indigo-100 hover:shadow-indigo-100"
+                      : index === 2
+                      ? "shadow-teal-100 hover:shadow-teal-100"
+                      : index === 3 && "shadow-pink-100 hover:shadow-pink-100"
+                  }  group hover:scale-[1.02] transition-all duration-300 bg-rainbow pb-5 rounded-2xl  h-full relative`}
+                >
                   <Link
                     to={item.link}
                     target="_blank"

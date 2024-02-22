@@ -216,7 +216,9 @@ export default function Transactions() {
   const [transactionsWeb, setTransactionsWeb] = useState([]);
   const token = localStorage.getItem("token");
   const fetchTransactions = async () => {
-    setIsLoading(true);
+    if (transactionsWeb.length === 0) {
+      setIsLoading(true);
+    }
 
     await axios
       .get(DBURL + "/transactions/", {
