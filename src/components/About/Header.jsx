@@ -50,7 +50,7 @@ export default function Header({ User }) {
         </div>
         {/* LEFT */}
         <div className="relative w-full h-full flex flex-col items-center justify-center">
-          <div className="text-center mb-18 z-[2] drop-shadow-lg ">
+          <div className="text-center mb-18 z-[2] ">
             <h1 className="text-[2.5rem] lg:text-7xl font-[700] tracking-tight mb-2 ">
               Pilihan Terbaik
             </h1>

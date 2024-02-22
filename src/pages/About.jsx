@@ -124,7 +124,7 @@ export default function About({ User }) {
             {fashionProducts.map((product, index) => {
               if (index < fashionProducts?.length - 6) return;
               return (
-                <Link key={index} to={"/fashions/?search=" + product.name}>
+                <Link key={index} to={"/fashions/?opened=" + product.name}>
                   <FashionKasirSection
                     props={product}
                     key={index}

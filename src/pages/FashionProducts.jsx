@@ -18,9 +18,11 @@ import Title2 from "../components/Title2";
 import SearchBar from "../components/SearchBar";
 import FashionKasirSectionSkeleton from "../components/Kasir/FashionKasirSectionSkeleton";
 import FashionKasirSection from "../components/Kasir/FashionKasirSection";
+import { useNavigate } from "react-router-dom";
 
 export default function FashionProducts() {
   const DBURL = import.meta.env.VITE_APP_DB_URL;
+  const navigate = useNavigate();
 
   // FETCHHHH
   const [isLoadingFetch, setIsLoadingFetch] = useState(false);
@@ -300,23 +302,44 @@ export default function FashionProducts() {
 
   //   FILTER
   const [searchValue, setSearchValue] = useState("");
-  useEffect(() => {
-    // get from params
-    const getSearchValue = new URLSearchParams(window.location.search).get(
-      "search"
-    );
-    if (getSearchValue) {
-      setSearchValue(getSearchValue);
-    }
-  }, []);
   const filteredFashions = fashionProducts.filter((item) =>
     item.name.toLowerCase().includes(searchValue.toLowerCase())
   );
+  const [openedProduct, setOpenedProduct] = useState("");
+  useEffect(() => {
+    // get from params
+    const getOpenedValue = new URLSearchParams(window.location.search).get(
+      "opened"
+    );
+    if (getOpenedValue) {
+      setOpenedProduct(getOpenedValue);
+    }
+  }, []);
+
+  useEffect(() => {
+    const openedProductData = filteredFashions.find(
+      (product) => product.name === openedProduct
+    );
+    console.log("OPOPOO", openedProduct, openedProduct);
+    if (
+      openedProduct &&
+      openedProductData &&
+      openedProductData?.variants[0]?.size[0].discountPrice &&
+      !showMore
+    ) {
+      toggleShowMore({
+        data: openedProductData,
+      });
+      setOpenedProduct("");
+      navigate("/fashions");
+    }
+  }, [openedProduct, filteredFashions]);
 
   // showMore
   const [showMore, setShowMore] = useState(false);
   const [showMoreData, setShowMoreData] = useState(null);
   const toggleShowMore = ({ data }) => {
+    console.log("OPENED", data);
     setShowMore(!showMore);
     if (showMore) {
       setShowMoreData(null);
