@@ -435,19 +435,19 @@ export default function Transactions() {
     function groupDataByDateRange(data) {
       const groupedData = data.reduce((result, item) => {
         if (item?.type === page) {
-          console.log(item.createdAt, new Date(item.createdAt));
           const createdAt = new Date(item.createdAt);
           const startDate = new Date(
             createdAt.getFullYear(),
             createdAt.getMonth(),
-            createdAt.getDate() - createdAt.getDay() + 1
+            createdAt.getDate() - ((createdAt.getDate() - 1) % 7) // Menyesuaikan tanggal awal ke tanggal 1 pada rentang mingguan
           );
           const endDate = new Date(
-            createdAt.getFullYear(),
-            createdAt.getMonth(),
-            createdAt.getDate() - createdAt.getDay() + 7
+            startDate.getFullYear(),
+            startDate.getMonth(),
+            startDate.getDate() + 6 // Menggeser tanggal akhir menjadi 7 hari setelah tanggal awal
           );
 
+          // Mendapatkan string tanggal mulai dan selesai
           const startDateString = startDate.toLocaleDateString("id-ID", {
             day: "numeric",
             month: "long",
@@ -459,8 +459,10 @@ export default function Transactions() {
             year: "numeric",
           });
 
+          // Membuat rentang waktu dalam format yang diinginkan
           const dateRange = `${startDateString} - ${endDateString}`;
 
+          // Mengecek apakah rentang waktu tersebut sudah ada dalam hasil pengelompokan
           if (!result[dateRange]) {
             result[dateRange] = {
               transaction: [],
@@ -471,6 +473,7 @@ export default function Transactions() {
             };
           }
 
+          // Menghitung jumlah transaksi berdasarkan status
           if (item.status === "pending") {
             result[dateRange].Pending += 1;
           } else if (item.status === "successed") {
@@ -483,6 +486,7 @@ export default function Transactions() {
         }
         return result;
       }, {});
+      console.log("GRPD", groupedData);
       return groupedData;
     }
 
@@ -493,10 +497,8 @@ export default function Transactions() {
         ...data,
       })
     );
-    console.log("CACACAR", transactionsData);
     setChartData(chartDataValues);
   }, [transactionsData, page]);
-  console.log("CHARTDATA", chartData, transactionsData);
 
   // DOWNLOAD DATA
   const handleDownload = async () => {

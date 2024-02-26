@@ -77,18 +77,18 @@ export default function FashionKasirPopover({
   const HargaComponent = () => {
     return (
       <div className="flex flex-col leading-4">
-        {props?.size?.discountPrice != props?.price && (
+        {props?.size?.discountPrice != props?.size?.price && (
           <span className="text-purple ">
             Rp. {props?.size?.discountPrice?.toLocaleString()}
           </span>
         )}
         <span
           className={`text-secondary  ${
-            props?.price != props?.size?.discountPrice &&
+            props?.size?.price != props?.size?.discountPrice &&
             "line-through  opacity-[0.6]  w-full text-center"
           }`}
         >
-          Rp. {props.price?.toLocaleString()}
+          Rp. {props?.size?.price?.toLocaleString()}
         </span>
         {props?.size?.cashBackTotal > 0 && (
           <span className="text-orange  text-center">
@@ -102,18 +102,18 @@ export default function FashionKasirPopover({
   const JumlahComponent = () => {
     return (
       <div className="flex flex-col leading-4">
-        {props?.size?.discountPrice != props.price && (
+        {props?.size?.discountPrice != props?.size?.price && (
           <span className="text-purple ">
             Rp. {(props?.size?.discountPrice * quantity)?.toLocaleString()}
           </span>
         )}
         <span
           className={`text-secondary  ${
-            props?.price != props?.size?.discountPrice &&
+            props?.size?.price != props?.size?.discountPrice &&
             "line-through  opacity-[0.6]  w-full text-center"
           }`}
         >
-          Rp. {(props.price * quantity)?.toLocaleString()}
+          Rp. {(props?.size?.price * quantity)?.toLocaleString()}
         </span>
         {props?.size?.cashBackTotal > 0 && (
           <span className="text-orange  text-center">

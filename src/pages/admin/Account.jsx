@@ -62,65 +62,60 @@ export default function Account() {
   // CHART
   const [weeklyChartData, setWeeklyChartData] = useState([]);
   const [monthlyChartData, setMonthlyChartData] = useState([]);
+  console.log(monthlyChartData);
   function groupDataByDateRange(data) {
-    let username;
-    if (userData?.role === "owner") {
-      username = null;
-    } else if (userData?.username) {
-      username = userData?.username;
-    } else {
-      username = User?.username;
-    }
-
     const groupedData = data.reduce((result, item) => {
-      if (username ? item?.kasir === username : true) {
-        const createdAt = new Date(item.createdAt);
-        const startDate = new Date(
-          createdAt.getFullYear(),
-          createdAt.getMonth(),
-          createdAt.getDate() - createdAt.getDay() + 1
-        );
-        const endDate = new Date(
-          createdAt.getFullYear(),
-          createdAt.getMonth(),
-          createdAt.getDate() - createdAt.getDay() + 7
-        );
+      const createdAt = new Date(item.createdAt);
+      const startDate = new Date(
+        createdAt.getFullYear(),
+        createdAt.getMonth(),
+        createdAt.getDate() - ((createdAt.getDate() - 1) % 7) // Menyesuaikan tanggal awal ke tanggal 1 pada rentang mingguan
+      );
+      const endDate = new Date(
+        startDate.getFullYear(),
+        startDate.getMonth(),
+        startDate.getDate() + 6 // Menggeser tanggal akhir menjadi 7 hari setelah tanggal awal
+      );
 
-        const startDateString = startDate.toLocaleDateString("id-ID", {
-          day: "numeric",
-          month: "long",
-          year: "numeric",
-        });
-        const endDateString = endDate.toLocaleDateString("id-ID", {
-          day: "numeric",
-          month: "long",
-          year: "numeric",
-        });
+      // Mendapatkan string tanggal mulai dan selesai
+      const startDateString = startDate.toLocaleDateString("id-ID", {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      });
+      const endDateString = endDate.toLocaleDateString("id-ID", {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      });
 
-        const dateRange = `${startDateString} - ${endDateString}`;
+      // Membuat rentang waktu dalam format yang diinginkan
+      const dateRange = `${startDateString} - ${endDateString}`;
 
-        if (!result[dateRange]) {
-          result[dateRange] = {
-            transaction: [],
-            Pending: 0,
-            Successed: 0,
-            Canceled: 0,
-            Total: 0,
-          };
-        }
-
-        if (item.status === "pending") {
-          result[dateRange].Pending += 1;
-        } else if (item.status === "successed") {
-          result[dateRange].Successed += 1;
-        } else if (item.status === "canceled") {
-          result[dateRange].Canceled += 1;
-        }
-        result[dateRange].Total += 1;
-        result[dateRange].transaction.push(item);
+      // Mengecek apakah rentang waktu tersebut sudah ada dalam hasil pengelompokan
+      if (!result[dateRange]) {
+        result[dateRange] = {
+          transaction: [],
+          Pending: 0,
+          Successed: 0,
+          Canceled: 0,
+          Total: 0,
+        };
       }
+
+      // Menghitung jumlah transaksi berdasarkan status
+      if (item.status === "pending") {
+        result[dateRange].Pending += 1;
+      } else if (item.status === "successed") {
+        result[dateRange].Successed += 1;
+      } else if (item.status === "canceled") {
+        result[dateRange].Canceled += 1;
+      }
+      result[dateRange].Total += 1;
+      result[dateRange].transaction.push(item);
       return result;
     }, {});
+    console.log("GRPD", groupedData);
     return groupedData;
   }
 
@@ -133,11 +128,13 @@ export default function Account() {
           createdAt.getMonth(),
           1
         );
-
+        const currentYear = new Date().getFullYear();
         const startOfMonthString = startOfMonth.toLocaleDateString("id-ID", {
           month: "long",
-          year: "numeric",
         });
+        if (currentYear !== startOfMonth.getFullYear()) {
+          return result;
+        }
 
         const monthRange = `${startOfMonthString}`;
 
@@ -170,6 +167,33 @@ export default function Account() {
       return result;
     }, {});
 
+    // Memastikan setiap bulan ada dalam groupedData
+    const months = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+
+    months.forEach((month) => {
+      if (!groupedData[month]) {
+        groupedData[month] = {
+          Shopee: 0,
+          Tokopedia: 0,
+          Web: 0,
+          Total: 0,
+        };
+      }
+    });
+
     return groupedData;
   }
 
@@ -185,9 +209,10 @@ export default function Account() {
     setWeeklyChartData(chartDataValues);
 
     const groupedByMonth = groupDataByMonth(transactionsData);
+    console.log(groupedByMonth, "EFJOOJFEJOEFOJ");
     const monthlyChartDataValues = Object.entries(groupedByMonth)?.map(
-      ([monthRange, data]) => ({
-        month: monthRange,
+      ([monthName, data]) => ({
+        month: monthName,
         ...data,
       })
     );
@@ -295,10 +320,10 @@ export default function Account() {
                 <Button
                   onClick={updateUserAvatar}
                   className={
-                    "bg-primaryDark text-white sm:min-w-[3rem] absolute right-4 bottom-4 w-[3rem] "
+                    "bg-primaryDark text-white sm:min-w-[2rem] absolute right-4 bottom-4 w-[3rem] "
                   }
                 >
-                  <i className="fa-solid fa-floppy-disk"></i>
+                  <i className="fa-solid fa-floppy-disk -ml-1"></i>
                 </Button>
               )}
             </div>
@@ -425,7 +450,7 @@ export default function Account() {
                     className=""
                   >
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="name" />
+                    <XAxis dataKey="month" />
                     <YAxis />
                     <Tooltip
                       content={({ payload, label }) => {
