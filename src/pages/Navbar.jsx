@@ -105,7 +105,7 @@ export default function Navbar() {
                   </Link>
                   <Link to={"/fashions"}>
                     <Button variant="red">
-                      <span className="max-sm:hidden" >Buy </span>
+                      <span className="max-sm:hidden">Buy </span>
                       Products
                     </Button>
                   </Link>
@@ -419,8 +419,8 @@ export default function Navbar() {
             } `}
           >
             {/* <AdminNavbar /> */}
-            <AdminNavbar adminPage={adminPage} User={User} />
-            <Outlet User={User} />
+            <AdminNavbar adminPage={adminPage} User={userData} />
+            <Outlet />
             <Footer adminPage={adminPage} />
           </div>
         </div>

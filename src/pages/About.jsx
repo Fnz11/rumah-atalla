@@ -12,7 +12,7 @@ import Title from "../components/Title";
 import FashionKasirSection from "../components/Kasir/FashionKasirSection";
 import { Link } from "react-router-dom";
 
-export default function About({ User }) {
+export default function About() {
   const products = [
     {
       id: 1,
@@ -92,6 +92,9 @@ export default function About({ User }) {
       });
   };
 
+  const User = localStorage?.getItem("user")
+    ? JSON.parse(localStorage?.getItem("user"))
+    : null;
   useEffect(() => {
     fetchFashionProducts();
   }, []);
