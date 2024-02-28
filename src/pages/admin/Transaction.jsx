@@ -503,27 +503,32 @@ export default function Transactions() {
   // DOWNLOAD DATA
   const handleDownload = async () => {
     try {
-      const downloadUrl =
+      // Constructing the download URL based on the page
+      const BEURL =
         page === "foods"
-          ? DBURL + "/transactions/foods/download"
-          : DBURL + "/transactions/fashions/download";
-      const response = await axios.get(downloadUrl, {
-        responseType: "blob",
-      });
+          ? `${DBURL}/transactions/foods/download`
+          : `${DBURL}/transactions/fashions/download`;
 
-      const url = window.URL.createObjectURL(new Blob([response.data]));
+      // Making a GET request to download the file
+      const response = await axios.get(BEURL);
 
+      // Creating a blob URL from the response data
+      const downloadUrl = response.data.fileUrl;
+
+      // Creating an <a> element to trigger the download
       const a = document.createElement("a");
-      a.href = url;
+      a.href = downloadUrl;
 
-      if (page === "foods") {
-        a.download = "Foods Transactions.xlsx";
-      } else {
-        a.download = "Fashions Transactions.xlsx";
-      }
+      // Setting the file name for download
+      const fileName =
+        page === "foods"
+          ? "Foods Transactions.xlsx"
+          : "Fashions Transactions.xlsx";
+      a.download = fileName;
+      console.log("LINK", response);
+      // Appending the <a> element to the document body, triggering the download, and removing the element
       document.body.appendChild(a);
       a.click();
-
       document.body.removeChild(a);
     } catch (error) {
       console.error("Error downloading data:", error);
