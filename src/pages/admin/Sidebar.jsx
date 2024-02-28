@@ -49,20 +49,21 @@ export default function Sidebar() {
 
           <div className="lg:mx-4 flex items-center h-[0.1px] w-auto bg-white opacity-[0.6]  drop-shadow-xl"></div>
 
-          <div className="px-4 hidden lg:flex font-semibold text-white mt-2 text-[0.6rem] opacity-[0.6]">
-            CONTROLLER
-          </div>
           {/* PROMO */}
           {isOwner && (
-            <LinkSide path={"/admin/promo"} name={"Promo"}>
-              <i className="fa-solid fa-tag scale-[0.8] fa-lg"></i>
-            </LinkSide>
+            <>
+              <div className="px-4 hidden lg:flex font-semibold text-white mt-2 text-[0.6rem] opacity-[0.6]">
+                CONTROLLER
+              </div>
+              <LinkSide path={"/admin/promo"} name={"Promo"}>
+                <i className="fa-solid fa-tag scale-[0.8] fa-lg"></i>
+              </LinkSide>
+              {/* PRODUCT CONTROL */}
+              <LinkSide path={"/admin/product"} name={"Product"}>
+                <i className="fa-solid fa-box scale-[0.8] fa-lg"></i>
+              </LinkSide>
+            </>
           )}
-
-          {/* PRODUCT CONTROL */}
-          <LinkSide path={"/admin/product"} name={"Product"}>
-            <i className="fa-solid fa-box scale-[0.8] fa-lg"></i>
-          </LinkSide>
 
           {/* USER CONTROL */}
           {isOwner && (

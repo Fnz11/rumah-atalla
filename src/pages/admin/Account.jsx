@@ -97,7 +97,7 @@ export default function Account() {
         result[dateRange] = {
           transaction: [],
           Pending: 0,
-          Successed: 0,
+          Succeed: 0,
           Canceled: 0,
           Total: 0,
         };
@@ -107,7 +107,7 @@ export default function Account() {
       if (item.status === "pending") {
         result[dateRange].Pending += 1;
       } else if (item.status === "successed") {
-        result[dateRange].Successed += 1;
+        result[dateRange].Succeed += 1;
       } else if (item.status === "canceled") {
         result[dateRange].Canceled += 1;
       }
@@ -366,8 +366,8 @@ export default function Account() {
                       const pending =
                         payload.find((item) => item.dataKey === "Pending")
                           ?.value || 0;
-                      const successed =
-                        payload.find((item) => item.dataKey === "Successed")
+                      const succeed =
+                        payload.find((item) => item.dataKey === "Succeed")
                           ?.value || 0;
                       const canceled =
                         payload.find((item) => item.dataKey === "Canceled")
@@ -385,7 +385,7 @@ export default function Account() {
                           </p>
                           <p className="text-green-400 flex items-center gap-2">
                             <i className="fa-solid fa-circle-check mb-1 fa-lg"></i>
-                            Successed: {successed}
+                            Succeed: {succeed}
                           </p>
                           <p className="text-red-400 flex items-center gap-2">
                             <i className="fa-solid fa-circle-exclamation mb-1 fa-lg"></i>
@@ -403,7 +403,7 @@ export default function Account() {
                     height={36}
                   />
                   <Bar dataKey="Pending" fill="rgb(250 204 21)" />
-                  <Bar dataKey="Successed" fill="rgb(74 222 128)" />
+                  <Bar dataKey="Succeed" fill="rgb(74 222 128)" />
                   <Bar dataKey="Canceled" fill="rgb(248 113 113)" />
                 </BarChart>
               </ResponsiveContainer>
@@ -414,7 +414,7 @@ export default function Account() {
               <h1 className="text-2xl font-semibold">Transaction</h1>
               <div className="flex 2xl:flex-col w-full gap-3 sm:gap-6 2xl:gap-3">
                 <div className="flex items-center justify-center text-center drop-shadow-lg text-white font-semibold bg-green-400 w-full sm:aspect-[4/2] 2xl:aspect-[12/10] max-sm:aspect-[12/10] relative rounded-2xl shadow-lg p-3 overflow-hidden">
-                  Successed: {userData?.transactions?.successed}
+                  Succeed: {userData?.transactions?.successed}
                 </div>
                 <div className="flex items-center justify-center text-center drop-shadow-lg text-white font-semibold bg-red-400 w-full sm:aspect-[4/2]  2xl:aspect-[12/10] max-sm:aspect-[12/10] relative rounded-2xl shadow-lg p-3 overflow-hidden">
                   Canceled: {userData?.transactions?.canceled}

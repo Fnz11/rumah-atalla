@@ -313,12 +313,37 @@ export default function Transactions() {
   const [totalCanceledTransactions, setTotalCanceledTransactions] = useState(0);
   const [totalSuccededTransactions, setTotalSuccededTransactions] = useState(0);
   const [totalPendingTransactions, setTotalPendingTransactions] = useState(0);
+  const [dailyTransactions, setDailyTransactions] = useState([]);
+
   useEffect(() => {
     setSortedTransactions(
       transactionsData.map(
         (_, index) => transactionsData[transactionsData.length - index - 1]
       )
     );
+
+    const dateNow = new Date().setHours(0, 0, 0, 0); // set hours, minutes, seconds, and milliseconds to zero for comparison
+    let todayTransaction = {
+      canceled: 0,
+      succeed: 0, // corrected typo
+      pending: 0,
+    };
+
+    transactionsData.map((item) => {
+      if (new Date(item.createdAt).setHours(0, 0, 0, 0) === dateNow) {
+        if (item.status === "pending") {
+          todayTransaction.pending++;
+        } else if (item.status === "successed") {
+          todayTransaction.succeed++;
+        } else if (item.status === "canceled") {
+          todayTransaction.canceled++;
+        }
+      } else {
+        console.log(item.createdAt);
+      }
+    });
+
+    setDailyTransactions(todayTransaction);
   }, [transactionsData]);
 
   useEffect(() => {
@@ -552,84 +577,102 @@ export default function Transactions() {
 
       {/* CONTENT */}
       <div className="w-full min-h-screen  pb-20 pt-10 ">
-        {/* CHART */}
-        <div className="w-full h-[19rem] sm:h-[30rem] bg-section border-b-2 border-x-2 rounded-2xl shadow-lg p-7 mb-10 relative overflow-hidden">
-          {/* TOP */}
-          <Title2 title="Chart" className={"mb-3"} />
-
+        <div className="flex max-2xl:flex-col 2xl:gap-5 ">
           {/* CHART */}
-          <ResponsiveContainer
-            width="100%"
-            height={"90%"}
-            className="drop-shadow-sm  w-full flex items-center justify-center text-sm"
-          >
-            <BarChart
-              width={500}
-              height={300}
-              data={chartData}
-              isAnimationActive
-              margin={{
-                top: 0,
-                right: 0,
-                left: 0,
-                bottom: 0,
-              }}
+          <div className="w-full h-[19rem] sm:h-[30rem] bg-section border-b-2 border-x-2 rounded-2xl shadow-lg p-7 mb-10 relative overflow-hidden">
+            {/* TOP */}
+            <Title2 title="Chart" className={"mb-3"} />
+
+            {/* CHART */}
+            <ResponsiveContainer
+              width="100%"
+              height={"90%"}
+              className="drop-shadow-sm  w-full flex items-center justify-center text-sm"
             >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="date" />
-              <YAxis />
-              <Tooltip
-                content={({ payload, label }) => {
-                  const total = payload.reduce(
-                    (accumulator, { value }) => accumulator + value,
-                    0
-                  );
-
-                  // Menghitung jumlah pending, successed, dan canceled
-                  const pending =
-                    payload.find((item) => item.dataKey === "Pending")?.value ||
-                    0;
-                  const successed =
-                    payload.find((item) => item.dataKey === "Successed")
-                      ?.value || 0;
-                  const canceled =
-                    payload.find((item) => item.dataKey === "Canceled")
-                      ?.value || 0;
-
-                  return (
-                    <div className="bg-section-dark font-semibold py-9 px-6 rounded-2xl drop-shadow-md text-white flex flex-col gap-2 text-sm">
-                      <p className="flex items-center gap-2">
-                        <i className="fa-regular fa-calendar-days mb-1 fa-lg"></i>
-                        {label}
-                      </p>
-                      <p className="text-yellow-400 flex items-center gap-2">
-                        <i className="fa-solid fa-clock mb-1 fa-lg "></i>
-                        Pending: {pending}
-                      </p>
-                      <p className="text-green-400 flex items-center gap-2">
-                        <i className="fa-solid fa-circle-check mb-1 fa-lg"></i>
-                        Successed: {successed}
-                      </p>
-                      <p className="text-red-400 flex items-center gap-2">
-                        <i className="fa-solid fa-circle-exclamation mb-1 fa-lg"></i>
-                        Canceled: {canceled}
-                      </p>
-                      <p className="mt-2">Total: {total}</p>
-                    </div>
-                  );
+              <BarChart
+                width={500}
+                height={300}
+                data={chartData}
+                isAnimationActive
+                margin={{
+                  top: 0,
+                  right: 0,
+                  left: 0,
+                  bottom: 0,
                 }}
-              />
-              <Legend
-                verticalAlign="bottom"
-                iconSize={10}
-                iconType="square"
-                height={36}
-              />
-              <Bar dataKey="Pending" fill="rgb(250 204 21)" />
-              <Bar dataKey="Successed" fill="rgb(74 222 128)" />
-              <Bar dataKey="Canceled" fill="rgb(248 113 113)" />
-            </BarChart>
-          </ResponsiveContainer>
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="date" />
+                <YAxis />
+                <Tooltip
+                  content={({ payload, label }) => {
+                    const total = payload.reduce(
+                      (accumulator, { value }) => accumulator + value,
+                      0
+                    );
+
+                    // Menghitung jumlah pending, successed, dan canceled
+                    const pending =
+                      payload.find((item) => item.dataKey === "Pending")
+                        ?.value || 0;
+                    const successed =
+                      payload.find((item) => item.dataKey === "Successed")
+                        ?.value || 0;
+                    const canceled =
+                      payload.find((item) => item.dataKey === "Canceled")
+                        ?.value || 0;
+
+                    return (
+                      <div className="bg-section-dark font-semibold py-9 px-6 rounded-2xl drop-shadow-md text-white flex flex-col gap-2 text-sm">
+                        <p className="flex items-center gap-2">
+                          <i className="fa-regular fa-calendar-days mb-1 fa-lg"></i>
+                          {label}
+                        </p>
+                        <p className="text-yellow-400 flex items-center gap-2">
+                          <i className="fa-solid fa-clock mb-1 fa-lg "></i>
+                          Pending: {pending}
+                        </p>
+                        <p className="text-green-400 flex items-center gap-2">
+                          <i className="fa-solid fa-circle-check mb-1 fa-lg"></i>
+                          Successed: {successed}
+                        </p>
+                        <p className="text-red-400 flex items-center gap-2">
+                          <i className="fa-solid fa-circle-exclamation mb-1 fa-lg"></i>
+                          Canceled: {canceled}
+                        </p>
+                        <p className="mt-2">Total: {total}</p>
+                      </div>
+                    );
+                  }}
+                />
+                <Legend
+                  verticalAlign="bottom"
+                  iconSize={10}
+                  iconType="square"
+                  height={36}
+                />
+                <Bar dataKey="Pending" fill="rgb(250 204 21)" />
+                <Bar dataKey="Successed" fill="rgb(74 222 128)" />
+                <Bar dataKey="Canceled" fill="rgb(248 113 113)" />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+
+          {/* DAILLY TRANSACTIONS */}
+          <div className="flex flex-col w-full 2xl:w-[20%] text-sm h-[9.5rem] sm:h-[14rem]  mb-10 2xl:h-auto text-primaryDark rounded-2xl shadow-lg p-4 items-center justify-center">
+            <Title2 title="Daily" className={"mb-0"} />
+            <div className="flex 2xl:flex-col w-full h-full gap-3 sm:gap-6 2xl:gap-3">
+              <div className="flex items-center justify-center text-center drop-shadow-lg text-white font-semibold bg-green-400 w-full 2xl:h-[33.3%] relative rounded-2xl shadow-lg p-3 overflow-hidden">
+                Succeed: {dailyTransactions?.succeed}
+              </div>
+              <div className="flex items-center justify-center text-center drop-shadow-lg text-white font-semibold bg-red-400 w-full 2xl:h-[33.3%] relative rounded-2xl shadow-lg p-3 overflow-hidden">
+                Canceled: {dailyTransactions?.canceled}
+              </div>
+              <div className="flex items-center justify-center text-center drop-shadow-lg text-white font-semibold bg-yellow-400 w-full 2xl:h-[33.3%] relative rounded-2xl shadow-lg p-3 overflow-hidden">
+                Pending: {dailyTransactions?.pending}
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* FILTER */}

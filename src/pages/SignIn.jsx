@@ -130,7 +130,7 @@ export default function SignIn() {
             </div>
             <div className="flex flex-col w-fit justify-between ml-auto mt-3">
               <Button onClick={handleLogin}>Log In</Button>
-              {!isError && (
+              {isError && (
                 <h1 className="mt-2 text-sm sm:text-base text-red-500 font-semibold">
                   Error Sign In
                 </h1>
