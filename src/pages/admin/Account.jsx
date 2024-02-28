@@ -426,7 +426,6 @@ export default function Account() {
             </div>
           </div>
           {/* BOTTOM */}
-          {/*  */}
           {userData?.role == "owner" && (
             <div className="flex w-full gap-5 ">
               <div className="w-full h-[29rem] flex flex-col justify-center gap-5 items-center bg-section rounded-2xl overflow-hidden shadow-lg p-7">
