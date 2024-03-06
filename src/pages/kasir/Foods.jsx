@@ -174,25 +174,6 @@ export default function FoodsKasir() {
   const [buyer, setBuyer] = useState("");
   // LOADING
   const [isLoading, setIsLoading] = useState(false);
-  // const updateUser = async () => {
-  //   console.log("DIUPDATEE", transactionsData);
-  //   await axios
-  //     .patch(
-  //       DBURL + `/users/` + user.userId,
-  //       { transactions: transactionsData },
-  //       {
-  //         headers: {
-  //           Authorization: token,
-  //         },
-  //       }
-  //     )
-  //     .then((res) => {
-  //       console.log("INI RESSS", res.data);
-  //     })
-  //     .catch((err) => {
-  //       console.log("INI EEEERR", err);
-  //     });
-  // };
 
   const [formData, setFormData] = useState({
     buyer: "",
@@ -285,10 +266,6 @@ export default function FoodsKasir() {
   useEffect(() => {
     setProductsSelected([...foodsPop, ...drinksPop]);
   }, [foodsPop, drinksPop]);
-
-  // useEffect(() => {
-  //   console.log("ANUNBAUFENOFE", foodsProducts)
-  // })
 
   // TOTAL
   const updateProductQty = ({
