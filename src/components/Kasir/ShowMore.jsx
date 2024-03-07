@@ -4,25 +4,24 @@ import { AnimatePresence, motion } from "framer-motion";
 import Title from "../Title";
 import { SwiperSlide, Swiper } from "swiper/react";
 import Button from "../Button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ReadMoreDescription from "../ReadMoreDescription";
 import BlackScreenPopover from "../BlackScreenPopover";
 import LogoPopover from "../LogoPopover";
+import CustomToast from "../CustomToast";
+import toast from "react-hot-toast";
+import ShowMoreSection from "./ShowMoreSection";
 
 export default function ShowMore(props) {
-  if (props.showPopover) {
-    console.log("IN IPROSP", props);
-  }
   // READMORE
   const [readMore, setReadMore] = useState(false);
-  console.log(readMore);
-
   // HOVER PROMO
   const [hoverPromo, setHoverPromo] = useState("");
   const handleHoverPromo = (promo) => {
-    console.log("PMPM", promo);
     setHoverPromo(promo);
   };
+
+  let allIndex = -1;
   return (
     <>
       <ReadMoreDescription
@@ -196,114 +195,17 @@ export default function ShowMore(props) {
                         {props?.data?.variants?.map((item, indexVariant) => (
                           <div key={indexVariant}>
                             {item?.size?.map((size, indexSize) => {
-                              console.log(size);
-                              const idOnCart =
-                                item?._id?.toString() +
-                                "?variant=" +
-                                indexVariant +
-                                ",size=" +
-                                indexSize;
-
-                              const isAdded = props?.FashionCartItems?.some(
-                                (product) => {
-                                  if (product?.idOnCart === idOnCart) {
-                                    return true;
-                                  }
-                                }
-                              );
-                              const { discountPrice, cashBackTotal } = item
-                                ?.size[indexSize] ?? {
-                                discountPrice: 0,
-                                cashBackTotal: 0,
-                              };
-                              const newSize = {
-                                ...size,
-                                indexSize,
-                              };
-                              const newVariant = {
-                                ...item,
-                                indexVariant,
-                              };
                               return (
-                                <button
-                                  key={size.name}
-                                  onClick={() => {
-                                    if (size?.stock === 0) return;
-                                    props?.addToCart({
-                                      _id: props?.data?._id?.toString(),
-                                      idOnCart: idOnCart,
-                                      name: props?.data?.name,
-                                      variants: props?.data?.variants,
-                                      variant: newVariant,
-                                      size: newSize,
-                                      sizes: item?.size,
-                                      qty: 1,
-                                      discountNominal:
-                                        props?.data?.discountNominal,
-                                      discountPersentase:
-                                        props?.data?.discountPersentase,
-                                      cashbackNominal:
-                                        props?.data?.cashbackNominal,
-                                      cashbackPersentase:
-                                        props?.data?.cashbackPersentase,
-                                      productPromos: props?.data?.productPromos,
-                                      price: size?.price,
-                                    });
-                                  }}
-                                  className={` 
-                                ${
-                                  isAdded &&
-                                  "border-4 border-primaryThin scale-[0.95]"
-                                } ${size?.stock === 0 && "cursor-not-allowed"}
-                                transition-all overflow-hidden duration-200 hover:shadow-xl min-h-[6rem] hover:inset-0 inset-[0.2rem] relative w-full bg-white mb-4 px-5 sm:py-6 py-3 rounded-2xl shadow-lg  flex text-primaryDark font-semibold items-center justify-center text-[0.8rem] max-sm:flex-col`}
-                                >
-                                  <div
-                                    className={`w-full bg-section-dark text-white opacity-[0.9] text-sm sm:text-lg font-semibold h-full absolute left-0 top-0 z-[10] flex items-center justify-center ${
-                                      size?.stock > 0 && "hidden"
-                                    }`}
-                                  >
-                                    out of stock
-                                  </div>
-                                  <h1 className="max-sm:hidden w-full justify-center sm:w-[30%] flex h-full items-center text-center truncate">
-                                    {item?.name}
-                                  </h1>
-                                  <h1
-                                    className={`w-full max-sm:justify-center sm:w-[70%] h-full flex items-center justify-center font-medium flex-col gap-2 `}
-                                  >
-                                    <div
-                                      key={size?.size}
-                                      className="flex gap-1 font-semibold items-center"
-                                    >
-                                      <div className="sm:hidden">
-                                        {item?.name} -
-                                      </div>
-                                      <div>{size?.size}</div> -
-                                      <div>{size?.stock} pcs</div> -
-                                      <div className=" font-semibold flex flex-col items-start leading-4 justify-center">
-                                        {discountPrice !== size?.price && (
-                                          <h1 className="text-purple">
-                                            Rp.{" "}
-                                            {discountPrice?.toLocaleString()}
-                                          </h1>
-                                        )}
-                                        <h1
-                                          className={`${
-                                            discountPrice !== size?.price &&
-                                            "line-through opacity-70"
-                                          } text-secondary `}
-                                        >
-                                          Rp. {size?.price?.toLocaleString()}
-                                        </h1>
-                                        {cashBackTotal !== 0 && (
-                                          <h1 className="text-orange">
-                                            +Rp.{" "}
-                                            {cashBackTotal?.toLocaleString()}
-                                          </h1>
-                                        )}
-                                      </div>
-                                    </div>
-                                  </h1>
-                                </button>
+                                <ShowMoreSection
+                                  indexSize={indexSize}
+                                  indexVariant={indexVariant}
+                                  size={size}
+                                  key={indexSize}
+                                  item={item}
+                                  FashionCartItems={props?.FashionCartItems}
+                                  data={props?.data}
+                                  addToCart={props?.addToCart}
+                                />
                               );
                             })}
                           </div>

@@ -320,7 +320,7 @@ export default function Account() {
                 <Button
                   onClick={updateUserAvatar}
                   className={
-                    "bg-primaryDark text-white sm:min-w-[2rem] absolute right-4 bottom-4 w-[3rem] "
+                    "bg-primaryDark text-white sm:min-w-[1rem] absolute right-4 pr-[1rem] bottom-4 w-[3rem] "
                   }
                 >
                   <i className="fa-solid fa-floppy-disk -ml-1"></i>

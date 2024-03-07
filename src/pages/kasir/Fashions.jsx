@@ -63,37 +63,11 @@ export default function FashionsKasir() {
       });
   };
   // FETCH TRANSACTIONS
-  const [transactionsData, setTransactionsData] = useState([]);
   const user = JSON.parse(localStorage.getItem("user"));
-  const fetchTransactions = async () => {
-    try {
-      const response = await axios.get(DBURL + "/transactions/", {
-        headers: {
-          Authorization: token,
-        },
-      });
-
-      const transactions = response.data;
-      const initialCounts = { successed: 0, pending: 0, canceled: 0 };
-
-      const { successed, pending, canceled } = transactions.reduce(
-        (counts, transaction) => {
-          counts[transaction.status] = (counts[transaction.status] || 0) + 1;
-          return counts;
-        },
-        initialCounts
-      );
-
-      setTransactionsData({ successed, pending, canceled });
-    } catch (error) {
-      console.error("Error fetching transactions:", error);
-    }
-  };
 
   useEffect(() => {
     fetchPromos();
     fetchFashionProducts();
-    fetchTransactions();
   }, []);
 
   // TOTAL
@@ -106,37 +80,44 @@ export default function FashionsKasir() {
   // CART
   const [productsForm, setProductsForm] = useState([]);
   const [FashionCartItems, setFashionCartItems] = useState([]);
-  const handleFashionCartItems = (item) => {
-    addToCart(item);
-  };
-  const addToCart = (item) => {
+  const addToCart = (item, value = null) => {
+    //  ITEM IS PRODUCT DATA, VALUE IS QTY VALUE
+
+    // FIND THE PRODUCT IN CARTITEMS
     const cartIndex = FashionCartItems.findIndex(
       (product) => product?.idOnCart === item?.idOnCart
     );
+    console.log("FAFAFf", value, cartIndex);
+
+    // MAKE UPDATED CART ITEMS
     let updatedFashionCartItems = [...FashionCartItems];
+
+    // CHECK IF THE PRODUCT IS EXIST ON THE CART OR NOT, IF YES THEN
     if (cartIndex >= 0) {
-      updatedFashionCartItems.splice(cartIndex, 1);
-      setFashionCartItems(updatedFashionCartItems);
+      // CHECK VALUE PARAM, IF THE VALUE IS 0 THEN REMOVE IT ON THE CART ITEMS
+      if (value === 0) {
+        updatedFashionCartItems[cartIndex].qty = 0;
+        updatedFashionCartItems.splice(cartIndex, 1);
+        setFashionCartItems(updatedFashionCartItems);
+        return;
+      }
+      // IF NOT, THEN CHANGE THE QTY VALUE OF THE ITEM ON CART
+      updatedFashionCartItems[cartIndex].qty = value;
+      console.log("FAFAF", updatedFashionCartItems[cartIndex].qty);
+      setFashionCartItems(FashionCartItems);
       return;
+    }
+    if (value) {
+      item.qty = value;
     }
     setFashionCartItems([...FashionCartItems, item]);
   };
 
   // HANDLE BUY
   const [buyer, setBuyer] = useState("");
+
   // LOADING
   const [isLoading, setIsLoading] = useState(false);
-  const updateUser = async () => {
-    await axios.patch(
-      DBURL + `/users/` + user.userId,
-      { transactions: transactionsData },
-      {
-        headers: {
-          Authorization: token,
-        },
-      }
-    );
-  };
   const [formData, setFormData] = useState({
     buyer: "",
     kasir: "",
@@ -162,14 +143,7 @@ export default function FashionsKasir() {
     }));
   }, [productsForm, buyer]);
 
-  // useEffect(() => {
-  //   // messaging.subscribeToTopic("notifications");
-  //   subscribeToTopic();
-  // }, []);
-
   const handleBuy = async () => {
-    // console.log("BUUYY", formData);
-    // subscribeToTopic();
     setIsLoading(true);
     await axios
       .post(DBURL + "/transactions", formData, {
@@ -181,7 +155,6 @@ export default function FashionsKasir() {
         toast.custom((t) => (
           <CustomToast t={t} message="Transaction successed" type="success" />
         ));
-        updateUser();
         setFormData({
           buyer: "",
           kasir: "",
@@ -213,9 +186,9 @@ export default function FashionsKasir() {
   const [showPopover, setShowPopover] = useState(false);
   // const [trigerCart, setTrigerCart] = useState(false);
   const handleChange = (value, type, indexOnCart) => {
+    console.log("test", value, type, indexOnCart);
     const updatedFashionCartItems = [...FashionCartItems];
     if (type === "qty") {
-      console.log(value, FashionCartItems, indexOnCart);
       updatedFashionCartItems[indexOnCart].qty = value.value1;
     } else if (type === "productType") {
       updatedFashionCartItems[indexOnCart].idOnCart = value.value3;
@@ -233,6 +206,8 @@ export default function FashionsKasir() {
     }
     setFashionCartItems(updatedFashionCartItems);
   };
+
+  console.log("testt", FashionCartItems);
 
   useEffect(() => {
     if (FashionCartItems.length <= 0 && showPopover) {
@@ -275,7 +250,6 @@ export default function FashionsKasir() {
         cashback: totalCashback,
       };
     });
-    console.log("NENENENENEW", newFashionCartItems);
     setProductsForm(newFashionCartItems);
   };
 
@@ -289,7 +263,7 @@ export default function FashionsKasir() {
 
   // TOTAL
   useEffect(() => {
-    const newFashionProduct = fashionProducts.map((product) => {
+    const newFashionProducts = fashionProducts.map((product) => {
       let discountNominal = 0;
       let discountPersentase = 0;
       let cashbackNominal = 0;
@@ -306,7 +280,6 @@ export default function FashionsKasir() {
         ) {
           included = true;
         }
-        console.log("INCLUD KAHH" + promo.name, included);
         if (included) {
           productPromos.push(promo);
           if (promo.type === "diskon persentase") {
@@ -351,7 +324,7 @@ export default function FashionsKasir() {
       };
     });
     // console.log("NEPROD", newFashionProduct);
-    setFashionProducts(newFashionProduct);
+    setFashionProducts(newFashionProducts);
   }, [promos, triger]);
 
   //   FILTER
@@ -371,6 +344,8 @@ export default function FashionsKasir() {
       setShowMoreData(data);
     }
   };
+
+  console.log("productForm", productsForm);
 
   return (
     <>
@@ -422,7 +397,7 @@ export default function FashionsKasir() {
                           handleChange={handleChange}
                           productsForm={productsForm}
                           FashionCartItems={FashionCartItems}
-                          handleFashionCartItems={handleFashionCartItems}
+                          handleFashionCartItems={addToCart}
                         />
                       </div>
                     ))}
@@ -481,6 +456,7 @@ export default function FashionsKasir() {
       {/* SHOW MORE */}
       <ShowMore
         showPopover={showMore}
+        CartItems={FashionCartItems}
         togglePopover={() => toggleShowMore({ data: null })}
         FashionCartItems={FashionCartItems}
         addToCart={addToCart}

@@ -2,7 +2,6 @@
 import { motion } from "framer-motion";
 
 export default function BlackScreenPopover({ onClick, isLoading }) {
-  console.log(isLoading, onClick);
   return (
     <>
       <motion.div

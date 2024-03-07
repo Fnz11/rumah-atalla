@@ -28,14 +28,6 @@ export default function FashionKasirSection({
     priceRange = `${lowestPrice?.toLocaleString()}`;
   }
 
-  console.log(
-    "HOFEHIJOEFHOUFE",
-    FashionCartItems,
-    props._id.toString(),
-    FashionCartItems[0]?._id,
-    FashionCartItems[0]?._id === props._id
-  );
-
   const [isIncluded, setIsIncluded] = useState(false);
 
   useEffect(() => {
@@ -60,7 +52,7 @@ export default function FashionKasirSection({
         }}
         key={props._id.toString()}
         className={`${
-          isIncluded  
+          isIncluded
             ? "border-4 border-primaryThin opacity-[0.6] scale-[0.95] shadow-lg group hover:shadow-xl"
             : " shadow-lg group hover:shadow-xl"
         } rounded-2xl m-1 group relative  bg-section inset-[0.1rem] hover:inset-0 overflow-hidden transition-all `}

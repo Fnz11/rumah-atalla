@@ -3,13 +3,7 @@ export default function SearchBar({ onChange, value, placeholder }) {
   return (
     <>
       <div className="relative  w-full rounded-lg">
-        {/* <button
-          onClick={() => onChange("")}
-          className="absolute w-auto inset-y-0 z-[10] right-0  flex items-center pr-4 pointer-events-none"
-        >
-          <i className="fa-solid fa-x"></i>
-        </button> */}
-        <div className="absolute  w-auto inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+        <div className="absolute  w-auto inset-y-0 -top-[0.2rem] left-0 flex items-center pl-3 pointer-events-none">
           <svg
             aria-hidden="true"
             className="w-5 h-5 text-primaryDark"

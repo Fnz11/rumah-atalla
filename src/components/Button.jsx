@@ -26,7 +26,7 @@ export default function Button({
             : variant === "green"
             ? "border-green-500   bg-green-500  text-thirdyThin"
             : "border-yellow-500  bg-yellow-500  text-thirdyThin"
-        }  hover:scale-[1.02] hover:opacity-[0.9] hover:drop-shadow-lg transition-all duration-300  font-bold py-[0.75rem] px-5 rounded-lg sm:min-w-[9rem] `}
+        }  hover:scale-[1.02] hover:opacity-[0.9] hover:drop-shadow-lg transition-all duration-300  font-bold py-[0.75rem] px-5 rounded-lg sm:min-w-[9rem] flex justify-center items-center`}
       >
         {children}
       </button>

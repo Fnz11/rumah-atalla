@@ -13,6 +13,14 @@ export default function FashionKasirPopover({
   console.log("DILEMPAR", props, FashionCartItems);
   // QUANTITY
   const [quantity, setQuantity] = useState(1);
+  useEffect(() => {
+    const exist = FashionCartItems.find(
+      (item) => item.idOnCart === props.idOnCart
+    );
+    if (exist) {
+      setQuantity(exist.qty);
+    }
+  }, [FashionCartItems]);
   const [showDeleteItems, setShowDeleteItems] = useState(false);
   const handleDecrement = () => {
     const newValue = parseInt(quantity) - 1;
@@ -44,12 +52,8 @@ export default function FashionKasirPopover({
       setQuantity(1);
       handleChange({ value1: 1 }, "qty", indexOnCart);
     }
-    if (quantity < 1000) {
-      if (newValue > props?.size?.stock) {
-        setQuantity(props?.size?.stock);
-      } else {
-        setQuantity(newValue);
-      }
+    if (newValue <= props?.size?.stock) {
+      setQuantity(newValue);
       handleChange({ value1: newValue }, "qty", indexOnCart);
     }
   };
@@ -62,14 +66,14 @@ export default function FashionKasirPopover({
 
   const handleQuantity = (e) => {
     const newValue = e.target.value;
-    if (e.target.value === "") {
+    if (newValue === "") {
       setQuantity("");
-    } else if (!isNaN(newValue) && newValue > 0 && newValue <= 1000) {
-      if (newValue > props?.size?.stock) {
-        setQuantity(props?.size?.stock);
-      } else {
-        setQuantity(newValue);
-      }
+    } else if (
+      !isNaN(newValue) &&
+      newValue > 0 &&
+      newValue <= props?.size?.stock
+    ) {
+      setQuantity(newValue);
       handleChange({ value1: newValue }, "qty", indexOnCart);
     }
   };
@@ -301,7 +305,7 @@ export default function FashionKasirPopover({
           <div className="w-fit flex items-center mb-2 relative gap-[0.1rem] ">
             <button
               onClick={handleDecrement}
-              className="px-2 py-2 text-white bg-section-dark rounded-full "
+              className={`px-3 py-2 text-white bg-section-dark rounded-md  transition-all duration-200 ease-in `}
             >
               -
             </button>
@@ -313,7 +317,9 @@ export default function FashionKasirPopover({
             />
             <button
               onClick={handleIncrement}
-              className="px-2 py-2 text-white bg-section-dark rounded-full  "
+              className={`px-3 py-2 text-white bg-section-dark rounded-md ${
+                quantity === props?.size.stock && "opacity-[0.6]"
+              } transition-all duration-200 ease-in `}
             >
               +
             </button>

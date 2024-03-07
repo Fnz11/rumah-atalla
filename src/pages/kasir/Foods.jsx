@@ -53,45 +53,11 @@ export default function FoodsKasir() {
       });
   };
   // FETCH TRANSACTIONS
-  const [transactionsData, setTransactionsData] = useState([]);
   const user = JSON.parse(localStorage.getItem("user"));
-  const fetchTransactions = async () => {
-    await axios
-      .get(DBURL + "/transactions/", {
-        headers: {
-          Authorization: token,
-        },
-      })
-      .then((res) => {
-        let successed = 0;
-        let pending = 0;
-        let canceled = 0;
-        const data = res.data.filter(
-          (transaction) => transaction.kasir === user.username
-        );
-        data.map((transaction) => {
-          if (transaction.status === "successed") {
-            successed += 1;
-          } else if (transaction.status === "pending") {
-            pending += 1;
-          } else if (transaction.status === "canceled") {
-            canceled += 1;
-          }
-        });
-        setTransactionsData({
-          successed: successed,
-          pending: pending,
-          canceled: canceled,
-        });
-      });
-  };
 
   useEffect(() => {
     if (promos.length === 0) {
       fetchPromos();
-    }
-    if (transactionsData.length === 0) {
-      fetchTransactions();
     }
     if (foodsProducts.length === 0) {
       fetchFoodsProducts();
@@ -99,52 +65,16 @@ export default function FoodsKasir() {
   }, []);
 
   // FOODS / DRINK
-  const [total, setTotal] = useState(0);
-  const [totalWithDiscount, setTotalWithDiscount] = useState(0);
-  const [totalCashback, setTotalCashback] = useState(0);
+  const [totalPrice, setTotalPrice] = useState({
+    normalPrice: 0,
+    discountPrice: 0,
+    cashbackPrice: 0,
+  });
   const [page, setPage] = useState("foods");
 
   // CART
-  const [productsSelected, setProductsSelected] = useState([]);
   const [productsForm, setProductsForm] = useState([]);
-  const [foodsCartItems, setFoodsCartItems] = useState([]);
-  const [drinksCartItems, setDrinksCartItems] = useState([]);
-
-  const handleProductsForm = (product) => {
-    console.log(product);
-    let newProductForm = [];
-    productsForm.map((item) => {
-      if (item.productId !== product) {
-        newProductForm.push(item);
-      }
-    });
-    setProductsForm(newProductForm);
-
-    let newCartItems = [];
-    if (foodsCartItems.includes(product)) {
-      newCartItems = foodsCartItems.filter((i) => i !== product);
-      setFoodsCartItems(newCartItems);
-    } else if (drinksCartItems.includes(product)) {
-      newCartItems = drinksCartItems.filter((i) => i !== product);
-      setDrinksCartItems(newCartItems);
-    }
-
-    let newFoodsPop = [];
-    foodsPop?.map((food) => {
-      if (food._id !== product) {
-        newFoodsPop.push(food);
-      }
-    });
-    setFoodsPop(newFoodsPop);
-
-    let newDrinksPop = [];
-    drinksPop?.map((drink) => {
-      if (drink._id !== product) {
-        newDrinksPop.push(drink);
-      }
-    });
-    setDrinksPop(newDrinksPop);
-  };
+  const [cartItems, setCartItems] = useState([]);
 
   useEffect(() => {
     if (productsForm.length <= 0 && showPopover) {
@@ -152,29 +82,45 @@ export default function FoodsKasir() {
     }
   }, [productsForm]);
 
-  const addToCart = (item, type) => {
-    if (type === "foods") {
-      if (foodsCartItems.includes(item)) {
-        const updatedFoodsCartItems = foodsCartItems.filter((i) => i !== item);
-        setFoodsCartItems(updatedFoodsCartItems);
+  const addToCart = (item, value = null) => {
+    //  ITEM IS PRODUCT DATA, VALUE IS QTY VALUE
+    console.log("ITEMMMM", item, value);
+
+    // FIND THE PRODUCT IN CARTITEMS
+    const itemOnCartIndex = cartItems.findIndex(
+      (product) => product?._id === item?._id
+    );
+
+    // MAKE UPDATED CART ITEMS
+    let updatedCartItems = [...cartItems];
+
+    // CHECK IF THE PRODUCT IS EXIST ON THE CART OR NOT, IF YES THEN
+    if (itemOnCartIndex >= 0) {
+      // CHECK VALUE PARAM, IF THE VALUE IS 0 THEN REMOVE IT ON THE CART ITEMS
+      if (value === 0) {
+        updatedCartItems[itemOnCartIndex].qty = 0;
+        updatedCartItems.splice(itemOnCartIndex, 1);
+        setCartItems(updatedCartItems);
         return;
       }
-      setFoodsCartItems([...foodsCartItems, item]);
-    } else {
-      if (drinksCartItems.includes(item)) {
-        const updatedDrinkCartItems = drinksCartItems.filter((i) => i !== item);
-        setDrinksCartItems(updatedDrinkCartItems);
-        return;
-      }
-      setDrinksCartItems([...drinksCartItems, item]);
+
+      // IF NOT, THEN CHANGE THE QTY VALUE OF THE ITEM ON CART
+      updatedCartItems[itemOnCartIndex].qty = value;
+      setCartItems(updatedCartItems);
+      return;
     }
+
+    // IF THE PRODUCT DOESNT EXIST ON THE CART, THEN ADD IT INTO THE CART
+    setCartItems([...cartItems, item]);
   };
+
+  console.log(cartItems);
 
   // HANDLE BUY
   const [buyer, setBuyer] = useState("");
+
   // LOADING
   const [isLoading, setIsLoading] = useState(false);
-
   const [formData, setFormData] = useState({
     buyer: "",
     kasir: "",
@@ -194,13 +140,14 @@ export default function FoodsKasir() {
       buyer: buyer,
       kasir: user?.username,
       kasirId: user?.userId,
-      totalAmount: total,
-      totalWithDiscount: totalWithDiscount,
-      totalCashback: totalCashback,
+      totalAmount: totalPrice.normalPrice,
+      totalWithDiscount: totalPrice.discountPrice,
+      totalCashback: totalPrice.totalCashback,
     }));
-  }, [productsForm, buyer, totalWithDiscount]);
+  }, [productsForm, buyer, totalPrice]);
 
   const handleBuy = async () => {
+    console.log("BUYBUY", formData, totalPrice);
     setIsLoading(true);
     await axios
       .post(DBURL + "/transactions", formData, {
@@ -213,6 +160,19 @@ export default function FoodsKasir() {
         toast.custom((t) => (
           <CustomToast t={t} message="Transaction successed" type="success" />
         ));
+        setFormData({
+          buyer: "",
+          kasir: "",
+          kasirId: "",
+          type: "fashions",
+          store: "web",
+          products: [],
+          totalAmount: 0,
+          qty: 0,
+          status: "pending",
+        });
+        fetchFoodsProducts();
+        setBuyer("");
         togglePopover();
       })
       .catch((error) => {
@@ -226,172 +186,89 @@ export default function FoodsKasir() {
       });
   };
 
+  useEffect(() => {
+    if (cartItems.length <= 0 && showPopover) {
+      togglePopover();
+    }
+  }, [cartItems]);
+
   //   POPOVER
   const [showPopover, setShowPopover] = useState(false);
-  const [drinksPop, setDrinksPop] = useState([]);
-  const [foodsPop, setFoodsPop] = useState([]);
   const togglePopover = () => {
-    if (!showPopover) {
-      const drinksClicked = foodsProducts.filter(
-        (item) =>
-          item.type === "drinks" &&
-          drinksCartItems.includes(item._id.toString())
-      );
-      const foodsClicked = foodsProducts.filter(
-        (item) =>
-          item.type === "foods" && foodsCartItems.includes(item._id.toString())
-      );
-      setDrinksPop(drinksClicked);
-      setFoodsPop(foodsClicked);
-    }
     setShowPopover(!showPopover);
   };
 
   useEffect(() => {
-    if (showPopover === false) {
-      const drinksClicked = foodsProducts.filter(
-        (item) =>
-          item.type === "drinks" &&
-          drinksCartItems.includes(item._id.toString())
-      );
-      const foodsClicked = foodsProducts.filter(
-        (item) =>
-          item.type === "drinks" && foodsCartItems.includes(item._id.toString())
-      );
-      setDrinksPop(drinksClicked);
-      setFoodsPop(foodsClicked);
-    }
-  }, [foodsCartItems, drinksCartItems, foodsProducts]);
-
-  useEffect(() => {
-    setProductsSelected([...foodsPop, ...drinksPop]);
-  }, [foodsPop, drinksPop]);
-
-  // TOTAL
-  const updateProductQty = ({
-    productId,
-    qty,
-    price,
-    discount,
-    cashback,
-    name,
-  }) => {
-    const isExist = (id) => {
-      return productsForm.some((item) => item.productId === id);
-    };
-    if (isExist(productId)) {
-      setProductsForm((prevData) =>
-        prevData.map((item) =>
-          item.productId === productId
-            ? {
-                ...item,
-                qty: qty,
-                price: price * qty,
-                discount: discount * qty,
-                cashback: cashback * qty,
-              }
-            : item
-        )
-      );
-    } else {
-      setProductsForm((prevData) => [
-        ...prevData,
-        {
-          productId: productId,
-          name: name,
-          qty: qty,
-          discount: discount * qty,
-          cashback: cashback * qty,
-          price: price * qty,
-        },
-      ]);
-    }
-  };
-  useEffect(() => {
-    const updatedFoods = foodsProducts.map((product) => {
-      let discount = product.price;
-      let cashback = 0;
-      // console.log("INI PRODUCRT", product)
-
-      promos.forEach((promo) => {
-        let included;
-        const currentDate = new Date();
-
-        if (
-          promo.products.includes(product._id.toString()) &&
-          new Date(promo.date.startDate) < currentDate &&
-          new Date(promo.date.endDate) > currentDate
-        ) {
-          included = true;
-        }
-        if (included) {
-          if (promo.type === "diskon persentase") {
-            discount -= (discount * promo.value) / 100;
-          } else if (promo.type === "diskon nominal") {
-            discount -= promo.value;
-          } else if (promo.type === "cashback nominal") {
-            cashback += promo.value;
-          } else {
-            cashback += (product.price * promo.value) / 100;
-          }
-        }
-      });
-
-      return {
-        ...product,
-        discount: discount,
-        cashback: cashback,
-      };
-    });
-    console.log("INI BARU", foodsProducts);
-    setFoodsProducts(updatedFoods);
-  }, [promos, triger]);
-
-  useEffect(() => {
-    setProductsForm([]);
-    productsSelected.forEach((item) => {
-      let discountValue = item.price;
-      let cashbackValue = 0;
-      let promoInclude = [];
-      promos.map((promo) => {
+    const newFoodsProducts = foodsProducts.map((product) => {
+      let discountNominal = 0;
+      let discountPersentase = 0;
+      let cashbackNominal = 0;
+      let cashbackPersentase = 0;
+      let discountPrice = 0;
+      let cashBackTotal = 0;
+      let productPromos = [];
+      promos.map((promo, i) => {
         let included = false;
         const currentDate = new Date();
 
         if (
-          promo.products.includes(item._id.toString()) &&
+          promo.products.includes(product._id) &&
           new Date(promo.date.startDate) < currentDate &&
           new Date(promo.date.endDate) > currentDate
         ) {
           included = true;
         }
+        console.log("INCLUD KAHH" + promo.name, included);
         if (included) {
-          promoInclude.push(promo._id.toString());
+          productPromos.push(promo);
           if (promo.type === "diskon persentase") {
-            discountValue -= (discountValue * promo.value) / 100;
+            discountPersentase += promo.value;
           } else if (promo.type === "diskon nominal") {
-            discountValue -= promo.value;
+            discountNominal += promo.value;
           } else if (promo.type === "cashback nominal") {
-            cashbackValue += promo.value;
+            cashbackNominal += promo.value;
           } else {
-            cashbackValue += (item.price * promo.value) / 100;
+            cashbackPersentase += promo.value;
           }
         }
+        discountPrice =
+          product.price -
+          discountNominal -
+          (product.price * discountPersentase) / 100;
+        cashBackTotal =
+          cashbackNominal + (product.price * cashbackPersentase) / 100;
       });
-      setProductsForm((prevData) => [
-        ...prevData,
-        {
-          productId: item._id.toString(),
-          name: item.name,
-          qty: 1,
-          stock: item.stock,
-          discount: discountValue,
-          cashback: cashbackValue,
-          promo: promoInclude,
-          price: item.price,
-        },
-      ]);
+      return {
+        ...product,
+        discountPrice,
+        cashBackTotal,
+        productPromos: productPromos,
+        discountNominal: discountNominal,
+        discountPersentase: discountPersentase,
+        cashbackNominal: cashbackNominal,
+        cashbackPersentase: cashbackPersentase,
+      };
     });
-  }, [productsSelected]);
+    setFoodsProducts(newFoodsProducts);
+  }, [promos, triger]);
+
+  useEffect(() => {
+    let newProductForm = [];
+    cartItems.map((product) => {
+      const newProduct = {
+        productId: product._id,
+        name: product.name,
+        qty: product.qty,
+        stock: product.stock,
+        price: product.price * product.qty,
+        cashback: product.cashbackNominal * product.qty,
+        discount: product.discountNominal * product.qty,
+        promo: product.productPromos,
+      };
+      newProductForm.push(newProduct);
+    });
+    setProductsForm(newProductForm);
+  }, [cartItems]);
 
   useEffect(() => {
     const totalPrice = productsForm.reduce((accumulator, currentItem) => {
@@ -403,9 +280,11 @@ export default function FoodsKasir() {
     const totalCashback = productsForm.reduce((accumulator, currentItem) => {
       return accumulator + currentItem.cashback;
     }, 0);
-    setTotal(totalPrice);
-    setTotalWithDiscount(totalDiscount);
-    setTotalCashback(totalCashback);
+    setTotalPrice({
+      normalPrice: totalPrice,
+      discountPrice: totalDiscount,
+      totalCashback: totalCashback,
+    });
   }, [productsForm]);
 
   //   FILTER
@@ -460,45 +339,59 @@ export default function FoodsKasir() {
 
               {/* ITEM */}
               <div className="w-full h-[60%] overflow-y-scroll overflow-x-hidden">
-                {foodsPop.length > 0 && (
+                {cartItems.length > 0 && (
                   <>
-                    {/* TITLE */}
-                    <Title className={"my-3"} title="Foods" />
-                    {/* TOP */}
-                    <FoodsHeadPopover />
+                    {cartItems.findIndex((item) => item.type == "foods") >=
+                      0 && (
+                      <>
+                        {/* TITLE */}
+                        <Title className={"my-3"} title="Foods" />
+                        {/* TOP */}
+                        <FoodsHeadPopover />
 
-                    {foodsPop.map((item) => (
-                      <div key={item._id.toString()}>
-                        <FoodsKasirPopover
-                          handleTotal={updateProductQty}
-                          item={item}
-                          productsForm={productsForm}
-                          handleProductsForm={handleProductsForm}
-                          promos={promos}
-                        />
-                      </div>
-                    ))}
-                  </>
-                )}
+                        {cartItems.map((item, index) => {
+                          if (item.type == "drinks") return;
+                          return (
+                            <div key={item._id}>
+                              <FoodsKasirPopover
+                                indexOnCart={index}
+                                addToCart={addToCart}
+                                setCartItems={setCartItems}
+                                item={item}
+                                productsForm={productsForm}
+                                cartItems={cartItems}
+                                promos={promos}
+                              />
+                            </div>
+                          );
+                        })}
+                      </>
+                    )}
+                    {cartItems.findIndex((item) => item.type == "drinks") >=
+                      0 && (
+                      <>
+                        {/* TITLE */}
+                        <Title className={"my-3"} title="Drinks" />
+                        {/* TOP */}
+                        <FoodsHeadPopover />
 
-                {drinksPop.length > 0 && (
-                  <>
-                    {/* TITLE */}
-                    <Title className={"my-3"} title="Drinks" />
-                    {/* TOP */}
-                    <FoodsHeadPopover />
-
-                    {drinksPop.map((item) => (
-                      <div key={item._id.toString()}>
-                        <FoodsKasirPopover
-                          handleTotal={updateProductQty}
-                          item={item}
-                          productsForm={productsForm}
-                          handleProductsForm={handleProductsForm}
-                          promos={promos}
-                        />
-                      </div>
-                    ))}
+                        {cartItems.map((item, index) => {
+                          if (item.type == "foods") return;
+                          return (
+                            <div key={item._id}>
+                              <FoodsKasirPopover
+                                indexOnCart={index}
+                                setQty={setCartItems}
+                                item={item}
+                                productsForm={productsForm}
+                                cartItems={cartItems}
+                                promos={promos}
+                              />
+                            </div>
+                          );
+                        })}
+                      </>
+                    )}
                   </>
                 )}
               </div>
@@ -508,22 +401,22 @@ export default function FoodsKasir() {
                   <h1 className="h-full items-center flex justify-center text-sm  font-semibold">
                     Total:
                     <div className="flex flex-col text-end ml-2 leading-4">
-                      {totalWithDiscount != total && (
+                      {totalPrice.discountPrice != totalPrice.normalPrice && (
                         <span className="text-purple  ">
-                          Rp. {totalWithDiscount?.toLocaleString()}
+                          Rp. {totalPrice.discountPrice?.toLocaleString()}
                         </span>
                       )}
                       <span
                         className={` text-secondary ${
-                          total != totalWithDiscount &&
+                          totalPrice.normalPrice != totalPrice.discountPrice &&
                           "line-through opacity-[0.6] "
                         } w-full  `}
                       >
-                        Rp. {total?.toLocaleString()}
+                        Rp. {totalPrice.normalPrice?.toLocaleString()}
                       </span>
-                      {totalCashback > 0 && (
+                      {totalPrice.cashbackPrice > 0 && (
                         <span className="text-orange  ">
-                          + Rp. {totalCashback?.toLocaleString()}
+                          + Rp. {totalPrice.cashbackPrice?.toLocaleString()}
                         </span>
                       )}
                     </div>
@@ -547,7 +440,7 @@ export default function FoodsKasir() {
         {/* BUY BUTTON */}
         <BuyButton
           onClick={() => togglePopover()}
-          isShow={drinksCartItems.length > 0 || foodsCartItems.length > 0}
+          isShow={cartItems.length > 0}
         />
 
         {/* CONTENT */}
@@ -599,7 +492,7 @@ export default function FoodsKasir() {
                     key={product._id.toString()}
                     props={product}
                     addToCart={addToCart}
-                    CartItems={foodsCartItems}
+                    CartItems={cartItems}
                     promos={promos}
                     type={"foods"}
                   />
@@ -610,7 +503,7 @@ export default function FoodsKasir() {
                     key={product._id.toString()}
                     props={product}
                     addToCart={addToCart}
-                    CartItems={drinksCartItems}
+                    CartItems={cartItems}
                     promos={promos}
                     type={"drinks"}
                   />
