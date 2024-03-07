@@ -5,7 +5,7 @@ import UserControllerSection from "../../components/UserController/UserControlle
 import UserControllerPopover from "../../components/UserController/UserControllerPopover";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import {  motion } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   Bar,
   BarChart,
@@ -21,6 +21,8 @@ import Title from "../../components/Title";
 import UserControllerSectionSkeleton from "../../components/UserController/UserControllerSectionSkeleton";
 import Title2 from "../../components/Title2";
 import SearchBar from "../../components/SearchBar";
+import toast from "react-hot-toast";
+import CustomToast from "../../components/CustomToast";
 
 export default function UserControl() {
   const DBURL = import.meta.env.VITE_APP_DB_URL;
@@ -121,19 +123,27 @@ export default function UserControl() {
   const handleDownload = async () => {
     try {
       const response = await axios.get(DBURL + "/users/data/download/", {
-        responseType: "blob",
+        headers: {
+          Authorization: `${localStorage.getItem("token")}`,
+        },
       });
 
-      console.log(response.data);
-      const url = window.URL.createObjectURL(new Blob([response.data]));
+      // Creating a blob URL from the response data
+      const downloadUrl = response.data.fileUrl;
 
+      // Creating an <a> element to trigger the download
       const a = document.createElement("a");
-      a.href = url;
-      a.download = "Users Data.xlsx";
+      a.href = downloadUrl;
+
+      a.download = "UsersData.xlsx";
+      console.log("LINK", response);
+      // Appending the <a> element to the document body, triggering the download, and removing the element
       document.body.appendChild(a);
       a.click();
-
       document.body.removeChild(a);
+      toast.custom((t) => (
+        <CustomToast t={t} message="Download succeed" type="success" />
+      ));
     } catch (error) {
       console.error("Error downloading data:", error);
     }

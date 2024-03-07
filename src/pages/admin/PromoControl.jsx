@@ -13,6 +13,8 @@ import Button from "../../components/Button";
 import ChangePageButton from "../../components/ChangePageButton";
 import SearchBar from "../../components/SearchBar";
 import Checkbox from "../../components/Checkbox";
+import toast from "react-hot-toast";
+import CustomToast from "../../components/CustomToast";
 
 export default function PromoControl() {
   const DBURL = import.meta.env.VITE_APP_DB_URL;
@@ -104,29 +106,39 @@ export default function PromoControl() {
   // DOWNLOAD DATA
   const handleDownload = async () => {
     try {
-      const downloadUrl =
+      const BEURL =
         page === "foods"
           ? DBURL + "/promos/foods/download"
           : DBURL + "/promos/fashions/download";
-      const response = await axios.get(downloadUrl, {
-        responseType: "blob",
+      // Making a GET request to download the file
+      const response = await axios.get(BEURL, {
+        headers: {
+          Authorization: `${localStorage.getItem("token")}`,
+        },
       });
 
-      const url = window.URL.createObjectURL(new Blob([response.data]));
+      // Creating a blob URL from the response data
+      const downloadUrl = response.data.fileUrl;
 
       const a = document.createElement("a");
-      a.href = url;
+      a.href = downloadUrl;
 
-      if (page === "foods") {
-        a.download = "Food Promos.xlsx";
-      } else {
-        a.download = "Fashion Promos.xlsx";
-      }
+      const fileName =
+        page === "foods" ? "FoodsPromos.xlsx" : "FashionsPromos.xlsx";
+
+      a.download = fileName;
+      console.log("LINK", response);
+      // Appending the <a> element to the document body, triggering the download, and removing the element
       document.body.appendChild(a);
       a.click();
-
       document.body.removeChild(a);
+      toast.custom((t) => (
+        <CustomToast t={t} message="Download succeed" type="success" />
+      ));
     } catch (error) {
+      toast.custom((t) => (
+        <CustomToast t={t} message="Download failed" type="failed" />
+      ));
       console.error("Error downloading data:", error);
     }
   };

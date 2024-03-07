@@ -7,7 +7,7 @@ import FoodsProductSection from "../../components/ProductController/FoodsProduct
 import FoodsProductPopover from "../../components/ProductController/FoodsProductPopover";
 import { AnimatePresence, motion } from "framer-motion";
 import Title from "../../components/Title";
-import toast  from "react-hot-toast";
+import toast from "react-hot-toast";
 import CustomToast from "../../components/CustomToast";
 import Button from "../../components/Button";
 import Title2 from "../../components/Title2";
@@ -233,30 +233,37 @@ export default function ProductControl() {
   // DOWNLOAD DATA
   const handleDownload = async () => {
     try {
-      const downloadUrl =
+      const BEURL =
         page === "foods"
           ? DBURL + "/foods/data/download"
           : DBURL + "/products/data/download";
-      const response = await axios.get(downloadUrl, {
-        responseType: "blob",
+      // Making a GET request to download the file
+      const response = await axios.get(BEURL, {
+        headers: {
+          Authorization: `${localStorage.getItem("token")}`,
+        },
       });
 
-      const url = window.URL.createObjectURL(new Blob([response.data]));
+      // Creating a blob URL from the response data
+      const downloadUrl = response.data.fileUrl;
 
+      // Creating an <a> element to trigger the download
       const a = document.createElement("a");
-      a.href = url;
+      a.href = downloadUrl;
 
-      if (page === "foods") {
-        a.download = "Food Products Data.xlsx";
-      } else {
-        a.download = "Fashion Products Data.xlsx";
-      }
+      // Setting the file name for download
+
+      const fileName =
+        page === "foods" ? "FoodsProducts.xlsx" : "FashionProducts.xlsx";
+      console.log("LINK", response);
+      a.download = fileName;
+
+      // Appending the <a> element to the document body, triggering the download, and removing the element
       document.body.appendChild(a);
       a.click();
-
       document.body.removeChild(a);
       toast.custom((t) => (
-        <CustomToast t={t} message="Download successed" type="success" />
+        <CustomToast t={t} message="Download succeed" type="success" />
       ));
     } catch (error) {
       console.error("Error downloading data:", error);

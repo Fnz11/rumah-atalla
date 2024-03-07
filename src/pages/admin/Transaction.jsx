@@ -28,6 +28,8 @@ import ChangePageButton from "../../components/ChangePageButton";
 import TransactionFashionHeadSection from "../../components/Transaction/TransactionFashionHeadSection";
 import TransactionFoodHeadSection from "../../components/Transaction/TransactionFoodHeadSection";
 import TransactionSectionSkeleton from "../../components/Transaction/TransactionSectionSkeleton";
+import toast from "react-hot-toast";
+import CustomToast from "../../components/CustomToast";
 
 export default function Transactions() {
   const DBURL = import.meta.env.VITE_APP_DB_URL;
@@ -547,15 +549,21 @@ export default function Transactions() {
       // Setting the file name for download
       const fileName =
         page === "foods"
-          ? "Foods Transactions.xlsx"
-          : "Fashions Transactions.xlsx";
+          ? "FoodsTransactions.xlsx"
+          : "FashionsTransactions.xlsx";
       a.download = fileName;
       console.log("LINK", response);
       // Appending the <a> element to the document body, triggering the download, and removing the element
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
+      toast.custom((t) => (
+        <CustomToast t={t} message="Download succeed" type="success" />
+      ));
     } catch (error) {
+      toast.custom((t) => (
+        <CustomToast t={t} message="Download failed" type="failed" />
+      ));
       console.error("Error downloading data:", error);
     }
   };
