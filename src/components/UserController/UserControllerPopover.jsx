@@ -77,6 +77,8 @@ export default function UserControllerPopover(props) {
     }
   };
 
+  console.log(userData);
+
   // LOADING
   const [isLoading, setIsLoading] = useState(false);
 
@@ -268,12 +270,53 @@ export default function UserControllerPopover(props) {
                   </div>
                 </div>
                 {/* EMAIL */}
-                <TextField
-                  value={userData?.email}
-                  onChange={handleInputChange}
-                  name="email"
-                  placeholder="example123@gmail.com"
-                />
+                <div className="grid grid-cols-2 gap-2">
+                  <TextField
+                    value={userData?.email}
+                    onChange={handleInputChange}
+                    name="email"
+                    placeholder="example123@gmail.com"
+                  />
+                  <div className="h-full">
+                    <label
+                      htmlFor="role"
+                      className="text-base font-semibold text-primaryNormal"
+                    >
+                      Role
+                    </label>
+                    <select
+                      id="kasir"
+                      name="kasir"
+                      className="block w-full p-3 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                      value={userData.role}
+                      onChange={(e) =>
+                        setUserData((prev) => ({
+                          ...prev,
+                          role: e.target.value,
+                        }))
+                      }
+                    >
+                      <option
+                        disabled={props?.data?.role !== "owner"}
+                        value="owner"
+                      >
+                        Owner
+                      </option>
+                      <option
+                        disabled={props?.data?.role === "owner"}
+                        value="admin"
+                      >
+                        Admin
+                      </option>
+                      <option
+                        disabled={props?.data?.role === "owner"}
+                        value="product manager"
+                      >
+                        Product Manager
+                      </option>
+                    </select>
+                  </div>
+                </div>
                 {/* PASSWORD */}
                 <TextField
                   value={userData?.password}

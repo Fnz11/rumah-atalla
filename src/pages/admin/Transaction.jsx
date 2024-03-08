@@ -272,7 +272,7 @@ export default function Transactions() {
         );
       });
     }
-    if (user?.role === "admin") {
+    if (user?.role !== "owner") {
       setTransactionsData(
         allTransactions.filter((item) => item.kasir === user.username)
       );

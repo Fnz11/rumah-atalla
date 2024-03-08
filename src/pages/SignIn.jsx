@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import CustomToast from "../components/CustomToast";
 import Button from "../components/Button";
@@ -16,6 +16,7 @@ export default function SignIn() {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const [userData, setUserData] = useState(null);
 
   const handleLogin = async () => {
@@ -95,9 +96,9 @@ export default function SignIn() {
           </div>
 
           {/* TITLE */}
-          <Title2 title={"Sign In"} />
+          <Title2 title={"Sign In - Only Admin"} className={"my-5"} />
           {/* FORM */}
-          <form action="" className="w-full flex  flex-col gap-3">
+          <form action="" className="mx-2 w-full flex  flex-col gap-3">
             <div>
               <label
                 className="text-sm sm:text-base drop-shadow-sm font-semibold text-primaryNormal"
@@ -105,36 +106,75 @@ export default function SignIn() {
               >
                 Email
               </label>
-              <input
-                type="text"
-                value={email}
-                placeholder="ecample123@gmail.com"
-                onChange={(e) => setEmail(e.target.value)}
-                className="block w-full shadow-sm placeholder:text-gray-300 bg-white focus:outline-white p-3 text-sm text-primaryDark border rounded-lg "
-              />
+              <div className="relative">
+                <div className="absolute h-full w-[3rem] items-center justify-center flex text-secondary opacity-[0.6] fa-lg">
+                  <i className="fa-solid fa-envelope"></i>
+                </div>
+                <input
+                  type="text"
+                  value={email}
+                  placeholder="ecample123@gmail.com"
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="block w-full shadow-sm placeholder:text-gray-300 bg-white focus:outline-white p-3 pl-[2.7rem] text-sm text-primaryDark border rounded-lg "
+                />
+              </div>
             </div>
             <div>
               <label
                 className="text-sm sm:text-base drop-shadow-sm font-semibold text-primaryNormal"
                 htmlFor="password"
               >
-                Password
+                New Password
               </label>
-              <input
-                type="text"
-                placeholder="example"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="block w-full shadow-sm placeholder:text-gray-300 bg-white focus:outline-white p-3 text-sm text-primaryDark border rounded-lg "
-              />
+              <div className="w-full relative">
+                <div
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="h-full w-[3rem] opacity-[0.7] cursor-pointer rounded-r-md flex items-center justify-center absolute z-[1] right-0 bg-[rgba(0,0,0,0.15)]"
+                >
+                  {showPassword ? (
+                    <i className="fa-solid fa-eye "></i>
+                  ) : (
+                    <i className="fa-solid fa-eye-slash "></i>
+                  )}
+                </div>
+                <div className="absolute h-full w-[3rem] text-secondary opacity-[0.6] cursor-pointer rounded-l-md flex items-center justify-center z-[1] left-0">
+                  <i className="fa-solid fa-key fa-lg"></i>
+                </div>
+                <input
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  placeholder="Your new password here"
+                  required
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="block w-full px-[3rem] shadow-sm placeholder:text-gray-300 bg-white focus:outline-white p-3 text-sm text-primaryDark border rounded-lg "
+                />
+              </div>
+            </div>
+            <div className="flex w-full justify-between items-center">
+              <Link
+                to="/forget-password"
+                className="text-sm sm:text-base text-secondary font-semibold cursor-pointer hover:opacity-[0.8] transition-all duration-200"
+              >
+                Forget password?
+              </Link>
+              <span>
+                <div
+                  className={`transition-all duration-300 font-semibold text-sm sm:text-base text-red-400 ${
+                    isError ? "opacity-100" : "opacity-0"
+                  }`}
+                >
+                  <i className="mr-2 fa-solid fa-circle-exclamation"></i>
+                  Error Log In
+                </div>
+              </span>
             </div>
             <div className="flex flex-col w-fit justify-between ml-auto mt-3">
-              <Button onClick={handleLogin}>Log In</Button>
-              {isError && (
-                <h1 className="mt-2 text-sm sm:text-base text-red-500 font-semibold">
-                  Error Sign In
-                </h1>
-              )}
+              <Button onClick={handleLogin}>
+                Log In
+                <i
+                  className={`fa-solid fa-arrow-up fa-lg rotate-[45deg] ml-2`}
+                ></i>
+              </Button>
             </div>
           </form>
         </div>

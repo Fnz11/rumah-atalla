@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-export default function Title2({ title, className }) {
+export default function Title2({ title, className, children }) {
   return (
     <>
       <h1
@@ -8,6 +8,7 @@ export default function Title2({ title, className }) {
           className
         }
       >
+        {children}
         {title}
       </h1>
     </>

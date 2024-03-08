@@ -19,6 +19,8 @@ import SignIn from "./pages/SignIn";
 import FashionsKasir from "./pages/kasir/Fashions";
 import "swiper/css";
 import NotFound4040 from "./pages/NotFound404";
+import ForgetPassword from "./pages/ForgetPassword";
+import ResetPassword from "./pages/ResetPassword";
 
 import { getToken } from "firebase/messaging";
 import { messaging } from "./lib/FirebaseConfigure";
@@ -86,6 +88,14 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <SignIn />,
+  },
+  {
+    path: "/forget-password",
+    element: <ForgetPassword />,
+  },
+  {
+    path: "/reset-password/",
+    element: <ResetPassword />,
   },
   {
     path: "*",
