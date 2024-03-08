@@ -129,7 +129,6 @@ export default function FashionsKasir() {
     qty: 0,
     status: "pending",
   });
-  const token = localStorage.getItem("token");
   useEffect(() => {
     setFormData((prevData) => ({
       ...prevData,
@@ -143,12 +142,14 @@ export default function FashionsKasir() {
     }));
   }, [productsForm, buyer]);
 
+  console.log("FOFORM", productsForm);
+
   const handleBuy = async () => {
     setIsLoading(true);
     await axios
       .post(DBURL + "/transactions", formData, {
         headers: {
-          Authorization: token,
+          Authorization: `${localStorage.getItem("token")}`,
         },
       })
       .then(async (res) => {
@@ -250,14 +251,17 @@ export default function FashionsKasir() {
         cashback: totalCashback,
       };
     });
-    setProductsForm(newFashionCartItems);
+    return newFashionCartItems;
   };
 
   useEffect(() => {
-    converToProductForm();
+    const newFashionCartItems = converToProductForm();
+    setProductsForm(newFashionCartItems);
   }, [FashionCartItems]);
 
   const togglePopover = () => {
+    const newFashionCartItems = converToProductForm();
+    setProductsForm(newFashionCartItems);
     setShowPopover(!showPopover);
   };
 

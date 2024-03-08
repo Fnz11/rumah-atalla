@@ -131,7 +131,7 @@ const ShowMoreSection = ({
           isAdded ? " border-primaryThin" : "border-transparent"
         } ${
           size?.stock === 0 ? "cursor-not-allowed" : "active:scale-[0.995]"
-        }  border-4 transition-all overflow-hidden duration-200 hover:shadow-xl min-h-[6rem] hover:inset-0 inset-[0.1rem] relative w-full bg-white mb-4 px-5 sm:py-6 py-3 rounded-2xl shadow-lg  flex text-primaryDark font-semibold items-center justify-center text-[0.8rem] select-none `}
+        }  border-4 transition-all  duration-200 hover:shadow-xl min-h-[6rem] hover:inset-0 inset-[0.1rem] relative w-full bg-white mb-4 px-5 sm:py-6 py-3 rounded-2xl shadow-lg  flex text-primaryDark font-semibold items-center justify-center text-[0.8rem] select-none `}
       >
         {/* FUNTION */}
         <div
@@ -145,7 +145,7 @@ const ShowMoreSection = ({
         ></div>
         {/* STOCK NEEDED */}
         <div
-          className={`w-full bg-section-dark text-white opacity-[0.9] text-sm sm:text-lg font-semibold h-full absolute left-0 top-0 z-[10] flex items-center justify-center ${
+          className={`w-full rounded-xl scale-x-[1.01] scale-y-[1.06] bg-section-dark text-white opacity-[0.9] text-sm sm:text-lg font-semibold h-full absolute left-0 top-0 z-[10] flex items-center justify-center ${
             size?.stock > 0 && "hidden"
           }`}
         >

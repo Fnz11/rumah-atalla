@@ -89,20 +89,21 @@ export default function FoodsKasirSection({ props, addToCart, CartItems }) {
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         key={props._id}
-        className={` ${props?.stock === 0 && "cursor-not-allowed"} ${
+        className={` ${props?.stock === 0 ? "cursor-not-allowed rounded-b-xl" : "md:rounded-bl-2xl"} ${
           CartItems.find((item) => item._id === props._id)
             ? " border-primaryThin shadow-lg group hover:shadow-xl"
             : " shadow-lg group hover:shadow-xl border-transparent"
         } ${
-          quantity < props.stock && "active:scale-[0.995] active:opacity-[0.2]"
-        } cursor-pointer border-4 select-none group relative bg-section rounded-t-2xl md:rounded-bl-2xl transition-all  text-[0.6rem] sm:text-sm mb-14 md:mb-10`}
+          quantity < props.stock &&
+          "cursor-pointer active:scale-[0.995] active:opacity-[0.2]"
+        }  border-4 select-none group relative bg-section rounded-t-2xl  transition-all  text-[0.6rem] sm:text-sm mb-14 md:mb-10`}
       >
         <div
           onClick={() => handleAddToCart({ type: "inc" })}
           className="w-full h-full z-[2] absolute left-0 top-0"
         ></div>
         <div
-          className={`w-full bg-section-dark text-white opacity-[0.8] text-sm sm:text-2xl font-semibold h-full absolute left-0 top-0 z-[10] flex items-center justify-center pb-10 ${
+          className={`w-full bg-section-dark text-white opacity-[0.8] text-sm sm:text-2xl font-semibold h-full absolute left-0 top-0 z-[10] flex items-center justify-center pb-10 rounded-t-xl rounded-b-xl scale-[1.02] ${
             props?.stock > 0 && "hidden"
           } `}
         >
@@ -151,7 +152,9 @@ export default function FoodsKasirSection({ props, addToCart, CartItems }) {
             CartItems.find((item) => item._id === props._id)
               ? "  border-primaryThin shadow-lg group   hover:shadow-xl "
               : "border-transparent  shadow-lg group hover:shadow-xl"
-          } border-t-0 border-4 max-md:-left-1 md:-right-1 -bottom-[5.5rem] md:-bottom-[3.87rem] transition-all from-blue-200 `}
+          } border-t-0 border-4 max-md:-left-1 md:-right-1 -bottom-[5.5rem]  md:-bottom-[3.87rem] transition-all from-blue-200 ${
+            props?.stock === 0 && "hidden"
+          } `}
         >
           <button
             onClick={() => handleAddToCart({ type: "change", value: 0 })}
