@@ -94,39 +94,89 @@ export default function TransactionPopover(props) {
         <div>---------------------</div>
         <div>{new Date(transaction.createdAt)?.toLocaleString()}</div>
         <div>ID Transaksi: {transaction._id}</div>
-        <div>Atas Nama: {transaction.buyer}</div>
-        <div>Kasir: {transaction.kasir}</div>
-        <div>Via Pembayaran: {transaction?.paymentVia || "Cash"}</div>
+        <div className="flex justify-between w-full mt-2">
+          <span>Atas Nama:</span>
+          <span>{transaction.buyer}</span>
+        </div>
+        <div className="flex justify-between w-full">
+          <span>Kasir:</span>
+          <span>{transaction.kasir}</span>
+        </div>
+        <div className="flex justify-between w-full">
+          <span>Pembayaran:</span>
+          <span>{transaction?.paymentVia || "Cash"}</span>
+        </div>
         {transaction.paymentVia && transaction.paymentVia !== "Cash" && (
           <>
-            <div>Atas Nama Rekening: {transaction.atasNamaRekening}</div>
-            <div>Rekening Penerima: {transaction.rekening}</div>
+            <div className="flex justify-between w-full">
+              <span>Atas Nama Rekening:</span>
+              <span>{transaction.atasNamaRekening}</span>
+            </div>
+            <div className="flex justify-between w-full">
+              <span>Rekening Penerima:</span>
+              <span>{transaction.rekening}</span>
+            </div>
           </>
         )}
         <div>---------------------</div>
         {transaction?.products?.map((product, index) => (
-          <div key={index}>
-            {index + 1}. {product.name} <br /> {product.qty} x{" "}
-            {(product.discount / product.qty)?.toLocaleString()} ={" "}
-            {product.discount?.toLocaleString()}
+          <div key={index} className="flex flex-col w-full mb-3">
+            <span className="flex justify-start text-start">
+
+            {index + 1}. {product.name}
+            </span>
+            <div className="flex justify-between w-full pl-3">
+              <span>
+                {product.qty} x{" "}
+                {(product.discount / product.qty)?.toLocaleString()} :{" "}
+              </span>
+              <span>{product.discount?.toLocaleString()}</span>
+            </div>
           </div>
         ))}
         <div>---------------------</div>
-        <div>Harga: Rp. {transaction.totalAmount?.toLocaleString()}</div>
-        <div>
-          Diskon: Rp.{" "}
-          {(
-            transaction.totalWithDiscount - transaction.totalAmount
-          )?.toLocaleString()}
+        <div className="flex justify-between w-full">
+          <span>Harga:</span>
+          <span>Rp. {transaction.totalAmount?.toLocaleString()}</span>
         </div>
-        <div>Cashback: Rp. {transaction.totalCashback?.toLocaleString()}</div>
-        <div>
-          Total: Rp. {transaction.totalWithDiscount?.toLocaleString()}{" "}
-          {transaction.totalCashback > 0 &&
-            `(Rp. ${
-              transaction.totalWithDiscount - transaction.totalCashback
-            })`}
+        <div className="flex justify-between w-full">
+          <span>Diskon: </span>
+          <span>
+            Rp.
+            {(
+              transaction.totalWithDiscount - transaction.totalAmount
+            )?.toLocaleString()}
+          </span>
         </div>
+        <div className="flex justify-between w-full">
+          <span>Cashback:</span>
+          <span>Rp. {transaction.totalCashback?.toLocaleString()}</span>
+        </div>
+        <div className="flex justify-between w-full">
+          <span>Total:</span>
+          <span>
+            Rp. {transaction.totalWithDiscount?.toLocaleString()}{" "}
+            {transaction.totalCashback > 0 &&
+              `(Rp. ${
+                transaction.totalWithDiscount - transaction.totalCashback
+              })`}
+          </span>
+        </div>
+        <div className="flex justify-between w-full">
+          <span>Nominal dibayar:</span>
+          <span>Rp. {transaction?.nominal?.toLocaleString()}</span>
+        </div>
+        {transaction?.paymentVia === "Cash" && (
+          <div className="flex justify-between w-full">
+            <span>Kembalian:</span>
+            <span>
+              Rp.{" "}
+              {(
+                transaction?.nominal - transaction?.totalWithDiscount
+              )?.toLocaleString()}
+            </span>
+          </div>
+        )}
         <div>---------------------</div>
         <div>Terimakasih Telah Berbelanja Di Rumah Atalla</div>
         <div>Kepuasan Anda Adalah Prioritas Kami</div>
@@ -218,6 +268,27 @@ export default function TransactionPopover(props) {
                         />
                       </>
                     )}
+                  {props?.data?.paymentVia &&
+                    props?.data?.paymentVia === "Cash" && (
+                      <>
+                        <PopoverDetail
+                          left={"Nominal: "}
+                          right={
+                            "Rp. " + props?.data?.nominal?.toLocaleString()
+                          }
+                        />
+                        <PopoverDetail
+                          left={"Kembalian: "}
+                          right={
+                            "Rp. " +
+                            (
+                              props?.data?.nominal -
+                              props?.data?.totalWithDiscount
+                            ).toLocaleString()
+                          }
+                        />
+                      </>
+                    )}
                 </div>
                 <div className="flex flex-col w-[50%] ">
                   <PopoverDetail
@@ -228,10 +299,7 @@ export default function TransactionPopover(props) {
                     left={"Date: "}
                     right={formatISODate(props?.data?.createdAt)}
                   />
-                  <PopoverDetail
-                    left={"Store: "}
-                    right={props?.data?.store}
-                  />
+                  <PopoverDetail left={"Store: "} right={props?.data?.store} />
                   <PopoverDetail
                     left={"Total: "}
                     right={

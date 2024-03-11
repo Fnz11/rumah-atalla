@@ -388,6 +388,11 @@ export default function FoodsKasir() {
         rekening: "1490238286",
         paymentVia: "Mandiri",
       }));
+    } else if (paymentVia === "Cash") {
+      setFormData((prevData) => ({
+        ...prevData,
+        paymentVia: "Cash",
+      }));
     }
   }, [paymentVia]);
 
@@ -395,6 +400,7 @@ export default function FoodsKasir() {
   const printableRef = useRef(null);
 
   function generatePrintableTransaction(transaction) {
+    console.log("LALAs", transaction);
     let printable = (
       <div className="flex flex-col gap-[0.2rem]">
         <div className="h-10 scale-[1.3] mb-1 flex items-center justify-center">
@@ -412,41 +418,91 @@ export default function FoodsKasir() {
         <div>Jln. Brigjen Katamso No.19 Wonokarto, Wonogiri</div>
         <div>No. Telp: 0812-1234-5678</div>
         <div>---------------------</div>
-        <div>{new Date(transaction.createdAt).toLocaleString()}</div>
+        <div>{new Date(transaction.createdAt)?.toLocaleString()}</div>
         <div>ID Transaksi: {transaction._id}</div>
-        <div>Atas Nama: {transaction.buyer}</div>
-        <div>Kasir: {transaction.kasir}</div>
-        <div>Via Pembayaran: {transaction.paymentVia || "Cash"}</div>
+        <div className="flex justify-between w-full mt-2">
+          <span>Atas Nama:</span>
+          <span>{transaction.buyer}</span>
+        </div>
+        <div className="flex justify-between w-full">
+          <span>Kasir:</span>
+          <span>{transaction.kasir}</span>
+        </div>
+        <div className="flex justify-between w-full">
+          <span>Pembayaran:</span>
+          <span>{transaction?.paymentVia || "Cash"}</span>
+        </div>
         {transaction.paymentVia && transaction.paymentVia !== "Cash" && (
           <>
-            <div>Atas Nama Rekening: {transaction.atasNamaRekening}</div>
-            <div>Rekening Penerima: {transaction.rekening}</div>
+            <div className="flex justify-between w-full">
+              <span>Atas Nama Rekening:</span>
+              <span>{transaction.atasNamaRekening}</span>
+            </div>
+            <div className="flex justify-between w-full">
+              <span>Rekening Penerima:</span>
+              <span>{transaction.rekening}</span>
+            </div>
           </>
         )}
         <div>---------------------</div>
-        {transaction.products.map((product, index) => (
-          <div key={index}>
-            {index + 1}. {product.name} <br /> {product.qty} x{" "}
-            {(product.discount / product.qty).toLocaleString()} ={" "}
-            {product.discount.toLocaleString()}
+        {transaction?.products?.map((product, index) => (
+          <div key={index} className="flex flex-col w-full mb-3">
+            <span className="flex justify-start text-start">
+
+            {index + 1}. {product.name}
+            </span>
+            <div className="flex justify-between w-full pl-3">
+              <span>
+                {product.qty} x{" "}
+                {(product.discount / product.qty)?.toLocaleString()} :{" "}
+              </span>
+              <span>{product.discount?.toLocaleString()}</span>
+            </div>
           </div>
         ))}
         <div>---------------------</div>
-        <div>Harga: Rp. {transaction.totalAmount.toLocaleString()}</div>
-        <div>
-          Diskon: Rp.{" "}
-          {(
-            transaction.totalWithDiscount - transaction.totalAmount
-          ).toLocaleString()}
+        <div className="flex justify-between w-full">
+          <span>Harga:</span>
+          <span>Rp. {transaction.totalAmount?.toLocaleString()}</span>
         </div>
-        <div>Cashback: Rp. {transaction.totalCashback.toLocaleString()}</div>
-        <div>
-          Total: Rp. {transaction.totalWithDiscount.toLocaleString()}{" "}
-          {transaction.totalCashback > 0 &&
-            `(Rp. ${
-              transaction.totalWithDiscount - transaction.totalCashback
-            })`}
+        <div className="flex justify-between w-full">
+          <span>Diskon: </span>
+          <span>
+            Rp.
+            {(
+              transaction.totalWithDiscount - transaction.totalAmount
+            )?.toLocaleString()}
+          </span>
         </div>
+        <div className="flex justify-between w-full">
+          <span>Cashback:</span>
+          <span>Rp. {transaction.totalCashback?.toLocaleString()}</span>
+        </div>
+        <div className="flex justify-between w-full">
+          <span>Total:</span>
+          <span>
+            Rp. {transaction.totalWithDiscount?.toLocaleString()}{" "}
+            {transaction.totalCashback > 0 &&
+              `(Rp. ${
+                transaction.totalWithDiscount - transaction.totalCashback
+              })`}
+          </span>
+        </div>
+        <div className="flex justify-between w-full">
+          <span>Nominal dibayar:</span>
+          <span>Rp. {transaction?.nominal?.toLocaleString()}</span>
+        </div>
+        {transaction?.paymentVia === "Cash" && (
+          <div className="flex justify-between w-full">
+            <span>Kembalian:</span>
+            <span>
+              Rp.{" "}
+              {(
+                transaction?.nominal - transaction?.totalWithDiscount
+              )?.toLocaleString()}
+            </span>
+          </div>
+        )}
         <div>---------------------</div>
         <div>Terimakasih Telah Berbelanja Di Rumah Atalla</div>
         <div>Kepuasan Anda Adalah Prioritas Kami</div>
@@ -612,7 +668,12 @@ export default function FoodsKasir() {
                         Rp.{" "}
                       </div>
                     </TextField>
-                    <div className="font-semibold text-sm flex gap-2 w-full items-center pt-5">
+                    <div
+                      className={`font-semibold text-sm flex gap-2 w-full items-center pt-5 ${
+                        formData?.nominal < totalPrice?.discountPrice &&
+                        "text-red-500"
+                      } `}
+                    >
                       <h1>Kembalian: </h1>
                       <h1>
                         Rp.
