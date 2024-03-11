@@ -33,9 +33,7 @@ export default function FoodsKasir() {
   const [triger, setTriger] = useState(1);
   const fetchFoodsProducts = async () => {
     await axios.get(DBURL + "/foods").then((res) => {
-      if (foodsProducts.length === 0) {
-        setFoodsProducts(res.data);
-      }
+      setFoodsProducts(res.data);
       setTriger((prevData) => prevData + 1);
       setIsLoadingFetch(false);
     });
@@ -330,12 +328,6 @@ export default function FoodsKasir() {
   };
 
   const hanldeNextPopover = () => {
-    if (popoverPage === 1 && buyer === "") {
-      toast.custom((t) => (
-        <CustomToast t={t} message="Please fill buyer" type="failed" />
-      ));
-      return;
-    }
     if (popoverPage === 2 && paymentVia === "") {
       toast.custom((t) => (
         <CustomToast
@@ -359,7 +351,7 @@ export default function FoodsKasir() {
       return;
     }
 
-    if (popoverPage === 3 || (paymentVia === "Cash" && popoverPage === 2)) {
+    if (popoverPage === 3) {
       handleBuy();
     } else {
       setPopoverPage((prev) => prev + 1);
@@ -522,16 +514,6 @@ export default function FoodsKasir() {
               <div className="h-[70%]">
                 {popoverPage === 1 ? (
                   <>
-                    <form action="" className="flex flex-col gap-5">
-                      <TextField
-                        name="buyer"
-                        onName={"Atas nama"}
-                        placeholder={"example"}
-                        value={buyer}
-                        onChange={(e) => setBuyer(e.target.value)}
-                      />
-                    </form>
-
                     {/* ITEM */}
                     <div className="w-full h-[85%] overflow-y-scroll overflow-x-hidden">
                       {cartItems.length > 0 && (
@@ -604,12 +586,57 @@ export default function FoodsKasir() {
                       />
                     </div>
                   </>
+                ) : popoverPage === 3 && paymentVia === "Cash" ? (
+                  <div className="flex flex-col gap-2 mx-3">
+                    <TextField
+                      name="buyer"
+                      onName={"Atas nama"}
+                      placeholder={"example"}
+                      value={buyer}
+                      onChange={(e) => setBuyer(e.target.value)}
+                    />
+                    <TextField
+                      name={"Nominal"}
+                      value={formData?.nominal}
+                      onChange={(e) =>
+                        setFormData((prevData) => ({
+                          ...prevData,
+                          nominal: e.target.value,
+                        }))
+                      }
+                      placeholder={totalPrice.discountPrice}
+                      type={"number"}
+                      className={"pl-[3.5rem]"}
+                    >
+                      <div className="absolute left-5  bottom-3 font-semibold">
+                        Rp.{" "}
+                      </div>
+                    </TextField>
+                    <div className="font-semibold text-sm flex gap-2 w-full items-center pt-5">
+                      <h1>Kembalian: </h1>
+                      <h1>
+                        Rp.
+                        {formData?.nominal
+                          ? (
+                              formData?.nominal - totalPrice?.discountPrice
+                            )?.toLocaleString()
+                          : 0}
+                      </h1>
+                    </div>
+                  </div>
                 ) : (
                   popoverPage === 3 &&
                   paymentVia !== "Cash" && (
                     <>
                       <div className="flex flex-col gap-2 mx-3">
                         <div className="grid grid-cols-2 gap-2">
+                          <TextField
+                            name="buyer"
+                            onName={"Atas nama"}
+                            placeholder={"example"}
+                            value={buyer}
+                            onChange={(e) => setBuyer(e.target.value)}
+                          />
                           <TextField
                             name={"Atas Nama Rekening"}
                             value={formData?.atasNamaRekening}
@@ -622,6 +649,25 @@ export default function FoodsKasir() {
                             placeholder={"example"}
                             type={"text"}
                           />
+                        </div>
+                        <div className="grid grid-cols-2 gap-2">
+                          <TextField
+                            name={"Jumlah Transfer"}
+                            value={formData?.nominal}
+                            onChange={(e) =>
+                              setFormData((prevData) => ({
+                                ...prevData,
+                                nominal: e.target.value,
+                              }))
+                            }
+                            placeholder={totalPrice.discountPrice}
+                            type={"number"}
+                            className={"pl-[3.5rem]"}
+                          >
+                            <div className="absolute left-5  bottom-3 font-semibold">
+                              Rp.{" "}
+                            </div>
+                          </TextField>
                           <TextField
                             name={"Transfer Ke"}
                             type={"text"}
@@ -651,37 +697,6 @@ export default function FoodsKasir() {
                               />
                             </div>
                           </TextField>
-                        </div>
-                        <div className="grid grid-cols-2 gap-2">
-                          <TextField
-                            name={"Jumlah Transfer"}
-                            value={formData?.nominal}
-                            onChange={(e) =>
-                              setFormData((prevData) => ({
-                                ...prevData,
-                                nominal: e.target.value,
-                              }))
-                            }
-                            placeholder={totalPrice.discountPrice}
-                            type={"number"}
-                            className={"pl-[3.5rem]"}
-                          >
-                            <div className="absolute left-5  bottom-3 font-semibold">
-                              Rp.{" "}
-                            </div>
-                          </TextField>
-                          <div className="font-semibold flex gap-2 w-full items-center pt-5">
-                            <h1>Kembalian: </h1>
-                            <h1>
-                              Rp.
-                              {formData?.nominal
-                                ? (
-                                    formData?.nominal -
-                                    totalPrice?.discountPrice
-                                  )?.toLocaleString()
-                                : 0}
-                            </h1>
-                          </div>
                         </div>
 
                         {/* BUKTI TRANSFER */}
@@ -764,17 +779,14 @@ export default function FoodsKasir() {
                   onClick={hanldeNextPopover}
                   className={"flex items-center ml-2 justify-center"}
                 >
-                  {popoverPage == 3 ||
-                  (popoverPage == 2 && paymentVia == "Cash")
-                    ? "Buy"
-                    : "Next"}
-                  {popoverPage == 3 ||
-                  (popoverPage == 2 && paymentVia == "Cash") ? (
+                  {popoverPage == 3 ? (
                     <>
+                      Buy
                       <i className="fa-solid fa-cart-shopping ml-2"></i>
                     </>
                   ) : (
                     <>
+                      Next
                       <i
                         className={`fa-solid fa-arrow-up fa-lg rotate-[45deg] ml-2`}
                       ></i>
