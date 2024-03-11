@@ -131,7 +131,7 @@ export default function FashionsKasir() {
     products: [],
     totalAmount: 0,
     qty: 0,
-    status: "pending",
+    status: "successed",
   });
   useEffect(() => {
     setFormData((prevData) => ({
@@ -175,6 +175,7 @@ export default function FashionsKasir() {
           store: "web",
           products: [],
           totalAmount: 0,
+          status: "successed",
         });
         fetchFashionProducts();
         setFashionCartItems([]);
@@ -396,7 +397,8 @@ export default function FashionsKasir() {
       return;
     }
     if (
-      popoverPage === 3 && paymentVia !== "Cash" &&
+      popoverPage === 3 &&
+      paymentVia !== "Cash" &&
       (formData?.buktiTransfer?.url === "" ||
         formData?.nominal === 0 ||
         formData?.atasNamaRekening === "")

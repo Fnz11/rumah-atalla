@@ -1,14 +1,15 @@
+/* eslint-disable react/no-unescaped-entities */
 /* eslint-disable react/prop-types */
 export default function Footer({ adminPage }) {
   return (
     <>
       <footer
-        className={`text-white bg-section-dark  shadow-xl ${
+        className={`text-white bg-section-dark shadow-xl ${
           adminPage && "mb-6 rounded-2xl"
         }`}
       >
         <div className={`container py-14 sm:py-20 mx-auto `}>
-          <div className="flex flex-wrap md:text-left text-center justify-center w-full">
+          <div className="grid grid-cols-4 px-10 md:text-left text-center justify-center w-full">
             <div className="w-64 flex-shrink-0 md:mx-0 mx-auto text-center md:text-left">
               {/* LOGO */}
               <div className="flex sm:mr-10 max-sm:items-center max-sm:mb-4 max-sm:justify-center">
@@ -24,83 +25,66 @@ export default function Footer({ adminPage }) {
                 </div>
               </div>
               <p className="mt-2 text-sm ">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Quisquam obcaecati
+                Kepuasan Anda Adalah Prioritas Kami
               </p>
             </div>
-            <div className="lg:w-1/6 md:w-1/2 w-full px-4 max-sm:hidden">
+            <div className="w-full px-4 max-sm:hidden">
               <h2 className="title-font font-medium  tracking-widest text-sm mb-3">
-                CATEGORIES
+                FOLLOW US
               </h2>
               <nav className="list-none mb-10">
                 <li>
-                  <a className=" hover:text-gray-800">First Link</a>
+                  <a className=" hover:text-gray-800">Instagram</a>
                 </li>
                 <li>
-                  <a className=" hover:text-gray-800">Second Link</a>
+                  <a className=" hover:text-gray-800">Facebook</a>
                 </li>
                 <li>
-                  <a className=" hover:text-gray-800">Third Link</a>
+                  <a className=" hover:text-gray-800">Twitter</a>
                 </li>
                 <li>
-                  <a className=" hover:text-gray-800">Fourth Link</a>
+                  <a className=" hover:text-gray-800">Pinterest</a>
                 </li>
               </nav>
             </div>
-            <div className="lg:w-1/6 md:w-1/2 w-full px-4 max-sm:hidden">
+            <div className="w-full px-4 max-sm:hidden">
               <h2 className="title-font font-medium  tracking-widest text-sm mb-3">
-                CATEGORIES
+                ABOUT US
               </h2>
               <nav className="list-none mb-10">
                 <li>
-                  <a className=" hover:text-gray-800">First Link</a>
+                  <a className=" hover:text-gray-800">Our Story</a>
                 </li>
                 <li>
-                  <a className=" hover:text-gray-800">Second Link</a>
+                  <a className=" hover:text-gray-800">Our Team</a>
                 </li>
                 <li>
-                  <a className=" hover:text-gray-800">Third Link</a>
+                  <a className=" hover:text-gray-800">Customer Reviews</a>
                 </li>
                 <li>
-                  <a className=" hover:text-gray-800">Fourth Link</a>
+                  <a className=" hover:text-gray-800">Contact Us</a>
                 </li>
               </nav>
             </div>
-            <div className="lg:w-1/6 md:w-1/2 w-full px-4 max-sm:hidden">
+            <div className="w-full px-4 max-sm:hidden">
               <h2 className="title-font font-medium  tracking-widest text-sm mb-3">
-                CATEGORIES
+                CONTACT US
               </h2>
               <nav className="list-none mb-10">
                 <li>
-                  <a className=" hover:text-gray-800">First Link</a>
+                  <a className=" hover:text-gray-800">
+                    Email: info@rumahatalla.com
+                  </a>
                 </li>
                 <li>
-                  <a className=" hover:text-gray-800">Second Link</a>
+                  <a className=" hover:text-gray-800">
+                    No. Telp: 0812-1234-5678
+                  </a>
                 </li>
                 <li>
-                  <a className=" hover:text-gray-800">Third Link</a>
-                </li>
-                <li>
-                  <a className=" hover:text-gray-800">Fourth Link</a>
-                </li>
-              </nav>
-            </div>
-            <div className="lg:w-1/6 md:w-1/2 w-full px-4 max-sm:hidden">
-              <h2 className="title-font font-medium  tracking-widest text-sm mb-3">
-                CATEGORIES
-              </h2>
-              <nav className="list-none mb-10">
-                <li>
-                  <a className=" hover:text-gray-800">First Link</a>
-                </li>
-                <li>
-                  <a className=" hover:text-gray-800">Second Link</a>
-                </li>
-                <li>
-                  <a className=" hover:text-gray-800">Third Link</a>
-                </li>
-                <li>
-                  <a className=" hover:text-gray-800">Fourth Link</a>
+                  <a className=" hover:text-gray-800">
+                    Jln. Brigjen Katamso No.19 Wonokarto, Wonogiri
+                  </a>
                 </li>
               </nav>
             </div>
@@ -108,19 +92,19 @@ export default function Footer({ adminPage }) {
         </div>
         <div className="bg-[rgba(255,255,255,0.1)]">
           <div className="container mx-auto py-4 px-5 flex flex-wrap flex-col sm:flex-row">
-            <p className=" text-sm text-center sm:text-left">
-              © 2023 Rumah Atalla —
+            <p className="text-sm text-center sm:text-left">
+              © {new Date().getFullYear()} Rumah Atalla —
               <a
                 href="https://twitter.com/"
-                className=" ml-1"
+                className="ml-1"
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 @Raffi Atalla Atmaja
               </a>
             </p>
-            <span className="sm:ml-auto sm:mt-0 mt-2 sm:w-auto w-full sm:text-left text-center  text-sm max-sm:hidden">
-              Enamel pin tousled raclette tacos irony
+            <span className="sm:ml-auto sm:mt-0 mt-2 sm:w-auto w-full sm:text-left text-center text-sm max-sm:hidden">
+              Kepuasan Anda Adalah Prioritas Kami
             </span>
           </div>
         </div>

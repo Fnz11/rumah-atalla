@@ -96,7 +96,7 @@ export default function TransactionPopover(props) {
         <div>ID Transaksi: {transaction._id}</div>
         <div>Atas Nama: {transaction.buyer}</div>
         <div>Kasir: {transaction.kasir}</div>
-        <div>Via Pembayaran: {transaction.paymentVia || "Cash"}</div>
+        <div>Via Pembayaran: {transaction?.paymentVia || "Cash"}</div>
         {transaction.paymentVia && transaction.paymentVia !== "Cash" && (
           <>
             <div>Atas Nama Rekening: {transaction.atasNamaRekening}</div>
@@ -202,9 +202,8 @@ export default function TransactionPopover(props) {
                     right={props?.data?.buyer}
                   />
                   <PopoverDetail
-                    bold
                     left={"Payment Via: "}
-                    right={props?.data?.paymentVia}
+                    right={props?.data?.paymentVia || "Cash"}
                   />
                   {props?.data?.paymentVia &&
                     props?.data?.paymentVia !== "Cash" && (
@@ -232,7 +231,6 @@ export default function TransactionPopover(props) {
                   <PopoverDetail
                     left={"Store: "}
                     right={props?.data?.store}
-                    bold
                   />
                   <PopoverDetail
                     left={"Total: "}

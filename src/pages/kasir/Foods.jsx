@@ -133,7 +133,7 @@ export default function FoodsKasir() {
     products: [],
     totalAmount: 0,
     qty: 0,
-    status: "pending",
+    status: "successed",
   });
   const token = localStorage.getItem("token");
   useEffect(() => {
@@ -178,7 +178,7 @@ export default function FoodsKasir() {
           products: [],
           totalAmount: 0,
           qty: 0,
-          status: "pending",
+          status: "successed",
         });
         fetchFoodsProducts();
         setCartItems([]);
