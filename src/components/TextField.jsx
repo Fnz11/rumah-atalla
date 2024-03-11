@@ -6,7 +6,9 @@ export default function TextField({
   onName,
   placeholder,
   type,
+  className,
   disabled,
+  children,
 }) {
   return (
     <>
@@ -17,15 +19,21 @@ export default function TextField({
         >
           {onName ? onName : name}
         </label>
-        <input
-          type={type ? type : "text"}
-          placeholder={placeholder}
-          name={name}
-          value={value}
-          onChange={onChange}
-          disabled={disabled}
-          className="block w-full placeholder:text-gray-300 bg-white focus:outline-white p-3 text-sm text-primaryDark border rounded-lg "
-        />
+        <div className="relative w-full">
+          {children}
+          <input
+            type={type ? type : "text"}
+            placeholder={placeholder}
+            name={name}
+            value={value}
+            onChange={onChange}
+            disabled={disabled}
+            className={
+              "block w-full placeholder:text-gray-300 bg-white focus:outline-white p-3 text-sm text-primaryDark border rounded-lg " +
+              className
+            }
+          />
+        </div>
       </div>
     </>
   );

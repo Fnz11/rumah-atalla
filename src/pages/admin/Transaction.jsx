@@ -230,6 +230,7 @@ export default function Transactions() {
       })
       .then((res) => {
         setTransactionsWeb(res.data);
+        console.log(res.data);
         setIsLoading(false);
       })
       .catch((err) => {
@@ -340,8 +341,6 @@ export default function Transactions() {
         } else if (item.status === "canceled") {
           todayTransaction.canceled++;
         }
-      } else {
-        console.log(item.createdAt);
       }
     });
 
@@ -513,7 +512,6 @@ export default function Transactions() {
         }
         return result;
       }, {});
-      console.log("GRPD", groupedData);
       return groupedData;
     }
 
@@ -552,7 +550,6 @@ export default function Transactions() {
           ? "FoodsTransactions.xlsx"
           : "FashionsTransactions.xlsx";
       a.download = fileName;
-      console.log("LINK", response);
       // Appending the <a> element to the document body, triggering the download, and removing the element
       document.body.appendChild(a);
       a.click();

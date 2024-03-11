@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import TransactionPopoverSection from "./TransactionPopoverSection";
 import { motion, AnimatePresence } from "framer-motion";
 import toast from "react-hot-toast";
@@ -12,10 +12,13 @@ import PopoverDetail from "./PopoverDetail";
 import Button from "../Button";
 import Title from "../Title";
 import TransactionHeadPopoverSection from "./TransactionHeadPopoverSection";
+import TransactionStatusDropdown from "./TransactionStatusDropdown";
+import { useReactToPrint } from "react-to-print";
 
 /* eslint-disable react/prop-types */
 export default function TransactionPopover(props) {
   const DBURL = import.meta.env.VITE_APP_DB_URL;
+  const printableRef = useRef(null);
   // console.log("DBDBDBDBDB", DBURL);
   // LOADING
   const [isLoading, setIsLoading] = useState(false);
@@ -45,7 +48,7 @@ export default function TransactionPopover(props) {
             type="success"
           />
         ));
-        props.togglePopover("", null);
+        closePopover();
       })
       .catch((error) => {
         console.error(error);
@@ -70,15 +73,103 @@ export default function TransactionPopover(props) {
     return formattedDate;
   }
 
+  function generatePrintableTransaction(transaction) {
+    console.log("LALAs", transaction);
+    let printable = (
+      <div className="flex flex-col gap-[0.2rem]">
+        <div className="h-10 scale-[1.3] mb-1 flex items-center justify-center">
+          <img
+            src="/LogoBlack.png"
+            className="pointer-events-none w-[2rem] aspect-square"
+            alt="Logo"
+          />
+          <div className="uppercase ml-1 text-xs mb-[0.4rem] text-primaryNormal hidden sm:block">
+            <h1 className="-mb-[0.3rem]">Rumah</h1>
+            <h1 className="font-bold">Atalla</h1>
+            <div className="w-[120%] h-[0.1rem] -my-[0.15rem] rounded-md bg-primaryNormal" />
+          </div>
+        </div>
+        <div>Jln. Brigjen Katamso No.19 Wonokarto, Wonogiri</div>
+        <div>No. Telp: 0812-1234-5678</div>
+        <div>---------------------</div>
+        <div>{new Date(transaction.createdAt)?.toLocaleString()}</div>
+        <div>ID Transaksi: {transaction._id}</div>
+        <div>Atas Nama: {transaction.buyer}</div>
+        <div>Kasir: {transaction.kasir}</div>
+        <div>Via Pembayaran: {transaction.paymentVia || "Cash"}</div>
+        {transaction.paymentVia && transaction.paymentVia !== "Cash" && (
+          <>
+            <div>Atas Nama Rekening: {transaction.atasNamaRekening}</div>
+            <div>Rekening Penerima: {transaction.rekening}</div>
+          </>
+        )}
+        <div>---------------------</div>
+        {transaction?.products?.map((product, index) => (
+          <div key={index}>
+            {index + 1}. {product.name} <br /> {product.qty} x{" "}
+            {(product.discount / product.qty)?.toLocaleString()} ={" "}
+            {product.discount?.toLocaleString()}
+          </div>
+        ))}
+        <div>---------------------</div>
+        <div>Harga: Rp. {transaction.totalAmount?.toLocaleString()}</div>
+        <div>
+          Diskon: Rp.{" "}
+          {(
+            transaction.totalWithDiscount - transaction.totalAmount
+          )?.toLocaleString()}
+        </div>
+        <div>Cashback: Rp. {transaction.totalCashback?.toLocaleString()}</div>
+        <div>
+          Total: Rp. {transaction.totalWithDiscount?.toLocaleString()}{" "}
+          {transaction.totalCashback > 0 &&
+            `(Rp. ${
+              transaction.totalWithDiscount - transaction.totalCashback
+            })`}
+        </div>
+        <div>---------------------</div>
+        <div>Terimakasih Telah Berbelanja Di Rumah Atalla</div>
+        <div>Kepuasan Anda Adalah Prioritas Kami</div>
+      </div>
+    );
+
+    return printable;
+  }
+
+  const [printableContent, setPrintableContent] = useState("");
+
+  const handlePrint = useReactToPrint({
+    content: () => printableRef.current,
+  });
+
+  // Generate printable content when component mounts
+  useEffect(() => {
+    if (!props.data) return;
+    const printable = generatePrintableTransaction(props.data);
+    setPrintableContent(printable);
+  }, [props.data]);
+
+  const [transactionStatus, setTransactionStatus] = useState("");
+  const [transactionStatusDropdown, setTransactionStatusDropdown] =
+    useState(false);
+
+  useEffect(() => {
+    setTransactionStatus(props.data?.status);
+  }, [props.data?.status]);
+
+  const closePopover = () => {
+    setTransactionStatusDropdown(false);
+    setTransactionStatus("");
+    props.togglePopover("", null);
+  };
+
+  console.log("BALBABLABL", props.data);
   return (
     <>
       <AnimatePresence>
         {props.showPopover && (
           <div className="fixed z-[1000] top-0 left-0 w-screen h-screen flex items-center justify-center">
-            <BlackScreenPopover
-              onClick={() => props.togglePopover("", null)}
-              isLoading={isLoading}
-            />
+            <BlackScreenPopover onClick={closePopover} isLoading={isLoading} />
             <motion.div
               initial={{ opacity: 0, y: -100 }}
               animate={{ opacity: 1, y: 0 }}
@@ -111,6 +202,26 @@ export default function TransactionPopover(props) {
                     right={props?.data?.buyer}
                   />
                   <PopoverDetail
+                    bold
+                    left={"Payment Via: "}
+                    right={props?.data?.paymentVia}
+                  />
+                  {props?.data?.paymentVia &&
+                    props?.data?.paymentVia !== "Cash" && (
+                      <>
+                        <PopoverDetail
+                          left={"Atas Nama Rekening: "}
+                          right={props?.data?.atasNamaRekening}
+                        />
+                        <PopoverDetail
+                          left={"Rekening Penerima: "}
+                          right={props?.data?.rekening}
+                        />
+                      </>
+                    )}
+                </div>
+                <div className="flex flex-col w-[50%] ">
+                  <PopoverDetail
                     left={"ID: "}
                     right={props?.data?._id?.toString()}
                   />
@@ -118,8 +229,6 @@ export default function TransactionPopover(props) {
                     left={"Date: "}
                     right={formatISODate(props?.data?.createdAt)}
                   />
-                </div>
-                <div className="flex flex-col w-[50%] ">
                   <PopoverDetail
                     left={"Store: "}
                     right={props?.data?.store}
@@ -149,7 +258,7 @@ export default function TransactionPopover(props) {
                           (
                             props?.data?.totalAmount -
                             props?.data?.totalWithDiscount
-                          ).toLocaleString()
+                          )?.toLocaleString()
                         }
                       />
                     )}
@@ -168,11 +277,11 @@ export default function TransactionPopover(props) {
 
               {/* PRODUCTS */}
               <div className="w-full h-[15rem] sm:h-[44%] overflow-y-scroll overflow-x-hidden">
-                {props.products.length > 0 && (
+                {props?.products?.length > 0 && (
                   <>
                     <TransactionHeadPopoverSection />
 
-                    {props.data.products.map((item) => (
+                    {props?.data?.products?.map((item) => (
                       <>
                         <TransactionPopoverSection
                           promos={props.promos}
@@ -185,46 +294,44 @@ export default function TransactionPopover(props) {
               </div>
 
               {/* BUTTON */}
-              <div className="w-full mt-3 flex gap-3 items-end justify-center">
-                <Button
-                  className={"min-w-[4rem]"}
-                  onClick={
-                    props?.data?.status !== "canceled"
-                      ? () => patchTransaction("canceled")
-                      : () => props.togglePopover("", null)
-                  }
-                  variant={"red"}
-                >
-                  <i className="fa-solid fa-circle-exclamation mb-1 fa-lg sm:mr-2"></i>
-                  <span className="max-sm:hidden">Cancel</span>
-                </Button>
-                <Button
-                  className={"min-w-[4rem]"}
-                  onClick={
-                    props?.data?.status !== "pending"
-                      ? () => patchTransaction("pending")
-                      : () => props.togglePopover("", null)
-                  }
-                  variant={"yellow"}
-                >
-                  <i className="fa-solid fa-clock mb-1 fa-lg  sm:mr-2"></i>
-
-                  <span className="max-sm:hidden">Pending</span>
-                </Button>
-                <Button
-                  className={"min-w-[4rem]"}
-                  onClick={
-                    props?.data?.status !== "successed"
-                      ? () => patchTransaction("successed")
-                      : () => props.togglePopover("", null)
-                  }
-                  variant={"green"}
-                >
-                  <i className="fa-solid fa-circle-check mb-1 fa-lg sm:mr-2"></i>
-                  <span className="max-sm:hidden">Success</span>
+              <div className="w-full mt-3 flex gap-3 items-center justify-center">
+                <TransactionStatusDropdown
+                  patchTransaction={patchTransaction}
+                  setTransactionStatusDropdown={setTransactionStatusDropdown}
+                  transactionStatus={transactionStatus}
+                  transactionStatusDropdown={transactionStatusDropdown}
+                />
+                {/* PRINT */}
+                {props?.data?.paymentVia &&
+                  props?.data?.paymentVia !== "Cash" && (
+                    <>
+                      <Button
+                        onClick={() =>
+                          window.open(props?.data?.buktiTransfer?.url)
+                        }
+                      >
+                        <i className="fa-solid fa-receipt mr-2"></i>
+                        <span className="flex items-center justify-center gap-1">
+                          Bukti
+                          <p className="max-sm:hidden">Transfer</p>
+                        </span>
+                      </Button>
+                    </>
+                  )}
+                <Button variant={"transparent"} onClick={handlePrint}>
+                  <i className="fa-solid fa-print fa-lg mr-2"></i>
+                  <span className="">Print</span>
                 </Button>
               </div>
             </motion.div>
+            <div className="-top-[100rem] left-[100rem] fixed">
+              <div
+                ref={printableRef}
+                className="w-[200px] shadow-lg px-3 py-8 h-auto text-center text-xs bg-white z-[-10000]"
+              >
+                {printableContent}
+              </div>
+            </div>
           </div>
         )}
       </AnimatePresence>
