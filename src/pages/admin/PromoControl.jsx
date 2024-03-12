@@ -164,13 +164,18 @@ export default function PromoControl() {
             {/* TYPE */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-5 sm:w-auto w-full justify-center capitalize pb-3">
               {Object.keys(typeFilters).map((type) => (
-                <Checkbox
+                <Button
                   key={type}
-                  checked={typeFilters[type]}
-                  onChange={() => handleTypeFilterChange(type)}
-                  id={"type-checkbox-" + type}
-                  name={type}
-                />
+                  onClick={() => handleTypeFilterChange(type)}
+                  variant={typeFilters[type] ? "secondary" : "transparent"}
+                  className={"capitalize max-sm:rounded-xl h-12 sm:rounded-xl"}
+                >
+                  {type}
+                  {type === "diskon persentase" ||
+                  type === "cashback persentase"
+                    ? " (%)"
+                    : " (Rp)"}
+                </Button>
               ))}
             </div>
 

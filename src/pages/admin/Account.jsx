@@ -275,10 +275,10 @@ export default function Account() {
           {/* TOP */}
           <div className="flex max-2xl:flex-col w-full gap-5">
             {/* LEFT */}
-            <div className="flex flex-col w-full  2xl:w-[40%] h-[29rem] sm:h-[20rem] 2xl:h-[29rem]  bg-section-rainbow text-primaryDark relative  truncate rounded-2xl shadow-lg gap-5 p-7 items-center justify-center">
+            <div className="flex flex-col w-full  2xl:w-[40%] h-[29rem] sm:h-[20rem] 2xl:h-[29rem]  bg-section-rainbow text-primaryDark relative   rounded-2xl shadow-lg gap-5 p-7 items-center justify-center">
               <h1 className="text-2xl font-semibold">Profile</h1>
-              <div className="flex gap-5 flex-col sm:flex-row 2xl:flex-col items-center justify-center">
-                <div className="relative w-max-full cursor-pointer w-[10rem] flex group rounded-full drop-shadow-lg shadow-lg hover:shadow-xl overflow-hidden">
+              <div className="flex gap-5 flex-col sm:flex-row 2xl:flex-col items-center justify-center truncate ">
+                <div className="relative w-max-full cursor-pointer w-[10rem]  flex group rounded-full drop-shadow-lg shadow-lg hover:shadow-xl overflow-hidden">
                   <input
                     type="file"
                     accept="image/*"
@@ -299,20 +299,32 @@ export default function Account() {
                 </div>
                 <div className="flex gap-4">
                   <div className="gap-3 flex flex-col text-end ">
-                    <h1>Nama</h1>
-                    <h1>Email</h1>
-                    <h1>Password</h1>
-                    <h1>No Telpon</h1>
-                    <h1>Role</h1>
+                    <div className="grid grid-cols-2">
+                      <h1>Nama</h1>
+                      <h1 className="flex justify-start">: {userData?.username}</h1>
+                    </div>
+
+                    <div className="grid grid-cols-2">
+                      <h1>Email</h1>
+                      <h1 className="flex justify-start">: {userData?.email}</h1>
+                    </div>
+
+                    <div className="grid grid-cols-2">
+                      <h1>Password</h1>
+                      <h1 className="flex justify-start">: ********</h1>
+                    </div>
+
+                    <div className="grid grid-cols-2">
+                      <h1>No Telpon</h1>
+                      <h1 className="flex justify-start">: {userData?.number}</h1>
+                    </div>
+
+                    <div className="grid grid-cols-2">
+                      <h1>Role</h1> <h className="flex justify-start">: {userData?.role}</h>
+                    </div>
                   </div>
                   <div className="gap-3 flex flex-col">
-                    <h1>: {userData?.username}</h1>
-                    <h1>: {userData?.email}</h1>
-                    <h1>: ********</h1>
-                    <h1>: {userData?.number}</h1>
-                    <h1 className="capitalize">
-                      : <b>{userData?.role}</b>
-                    </h1>
+                    <h1 className="capitalize"></h1>
                   </div>
                 </div>
               </div>

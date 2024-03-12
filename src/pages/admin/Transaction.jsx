@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import FashionTransactionSection from "../../components/Transaction/FashionTransactionSection";
 import axios from "axios";
 import TransactionPopover from "../../components/Transaction/TransactionPopover";
@@ -30,6 +30,7 @@ import TransactionFoodHeadSection from "../../components/Transaction/Transaction
 import TransactionSectionSkeleton from "../../components/Transaction/TransactionSectionSkeleton";
 import toast from "react-hot-toast";
 import CustomToast from "../../components/CustomToast";
+import BlackScreenPopover from "../../components/BlackScreenPopover";
 
 export default function Transactions() {
   const DBURL = import.meta.env.VITE_APP_DB_URL;
@@ -285,6 +286,7 @@ export default function Transactions() {
 
   //   FILTER
   const [selectedKasir, setSelectedKasir] = useState("");
+  const [openSelectKasirPopover, setOpenSelectKasirPopover] = useState(false);
 
   const [searchValue, setSearchValue] = useState("");
   const [idValue, setidValue] = useState("");
@@ -568,6 +570,9 @@ export default function Transactions() {
   // ISADMIN
   const User = JSON.parse(localStorage.getItem("user"));
 
+  const dariDate = useRef(null);
+  const sampaiDate = useRef(null);
+
   return (
     <>
       {/* POPOVER */}
@@ -681,10 +686,10 @@ export default function Transactions() {
         </div>
 
         {/* FILTER */}
-        <div className="h-auto bg-section-rainbow w-full  rounded-2xl shadow-lg p-7 ">
-          <div className="flex flex-col xl:flex-row gap-4">
+        <div className="h-auto bg-section-rainbow w-full  rounded-2xl text-sm shadow-lg p-7 ">
+          <div className="flex flex-col gap-4">
             {/* TOP */}
-            <div className="xl:w-[75%] w-full">
+            <div className="w-full">
               {/* TOP */}
               <Title2 title="Filter" className={"mb-0"} />
               {/* SEARCH */}
@@ -717,106 +722,245 @@ export default function Transactions() {
               </div>
 
               {/* CHECKBOX */}
-              <div className="flex  flex-row w-full  mt-4">
-                <div className="w-full sm:w-[50%] ">
-                  <h1 className="font-semibold">
-                    Total: {filteredFashionTransaction.length}
-                  </h1>
-                  {Object.keys(statusFilters).map((status) => (
-                    <Checkbox
-                      key={status}
-                      checked={statusFilters[status]}
-                      onChange={() => handleStatusFilterChange(status)}
-                      color={
-                        status === "canceled"
-                          ? "red"
-                          : status === "successed"
-                          ? "green"
-                          : "yellow"
+              <div className="flex  flex-row w-full text-sm mt-4">
+                <div className="w-full ">
+                  <div className="mb-2 text-base font-semibold">
+                    Transaction Status
+                  </div>
+                  <div className="flex flex-row gap-2 w-fit">
+                    {Object.keys(statusFilters).map((status) => {
+                      let color = "";
+                      if (status === "canceled") {
+                        color = "red";
+                      } else if (status === "successed") {
+                        color = "green";
+                      } else {
+                        color = "yellow";
                       }
-                      name={
-                        (status === "canceled"
-                          ? totalCanceledTransactions
-                          : status === "successed"
-                          ? totalSuccededTransactions
-                          : totalPendingTransactions) +
-                        " " +
-                        status
-                      }
-                      bold
-                      id={`status-checkbox-${status}`}
-                    />
-                  ))}
+                      return (
+                        <Button
+                          key={status}
+                          onClick={() => handleStatusFilterChange(status)}
+                          variant={
+                            statusFilters[status]
+                              ? color
+                              : "transparent-" + color
+                          }
+                          className={
+                            "capitalize max-sm:rounded-xl sm:rounded-xl"
+                          }
+                        >
+                          {status === "successed" ? (
+                            <i className="fa-solid fa-circle-check fa-lg sm:mr-2"></i>
+                          ) : status === "pending" ? (
+                            <i className="fa-solid fa-clock fa-lg sm:mr-2"></i>
+                          ) : (
+                            <i className="fa-solid fa-circle-exclamation fa-lg sm:mr-2"></i>
+                          )}
+                          {status}
+                          <span className="ml-2">
+                            (
+                            {status === "canceled"
+                              ? totalCanceledTransactions
+                              : status === "successed"
+                              ? totalSuccededTransactions
+                              : totalPendingTransactions}
+                            )
+                          </span>
+                        </Button>
+                      );
+                    })}
+                  </div>
                 </div>
                 {page === "fashions" && User?.role === "owner" && (
                   <div className="flex flex-col  items-start text-sm sm:w-auto w-full justify-between mb-3 ">
-                    <br />
-                    {Object.keys(storeFilters).map((store) => (
-                      <Checkbox
-                        attached
-                        key={store}
-                        checked={storeFilters[store]}
-                        onChange={() => handleStoreFilterChange(store)}
-                        id={"store-checkbox-" + store}
-                        name={store}
-                      />
-                    ))}
+                    <div className="mb-2 text-base font-semibold">
+                      Store Filter
+                    </div>
+                    <div className="flex flex-row gap-2 w-fit">
+                      {Object.keys(storeFilters).map((store) => {
+                        return (
+                          <Button
+                            key={store}
+                            onClick={() => handleStoreFilterChange(store)}
+                            variant={
+                              storeFilters[store] ? "secondary" : "transparent"
+                            }
+                            className={
+                              "capitalize max-sm:rounded-xl h-12 sm:rounded-xl"
+                            }
+                          >
+                            {store === "shopee" ? (
+                              <img
+                                src="/Shopee.png"
+                                className={`w-6 mr-2 ${
+                                  !storeFilters[store]
+                                    ? "bg-secondary"
+                                    : "bg-white"
+                                } rounded-full p-1 scale-[1.2]`}
+                                alt=""
+                              />
+                            ) : store === "tokopedia" ? (
+                              <img
+                                src="/Tokopedia.png"
+                                className={`w-6 mr-2  rounded-full p-1 scale-[1.2] ${
+                                  !storeFilters[store]
+                                    ? "bg-secondary"
+                                    : "bg-white"
+                                }  `}
+                                alt=""
+                              />
+                            ) : (
+                              <div
+                                className={`aspect-square mr-2 ${
+                                  !storeFilters[store]
+                                    ? "bg-secondary text-white"
+                                    : "bg-white text-secondary"
+                                } rounded-full p-1 flex items-center justify-center `}
+                              >
+                                <i
+                                  className={` scale-[0.8]  fa-solid fa-store fa-lg`}
+                                ></i>
+                              </div>
+                            )}
+                            {store}
+                          </Button>
+                        );
+                      })}
+                    </div>
                   </div>
                 )}
               </div>
 
               {/* DATE */}
-              <div className="flex flex-col sm:flex-row w-full justify-between mt-4 gap-3">
-                {user?.role === "owner" && (
-                  <select
-                    id="kasir"
-                    name="kasir"
-                    className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                    value={selectedKasir}
-                    onChange={(e) => setSelectedKasir(e.target.value)}
-                  >
-                    <option value="">Select Kasir</option>
-                    {kasir.map((kasirName) => (
-                      <option key={kasirName} value={kasirName}>
-                        {kasirName}
-                      </option>
-                    ))}
-                  </select>
-                )}
-                <div className="flex whitespace-nowrap">
-                  <label htmlFor="startDate">Dari:</label>
-                  <input
-                    type="date"
-                    id="startDate"
-                    value={startDate}
-                    onChange={(e) => setStartDate(e.target.value)}
-                  />
-                </div>
-                <div className="flex whitespace-nowrap">
-                  <label htmlFor="endDate">Sampai:</label>
-                  <input
-                    type="date"
-                    id="endDate"
-                    value={endDate}
-                    onChange={(e) => setEndDate(e.target.value)}
-                  />
+              <div className="mt-4 flex flex-col">
+                <div className="flex w-full justify-between gap-3">
+                  <div>
+                    <div className="mb-2 text-base font-semibold">Kasir </div>
+                    <div className="relative w-fit flex items-center justify-center">
+                      <BlackScreenPopover
+                        isShow={openSelectKasirPopover}
+                        isBlack={false}
+                        isBlur={false}
+                        onClick={() => setOpenSelectKasirPopover(false)}
+                      />
+                      <div className="absolute bottom-[3.5rem]">
+                        <div
+                          className={`${
+                            openSelectKasirPopover
+                              ? "h-[11.5rem] opacity-100"
+                              : "h-0 opacity-0 invisible"
+                          } w-[12rem] transition-all flex flex-col items-center justify-center gap-5 sm:gap-2 truncate duration-200 ease-in bg-section-dark z-[1]  p-3 rounded-2xl shadow-2xl right-0`}
+                        >
+                          <span
+                            className={`w-full flex items-center ${
+                              selectedKasir === ""
+                                ? "bg-primaryThin text-white"
+                                : "text-[rgba(255,255,255,0.5)] hover:bg-primaryThin hover:text-white"
+                            }  justify-center group p-3 transition-all duration-200 ease-in cursor-pointer rounded-2xl `}
+                            onClick={() => {
+                              setSelectedKasir("");
+                              setOpenSelectKasirPopover(false);
+                            }}
+                          >
+                            <i
+                              className={`fa-solid ${
+                                selectedKasir === ""
+                                  ? "fa-user-check"
+                                  : "fa-user"
+                              }  fa-lg sm:mr-2 `}
+                            ></i>
+                            <span className="max-sm:hidden">All Kasir</span>
+                          </span>
+                          {kasir.map((kasirName) => (
+                            <span
+                              className={`w-full flex items-center ${
+                                selectedKasir === kasirName
+                                  ? "bg-primaryThin text-white"
+                                  : "text-[rgba(255,255,255,0.5)] hover:bg-primaryThin hover:text-white"
+                              }  justify-center group p-3 transition-all duration-200 ease-in cursor-pointer rounded-2xl `}
+                              key={kasirName}
+                              onClick={() => {
+                                setSelectedKasir(kasirName);
+                                setOpenSelectKasirPopover(false);
+                              }}
+                            >
+                              <i
+                                className={`fa-solid ${
+                                  selectedKasir === kasirName
+                                    ? "fa-user-check"
+                                    : "fa-user"
+                                }  fa-lg sm:mr-2 `}
+                              ></i>
+                              <span className="max-sm:hidden">{kasirName}</span>
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                      <Button
+                        className={
+                          "max-sm:p-6 max-sm:min-w-[11rem] sm:min-w-[11rem] capitalize max-sm:rounded-xl sm:rounded-xl"
+                        }
+                        onClick={() => setOpenSelectKasirPopover(true)}
+                      >
+                        <i
+                          className={`fa-solid fa-user-check fa-lg sm:mr-2 `}
+                        ></i>
+                        {selectedKasir || "All Kasir"}
+                      </Button>
+                    </div>
+                  </div>
+                  <div className="w-fit">
+                    <div className="mb-2 text-base font-semibold">Date</div>
+
+                    <div className="flex items-center justify-end gap-3">
+                      <Button
+                        onClick={() => dariDate.current.focus()}
+                        className="flex w-fit whitespace-nowrap justify-center items-center gap-2 max-sm:rounded-xl h-12 sm:rounded-xl"
+                      >
+                        <label htmlFor="startDate">Dari:</label>
+                        <input
+                          ref={dariDate}
+                          className="bg-transparent text-white w-fit outline-none"
+                          type="date"
+                          id="startDate"
+                          value={startDate}
+                          onChange={(e) => setStartDate(e.target.value)}
+                        />
+                      </Button>
+                      <Button
+                        onClick={() => sampaiDate.current.focus()}
+                        className="flex w-fit whitespace-nowrap justify-center items-center gap-2 max-sm:rounded-xl h-12 sm:rounded-xl"
+                      >
+                        <label htmlFor="endDate">Sampai:</label>
+                        <input
+                          type="date"
+                          className="bg-transparent text-white w-fit outline-none"
+                          id="endDate"
+                          ref={sampaiDate}
+                          value={endDate}
+                          onChange={(e) => setEndDate(e.target.value)}
+                        />
+                      </Button>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
 
             {/* BOTTOM */}
-            <div className="xl:w-[25%] w-full flex flex-col items-center gap-2">
+            <div className="w-full flex flex-row items-center gap-2">
               <ChangePageButton
                 image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQl6SzfGl7TUhR-NEd2sL_rwbaBq-7dRG2Cxg&usqp=CAU"
                 setPage={() => setPage("foods")}
-                height={"8rem"}
+                height={"10rem"}
                 page={page}
                 text={"foods"}
               />
               <ChangePageButton
                 image="https://img.freepik.com/premium-photo/group-young-beautiful-muslim-women-fashionable-dress-with-hijab-using-mobile-phone-while-taking-selfie-picture-front-black-chalkboard-representing-modern-islam-fashion-technology-ramad_530697-51545.jpg"
                 setPage={() => setPage("fashions")}
-                height={"8rem"}
+                height={"10rem"}
                 page={page}
                 text={"fashions"}
               />

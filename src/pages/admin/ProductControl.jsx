@@ -302,54 +302,102 @@ export default function ProductControl() {
             <Title2 title={"Filter"} />
 
             <div className="flex flex-col w-full gap-3 mb-3">
-              {/* STORE */}
-              {page === "fashions" && (
-                <div className="flex gap-5 items-center sm:w-full w-full justify-between capitalize">
-                  {Object.keys(storeFilters).map((store) => (
-                    <Checkbox
-                      key={store}
-                      checked={storeFilters[store]}
-                      onChange={() => handleStoreFilterChange(store)}
-                      id={"store-checkbox-" + store}
-                      name={store}
-                    />
-                  ))}
-                </div>
-              )}
+              <div className="flex flex-col sm:flex-row w-full gap-2 max-sm:gap-4">
+                {/* STORE */}
+                {page === "fashions" && (
+                  <div className="flex flex-row gap-2 w-full">
+                    {Object.keys(storeFilters).map((store) => {
+                      return (
+                        <Button
+                          key={store}
+                          onClick={() => handleStoreFilterChange(store)}
+                          variant={
+                            storeFilters[store] ? "secondary" : "transparent"
+                          }
+                          className={
+                            "capitalize max-sm:rounded-xl h-12 sm:rounded-xl"
+                          }
+                        >
+                          {store === "shopee" ? (
+                            <img
+                              src="/Shopee.png"
+                              className={`w-6 mr-2 ${
+                                !storeFilters[store]
+                                  ? "bg-secondary"
+                                  : "bg-white"
+                              } rounded-full p-1 scale-[1.2]`}
+                              alt=""
+                            />
+                          ) : store === "tokopedia" ? (
+                            <img
+                              src="/Tokopedia.png"
+                              className={`w-6 mr-2  rounded-full p-1 scale-[1.2] ${
+                                !storeFilters[store]
+                                  ? "bg-secondary"
+                                  : "bg-white"
+                              }  `}
+                              alt=""
+                            />
+                          ) : (
+                            <div
+                              className={`aspect-square mr-2 ${
+                                !storeFilters[store]
+                                  ? "bg-secondary text-white"
+                                  : "bg-white text-secondary"
+                              } rounded-full p-1 flex items-center justify-center `}
+                            >
+                              <i className={` scale-[0.8]  fa-solid fa-store fa-lg`}></i>
+                            </div>
+                          )}
+                          {store}
+                        </Button>
+                      );
+                    })}
+                  </div>
+                )}
 
-              {/* FOODS / DRINKS */}
-              {page === "foods" && (
-                <div className="flex gap-5 items-center sm:w-full w-full justify-between capitalize">
+                {/* FOODS / DRINKS */}
+                {page === "foods" && (
+                  <div className="flex flex-row gap-2 w-full">
                   {Object.keys(foodsType).map((type) => (
-                    <Checkbox
-                      key={type}
-                      checked={foodsType[type]}
-                      onChange={() => handleFoodsTypeFilterChange(type)}
-                      id={"type-checkbox-" + type}
-                      name={type}
-                    />
-                  ))}
-                </div>
-              )}
-
-              <div className="w-full flex gap-2">
-                {/* SEARCH */}
-                <div className="flex flex-col sm:flex-row w-full gap-2 max-sm:gap-4">
-                  {/* SEARCH BY NAME*/}
-                  <SearchBar
-                    onChange={(e) => setSearchValue(e.target.value)}
-                    value={searchValue}
-                    placeholder="Search by name..."
-                  />
-
-                  {/* SEARCH BY ID*/}
-                  <SearchBar
-                    onChange={(e) => setidValue(e.target.value)}
-                    value={idValue}
-                    placeholder="Search by ID..."
-                  />
-                </div>
-
+                      <Button
+                        key={type}
+                        onClick={() => handleFoodsTypeFilterChange(type)}
+                        variant={foodsType[type] ? "secondary" : "transparent"}
+                        className={
+                          "capitalize max-sm:rounded-xl h-12 sm:rounded-xl"
+                        }
+                      >
+                        {type === "drinks" ? (
+                          <div
+                            className={`aspect-square mr-2 ${
+                              !foodsType[type]
+                                ? "bg-secondary text-white"
+                                : "bg-white text-secondary"
+                            } rounded-full p-1 flex items-center justify-center `}
+                          >
+                            <i
+                              className={`   fa-solid fa-mug-saucer scale-[0.8] fa-lg`}
+                            ></i>
+                          </div>
+                        ) : (
+                          <div
+                            className={`aspect-square mr-2 ${
+                              !foodsType[type]
+                                ? "bg-secondary text-white"
+                                : "bg-white text-secondary"
+                            } rounded-full p-1 flex items-center justify-center `}
+                          >
+                            <i
+                              className={`   fa-solid fa-bowl-food scale-[0.8] fa-lg`}
+                            ></i>
+                          </div>
+                        )}
+                        {type}
+                      </Button>
+                    ))}
+                  </div>
+                )}
                 {/* RIGHT */}
                 <div className="flex max-sm:flex-col gap-1 ">
                   <Button
@@ -375,6 +423,23 @@ export default function ProductControl() {
                     <span className="max-sm:hidden">Add</span>
                   </Button>
                 </div>
+              </div>
+
+              <div className="w-full flex gap-2">
+                {/* SEARCH */}
+                {/* SEARCH BY NAME*/}
+                <SearchBar
+                  onChange={(e) => setSearchValue(e.target.value)}
+                  value={searchValue}
+                  placeholder="Search by name..."
+                />
+
+                {/* SEARCH BY ID*/}
+                <SearchBar
+                  onChange={(e) => setidValue(e.target.value)}
+                  value={idValue}
+                  placeholder="Search by ID..."
+                />
               </div>
             </div>
 
