@@ -27,6 +27,7 @@ import PaymentMethod from "../../components/Kasir/PaymentMethod";
 import { Input } from "postcss";
 import PrintAndBuy from "../../components/Kasir/PrintAndBuy";
 import { useReactToPrint } from "react-to-print";
+import Empty from "../../components/Empty";
 
 export default function FashionsKasir() {
   const DBURL = import.meta.env.VITE_APP_DB_URL;
@@ -500,8 +501,7 @@ export default function FashionsKasir() {
         {transaction?.products?.map((product, index) => (
           <div key={index} className="flex flex-col w-full mb-3">
             <span className="flex justify-start text-start">
-
-            {index + 1}. {product.name}
+              {index + 1}. {product.name}
             </span>
             <div className="flex justify-between w-full pl-3">
               <span>
@@ -941,21 +941,31 @@ export default function FashionsKasir() {
               <Title title={"Fashions"} />
 
               {/* PRODUCT */}
-              <div className="grid grid-cols-2 gap-x-2 gap-y-10 lg:grid-cols-3 xl:gap-x-4">
-                {isLoadingFetch &&
-                  [...Array(10)].map((i) => (
-                    <>
-                      <FashionKasirSectionSkeleton />
-                    </>
-                  ))}
-                {filteredFashions.map((product, index) => (
-                  <FashionKasirSection
-                    props={product}
-                    key={index}
-                    FashionCartItems={FashionCartItems}
-                    toggleShowMore={toggleShowMore}
-                  />
-                ))}
+              <div>
+                {filteredFashions.length > 0 ? (
+                  <div className="min-h-screen grid grid-cols-2 gap-x-2 gap-y-10 lg:grid-cols-3 xl:gap-x-4">
+                    {filteredFashions.map((product, index) => (
+                      <FashionKasirSection
+                        props={product}
+                        key={index}
+                        FashionCartItems={FashionCartItems}
+                        toggleShowMore={toggleShowMore}
+                      />
+                    ))}
+                  </div>
+                ) : filteredFashions.length === 0 && isLoadingFetch ? (
+                  <div className="min-h-screen grid grid-cols-2 gap-x-2 gap-y-10 lg:grid-cols-3 xl:gap-x-4">
+                    {[...Array(10)].map((i) => (
+                      <>
+                        <FashionKasirSectionSkeleton />
+                      </>
+                    ))}
+                  </div>
+                ) : (
+                  <>
+                    <Empty />
+                  </>
+                )}
               </div>
             </div>
           </div>

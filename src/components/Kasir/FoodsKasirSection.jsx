@@ -96,7 +96,7 @@ export default function FoodsKasirSection({ props, addToCart, CartItems }) {
         } ${
           quantity < props.stock &&
           "cursor-pointer active:scale-[0.995] active:opacity-[0.2]"
-        }  border-4 select-none group relative bg-section rounded-t-2xl  transition-all  text-[0.6rem] sm:text-sm mb-14 md:mb-10`}
+        } h-fit border-4 select-none group relative bg-section rounded-t-2xl  transition-all  text-[0.6rem] sm:text-sm mb-14 md:mb-10`}
       >
         <div
           onClick={() => handleAddToCart({ type: "inc" })}

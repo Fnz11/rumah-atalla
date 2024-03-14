@@ -22,6 +22,7 @@ import ChangePageButton from "../../components/ChangePageButton";
 import { useReactToPrint } from "react-to-print";
 import PaymentMethod from "../../components/Kasir/PaymentMethod";
 import PrintAndBuy from "../../components/Kasir/PrintAndBuy";
+import Empty from "../../components/Empty";
 
 export default function FoodsKasir() {
   const DBURL = import.meta.env.VITE_APP_DB_URL;
@@ -448,8 +449,7 @@ export default function FoodsKasir() {
         {transaction?.products?.map((product, index) => (
           <div key={index} className="flex flex-col w-full mb-3">
             <span className="flex justify-start text-start">
-
-            {index + 1}. {product.name}
+              {index + 1}. {product.name}
             </span>
             <div className="flex justify-between w-full pl-3">
               <span>
@@ -917,35 +917,46 @@ export default function FoodsKasir() {
             {/* PRODUCT TITTLE */}
             <Title title={page === "foods" ? "Foods" : "Drinks"} />
             {/* PRODUCT */}
-            <div className="grid grid-cols-2 gap-x-2 gap-y-10 lg:grid-cols-3 xl:gap-x-4">
-              {isLoadingFetch &&
-                [...Array(10)].map((i) => (
-                  <>
-                    <FashionKasirSectionSkeleton />
-                  </>
-                ))}
-              {page === "foods" &&
-                filteredFoods.map((product) => (
-                  <FoodsKasirSection
-                    key={product._id.toString()}
-                    props={product}
-                    addToCart={addToCart}
-                    CartItems={cartItems}
-                    promos={promos}
-                    type={"foods"}
-                  />
-                ))}
-              {page === "drinks" &&
-                filteredDrinks.map((product) => (
-                  <FoodsKasirSection
-                    key={product._id.toString()}
-                    props={product}
-                    addToCart={addToCart}
-                    CartItems={cartItems}
-                    promos={promos}
-                    type={"drinks"}
-                  />
-                ))}
+            <div>
+              {filteredDrinks.length > 0 && page === "drinks" ? (
+                <div className="min-h-screen grid grid-cols-2 gap-x-2 gap-y-10 lg:grid-cols-3 xl:gap-x-4">
+                  {filteredDrinks.map((product) => (
+                    <FoodsKasirSection
+                      key={product._id.toString()}
+                      props={product}
+                      addToCart={addToCart}
+                      CartItems={cartItems}
+                      promos={promos}
+                      type={"drinks"}
+                    />
+                  ))}
+                </div>
+              ) : filteredFoods.length > 0 && page === "foods" ? (
+                <div className="min-h-screen grid grid-cols-2 gap-x-2 gap-y-10 lg:grid-cols-3 xl:gap-x-4">
+                  {filteredFoods.map((product) => (
+                    <FoodsKasirSection
+                      key={product._id.toString()}
+                      props={product}
+                      addToCart={addToCart}
+                      CartItems={cartItems}
+                      promos={promos}
+                      type={"foods"}
+                    />
+                  ))}
+                </div>
+              ) : ((filteredDrinks.length > 0 && page === "drinks") ||
+                  (filteredFoods.length > 0 && page === "foods")) &&
+                isLoadingFetch ? (
+                <div className="min-h-screen grid grid-cols-2 gap-x-2 gap-y-10 lg:grid-cols-3 xl:gap-x-4">
+                  {[...Array(10)].map((i) => (
+                    <>
+                      <FashionKasirSectionSkeleton />
+                    </>
+                  ))}
+                </div>
+              ) : (
+                <Empty />
+              )}
             </div>
           </div>
         </div>

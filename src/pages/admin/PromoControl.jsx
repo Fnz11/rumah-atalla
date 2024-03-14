@@ -15,6 +15,7 @@ import SearchBar from "../../components/SearchBar";
 import Checkbox from "../../components/Checkbox";
 import toast from "react-hot-toast";
 import CustomToast from "../../components/CustomToast";
+import Empty from "../../components/Empty";
 
 export default function PromoControl() {
   const DBURL = import.meta.env.VITE_APP_DB_URL;
@@ -251,7 +252,7 @@ export default function PromoControl() {
           </div>
           <AnimatePresence>
             {filteredFashionPromos?.length > 0 ? (
-              <>
+              <div className="w-full min-h-screen">
                 {page === "fashions" ? (
                   <>
                     {filteredFashionPromos.map((item) => (
@@ -291,8 +292,8 @@ export default function PromoControl() {
                     ))}
                   </>
                 )}
-              </>
-            ) : (
+              </div>
+            ) : filteredFashionPromos?.length === 0 && isLoading ? (
               <>
                 {[...Array(10)].map((i) => (
                   <>
@@ -300,6 +301,8 @@ export default function PromoControl() {
                   </>
                 ))}
               </>
+            ) : (
+              <Empty />
             )}
           </AnimatePresence>
 

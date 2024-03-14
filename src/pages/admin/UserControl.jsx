@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import UserControllerSection from "../../components/UserController/UserControllerSection";
 import UserControllerPopover from "../../components/UserController/UserControllerPopover";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
   Bar,
@@ -23,6 +23,7 @@ import Title2 from "../../components/Title2";
 import SearchBar from "../../components/SearchBar";
 import toast from "react-hot-toast";
 import CustomToast from "../../components/CustomToast";
+import Empty from "../../components/Empty";
 
 export default function UserControl() {
   const DBURL = import.meta.env.VITE_APP_DB_URL;
@@ -37,27 +38,41 @@ export default function UserControl() {
   }, [userRole]);
 
   // FETCH
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [userData, setUserData] = useState([]);
-  const fetchUser = async () => {
+  const [pagination, setPagination] = useState(null);
+  useEffect(() => {
+    const page =
+      parseInt(new URLSearchParams(window.location.search).get("page")) || 1;
+    fetchUser(page);
+    setPagination(page);
+  }, []);
+  useEffect(() => {
+    if (!pagination) {
+      return;
+    }
+    navigate(`?page=${pagination}`);
+    fetchUser(pagination);
+  }, [pagination]);
+  const fetchUser = async (page) => {
+    setIsLoading(true);
     await axios
-      .get(DBURL + "/users/", {
+      .get(DBURL + "/users/?page=" + page, {
         headers: {
           Authorization: `${localStorage.getItem("token")}`,
         },
       })
       .then((res) => {
-        console.log(res.data);
+        console.log("RERES", res.data);
         setUserData(res.data);
-        setIsLoading(false);
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
-  useEffect(() => {
-    fetchUser();
-  }, []);
 
   //   FILTER
   const [searchValue, setSearchValue] = useState("");
@@ -283,23 +298,25 @@ export default function UserControl() {
           </div>
 
           {filteredUsers?.length > 0 ? (
-            filteredUsers.map((item, i) => (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.2 }}
-                key={item._id}
-                className="my-2"
-              >
-                <UserControllerSection
-                  number={i + 1}
-                  handlePopover={togglePopover}
-                  item={item}
-                />
-              </motion.div>
-            ))
-          ) : (
+            <div className="min-h-screen">
+              {filteredUsers.map((item, i) => (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                  key={item._id}
+                  className="my-2"
+                >
+                  <UserControllerSection
+                    number={i + 1}
+                    handlePopover={togglePopover}
+                    item={item}
+                  />
+                </motion.div>
+              ))}
+            </div>
+          ) : filteredUsers?.length === 0 && isLoading ? (
             <>
               {[...Array(10)].map((i) => (
                 <>
@@ -307,9 +324,32 @@ export default function UserControl() {
                 </>
               ))}
             </>
+          ) : (
+            <Empty />
           )}
 
-          <div></div>
+          <div className="flex items-center justify-center w-full">
+            <div className="flex items-center justify-center mt-10 gap-3 bg-section font-semibold text-sm py-2 px-3 rounded-full shadow-xl w-fit">
+              {/* Make perulangan array */}
+              {[...Array(10)].map((item, i) => {
+                return (
+                  <Link
+                    onClick={() => setPagination(i + 1)}
+                    key={i}
+                    className={`${
+                      pagination === i + 1 && "bg-secondary text-white"
+                    } aspect-square w-8 flex items-center justify-center rounded-full `}
+                    // onClick={() => setPage(i + 1)}
+                    // className={`${
+                    //   i + 1 === page ? "bg-primary text-white" : "text-secondary"
+                    // } px-3 py-1 rounded-lg`}
+                  >
+                    {i + 1}
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
         </div>
       </div>
     </>

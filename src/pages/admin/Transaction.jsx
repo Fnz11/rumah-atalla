@@ -31,6 +31,7 @@ import TransactionSectionSkeleton from "../../components/Transaction/Transaction
 import toast from "react-hot-toast";
 import CustomToast from "../../components/CustomToast";
 import BlackScreenPopover from "../../components/BlackScreenPopover";
+import Empty from "../../components/Empty";
 
 export default function Transactions() {
   const DBURL = import.meta.env.VITE_APP_DB_URL;
@@ -981,22 +982,24 @@ export default function Transactions() {
               <div>
                 <AnimatePresence>
                   {filteredFashionTransaction.length > 0 && !isLoading ? (
-                    filteredFashionTransaction.map((item) => (
-                      <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.2 }}
-                        key={item.id}
-                        className="my-3"
-                      >
-                        <FashionTransactionSection
-                          data={item}
-                          handlePopover={togglePopover}
-                        />
-                      </motion.div>
-                    ))
-                  ) : isLoading ? (
+                    <div className="min-h-screen">
+                      {filteredFashionTransaction.map((item) => (
+                        <motion.div
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          exit={{ opacity: 0 }}
+                          transition={{ duration: 0.2 }}
+                          key={item.id}
+                          className="my-3"
+                        >
+                          <FashionTransactionSection
+                            data={item}
+                            handlePopover={togglePopover}
+                          />
+                        </motion.div>
+                      ))}
+                    </div>
+                  ) : filteredFashionTransaction.length === 0 && isLoading ? (
                     <>
                       {[...Array(10)].map((i) => (
                         <motion.div
@@ -1012,7 +1015,7 @@ export default function Transactions() {
                       ))}
                     </>
                   ) : (
-                    ""
+                    <Empty />
                   )}
                 </AnimatePresence>
               </div>

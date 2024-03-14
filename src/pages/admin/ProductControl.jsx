@@ -17,6 +17,7 @@ import ChangePageButton from "../../components/ChangePageButton";
 import FashionHeadSection from "../../components/ProductController/FashionHeadSection";
 import FoodHeadSection from "../../components/ProductController/FoodsHeadSection";
 import Checkbox from "../../components/Checkbox";
+import Empty from "../../components/Empty";
 
 export default function ProductControl() {
   const DBURL = import.meta.env.VITE_APP_DB_URL;
@@ -346,7 +347,9 @@ export default function ProductControl() {
                                   : "bg-white text-secondary"
                               } rounded-full p-1 flex items-center justify-center `}
                             >
-                              <i className={` scale-[0.8]  fa-solid fa-store fa-lg`}></i>
+                              <i
+                                className={` scale-[0.8]  fa-solid fa-store fa-lg`}
+                              ></i>
                             </div>
                           )}
                           {store}
@@ -359,7 +362,7 @@ export default function ProductControl() {
                 {/* FOODS / DRINKS */}
                 {page === "foods" && (
                   <div className="flex flex-row gap-2 w-full">
-                  {Object.keys(foodsType).map((type) => (
+                    {Object.keys(foodsType).map((type) => (
                       <Button
                         key={type}
                         onClick={() => handleFoodsTypeFilterChange(type)}
@@ -467,55 +470,57 @@ export default function ProductControl() {
 
           {filteredProducts?.length > 0 ? (
             <>
-              {/* FASHIONS PROFDUCTS */}
-              {page === "fashions" && (
-                <div className="w-full  text-base sm:text-lg  h-auto mb-10">
-                  {/* HEAD */}
-                  <FashionHeadSection />
-                  {filteredProducts.map((item, i) => (
-                    <motion.div
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.2 }}
-                      key={item.id}
-                      className="my-2"
-                    >
-                      <FashionProductSection
-                        number={i + 1}
-                        data={item}
-                        handlePopover={togglePopover}
-                      />
-                    </motion.div>
-                  ))}
-                </div>
-              )}
+              <div className="w-full min-h-screen text-base sm:text-lg  h-auto mb-10">
+                {/* FASHIONS PROFDUCTS */}
+                {page === "fashions" && (
+                  <>
+                    {/* HEAD */}
+                    <FashionHeadSection />
+                    {filteredProducts.map((item, i) => (
+                      <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.2 }}
+                        key={item.id}
+                        className="my-2"
+                      >
+                        <FashionProductSection
+                          number={i + 1}
+                          data={item}
+                          handlePopover={togglePopover}
+                        />
+                      </motion.div>
+                    ))}
+                  </>
+                )}
 
-              {/* FOODS PRODUCTS */}
-              {page === "foods" && (
-                <div className="w-full  text-base sm:text-lg  h-auto mb-10">
-                  {/* HEAD */}
-                  <FoodHeadSection />
-                  {filteredProducts.map((item, i) => (
-                    <motion.div
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.2 }}
-                      key={item.id}
-                      className="my-2"
-                    >
-                      <FoodsProductSection
-                        number={i + 1}
-                        data={item}
-                        handlePopover={togglePopover}
-                      />
-                    </motion.div>
-                  ))}
-                </div>
-              )}
+                {/* FOODS PRODUCTS */}
+                {page === "foods" && (
+                  <>
+                    {/* HEAD */}
+                    <FoodHeadSection />
+                    {filteredProducts.map((item, i) => (
+                      <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.2 }}
+                        key={item.id}
+                        className="my-2"
+                      >
+                        <FoodsProductSection
+                          number={i + 1}
+                          data={item}
+                          handlePopover={togglePopover}
+                        />
+                      </motion.div>
+                    ))}
+                  </>
+                )}
+              </div>
             </>
-          ) : (
+          ) : filteredProducts?.length === 0 && isLoading ? (
             <>
               {[...Array(10)].map((i) => (
                 <>
@@ -523,6 +528,8 @@ export default function ProductControl() {
                 </>
               ))}
             </>
+          ) : (
+            <Empty />
           )}
         </div>
       </AnimatePresence>
