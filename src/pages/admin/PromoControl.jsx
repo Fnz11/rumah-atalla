@@ -16,6 +16,7 @@ import Checkbox from "../../components/Checkbox";
 import toast from "react-hot-toast";
 import CustomToast from "../../components/CustomToast";
 import Empty from "../../components/Empty";
+import Pagination from "../../components/Pagination";
 
 export default function PromoControl() {
   const DBURL = import.meta.env.VITE_APP_DB_URL;
@@ -32,9 +33,60 @@ export default function PromoControl() {
 
   // PAGE
   const [page, setPage] = useState("fashions");
+  const [firstData, setFirstData] = useState([]);
+  const [pagination, setPagination] = useState(null);
+  const [totalPage, setTotalPage] = useState(1);
+  const [isGetParam, setIsGetParam] = useState(false);
+  const ITEMS_PER_PAGE = 10; // Jumlah item per halaman
+
+  useEffect(() => {
+    let pageParam =
+      parseInt(new URLSearchParams(window.location.search).get("page")) || 1;
+    let typeParam =
+      new URLSearchParams(window.location.search).get("type") || "fashions";
+    console.log("ANUPARAM", pageParam, typeParam, page, pagination);
+    setPage(typeParam);
+    setPagination(pageParam);
+    fetchPromos();
+  }, []);
+
+  useEffect(() => {
+    if (!pagination) {
+      return;
+    }
+    let data = [];
+    if (page === "fashions") {
+      data = firstData.filter((item) => item.for === "fashions");
+    } else if (page === "foods") {
+      data = firstData.filter((item) => item.for === "foods");
+    }
+    let totalPages = Math.ceil(data.length / ITEMS_PER_PAGE);
+    if (firstData.length % ITEMS_PER_PAGE === 0) {
+      totalPages--;
+    }
+    setTotalPage(totalPages);
+    if (pagination && page) {
+      console.log("ANUPARAMMM", pagination, page);
+      navigate(`?page=${pagination}&type=${page}`);
+      setIsGetParam(true);
+    }
+    const startIndex = (pagination - 1) * ITEMS_PER_PAGE;
+    const endIndex = startIndex + ITEMS_PER_PAGE;
+
+    const slicedData = data.reverse().slice(startIndex, endIndex).reverse();
+    setPromos(slicedData);
+  }, [pagination, firstData, page, isGetParam]);
+
+  useEffect(() => {
+    if (isGetParam) {
+      setPagination(1);
+    }
+  }, [page]);
 
   // FETCH
   const [Promos, setPromos] = useState([]);
+  console.log("FIFIFIR", Promos);
+
   const [isLoading, setIsLoading] = useState(true);
   const fetchPromos = async () => {
     await axios
@@ -44,21 +96,17 @@ export default function PromoControl() {
         },
       })
       .then((res) => {
-        setPromos(res.data);
+        setFirstData(res.data);
         setIsLoading(false);
       })
       .catch((err) => {
         console.log(err);
       });
   };
-  useEffect(() => {
-    fetchPromos();
-  }, []);
 
   //   FILTER
   const [searchValue, setSearchValue] = useState("");
-  const [filteredFashionPromos, setFilteredFashionPromos] = useState([]);
-  const [filteredFoodPromos, setFilteredFoodPromos] = useState([]);
+  const [filteredPromos, setFilteredPromos] = useState([]);
   const [typeFilters, setTypeFilters] = useState({
     "diskon persentase": true,
     "cashback persentase": true,
@@ -73,26 +121,14 @@ export default function PromoControl() {
   };
 
   useEffect(() => {
-    if (page === "fashions") {
-      setFilteredFashionPromos(
-        Promos.filter(
-          (item) =>
-            item.for == "fashions" &&
-            item.name.toLowerCase().includes(searchValue.toLowerCase()) &&
-            (typeFilters[item.type] || false)
-        )
-      );
-    } else {
-      setFilteredFoodPromos(
-        Promos.filter(
-          (item) =>
-            item.for == "foods" &&
-            item.name.toLowerCase().includes(searchValue.toLowerCase()) &&
-            (typeFilters[item.type] || false)
-        )
-      );
-    }
-  }, [page, searchValue, typeFilters, Promos]);
+    setFilteredPromos(
+      Promos.filter(
+        (item) =>
+          item.name.toLowerCase().includes(searchValue.toLowerCase()) &&
+          (typeFilters[item.type] || false)
+      )
+    );
+  }, [searchValue, typeFilters, Promos]);
 
   // POPOVER
   const [showPopover, setShowPopover] = useState("");
@@ -251,11 +287,11 @@ export default function PromoControl() {
             </h1>
           </div>
           <AnimatePresence>
-            {filteredFashionPromos?.length > 0 ? (
+            {filteredPromos?.length > 0 ? (
               <div className="w-full min-h-screen">
                 {page === "fashions" ? (
                   <>
-                    {filteredFashionPromos.map((item) => (
+                    {filteredPromos.map((item) => (
                       <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
@@ -274,7 +310,7 @@ export default function PromoControl() {
                   </>
                 ) : (
                   <>
-                    {filteredFoodPromos.map((item) => (
+                    {filteredPromos.map((item) => (
                       <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
@@ -293,7 +329,7 @@ export default function PromoControl() {
                   </>
                 )}
               </div>
-            ) : filteredFashionPromos?.length === 0 && isLoading ? (
+            ) : filteredPromos?.length === 0 && isLoading ? (
               <>
                 {[...Array(10)].map((i) => (
                   <>
@@ -306,7 +342,11 @@ export default function PromoControl() {
             )}
           </AnimatePresence>
 
-          <div></div>
+          <Pagination
+            totalPage={totalPage}
+            pagination={pagination}
+            setPagination={setPagination}
+          />
         </div>
       </div>
     </>

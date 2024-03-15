@@ -116,8 +116,6 @@ export default function FoodsKasir() {
     setCartItems([...cartItems, item]);
   };
 
-  console.log(cartItems);
-
   // HANDLE BUY
   const [buyer, setBuyer] = useState("");
 
@@ -571,7 +569,7 @@ export default function FoodsKasir() {
                 {popoverPage === 1 ? (
                   <>
                     {/* ITEM */}
-                    <div className="w-full h-[85%] overflow-y-scroll overflow-x-hidden">
+                    <div className="w-full h-[100%] overflow-y-scroll overflow-x-hidden">
                       {cartItems.length > 0 && (
                         <>
                           {cartItems.findIndex(

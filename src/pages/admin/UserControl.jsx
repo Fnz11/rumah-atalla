@@ -24,6 +24,7 @@ import SearchBar from "../../components/SearchBar";
 import toast from "react-hot-toast";
 import CustomToast from "../../components/CustomToast";
 import Empty from "../../components/Empty";
+import Pagination from "../../components/Pagination";
 
 export default function UserControl() {
   const DBURL = import.meta.env.VITE_APP_DB_URL;
@@ -40,31 +41,49 @@ export default function UserControl() {
   // FETCH
   const [isLoading, setIsLoading] = useState(false);
   const [userData, setUserData] = useState([]);
-  const [pagination, setPagination] = useState(null);
+  const [firstData, setFirstData] = useState([]);
+  const [pagination, setPagination] = useState(1);
+  const [totalPage, setTotalPage] = useState(1);
+  const ITEMS_PER_PAGE = 10; // Jumlah item per halaman
+
   useEffect(() => {
     const page =
       parseInt(new URLSearchParams(window.location.search).get("page")) || 1;
-    fetchUser(page);
     setPagination(page);
+    fetchUser();
   }, []);
+
   useEffect(() => {
     if (!pagination) {
       return;
     }
+
+    let totalPages = Math.ceil(firstData.length / ITEMS_PER_PAGE);
+    if (firstData.length % ITEMS_PER_PAGE == 0) {
+      totalPages--;
+    }
+    setTotalPage(totalPages);
+
     navigate(`?page=${pagination}`);
-    fetchUser(pagination);
-  }, [pagination]);
-  const fetchUser = async (page) => {
+    const startIndex = (pagination - 1) * ITEMS_PER_PAGE;
+    const endIndex = startIndex + ITEMS_PER_PAGE;
+    const slicedData = firstData.slice(startIndex, endIndex);
+    setUserData(slicedData);
+  }, [pagination, firstData]);
+
+  console.log("PAPAG", pagination, firstData, userData);
+
+  const fetchUser = async () => {
     setIsLoading(true);
     await axios
-      .get(DBURL + "/users/?page=" + page, {
+      .get(DBURL + "/users/", {
         headers: {
           Authorization: `${localStorage.getItem("token")}`,
         },
       })
       .then((res) => {
         console.log("RERES", res.data);
-        setUserData(res.data);
+        setFirstData(res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -120,7 +139,7 @@ export default function UserControl() {
       return groupedData;
     }
 
-    const groupedByWeek = groupDataByDateRange(userData);
+    const groupedByWeek = groupDataByDateRange(firstData);
     const chartDataValues = Object.entries(groupedByWeek)?.map(
       ([dateRange, data]) => ({
         date: dateRange,
@@ -130,9 +149,6 @@ export default function UserControl() {
 
     setChartData(chartDataValues);
   }, [userData]);
-  useEffect(() => {
-    console.log("CHART DATA", chartData);
-  }, [chartData]);
 
   // DOWNLOAD DATA
   const handleDownload = async () => {
@@ -176,14 +192,14 @@ export default function UserControl() {
 
       <div className="w-full  pb-20 pt-10 ">
         {/* CHART */}
-        <div className="w-full h-auto bg-section rounded-2xl shadow-lg p-7 mb-10">
+        <div className="w-full h-[19rem] sm:h-[30rem] bg-section border-b-2 border-x-2 rounded-2xl shadow-lg p-7 mb-10 relative overflow-hidden">
           {/* TOP */}
           <Title2 title="Chart" />
 
           {/* CHART */}
           <ResponsiveContainer
             width="100%"
-            height={300}
+            height={"90%"}
             className="drop-shadow-sm w-full flex items-center justify-center text-sm"
           >
             <BarChart
@@ -328,28 +344,11 @@ export default function UserControl() {
             <Empty />
           )}
 
-          <div className="flex items-center justify-center w-full">
-            <div className="flex items-center justify-center mt-10 gap-3 bg-section font-semibold text-sm py-2 px-3 rounded-full shadow-xl w-fit">
-              {/* Make perulangan array */}
-              {[...Array(10)].map((item, i) => {
-                return (
-                  <Link
-                    onClick={() => setPagination(i + 1)}
-                    key={i}
-                    className={`${
-                      pagination === i + 1 && "bg-secondary text-white"
-                    } aspect-square w-8 flex items-center justify-center rounded-full `}
-                    // onClick={() => setPage(i + 1)}
-                    // className={`${
-                    //   i + 1 === page ? "bg-primary text-white" : "text-secondary"
-                    // } px-3 py-1 rounded-lg`}
-                  >
-                    {i + 1}
-                  </Link>
-                );
-              })}
-            </div>
-          </div>
+          <Pagination
+            totalPage={totalPage}
+            pagination={pagination}
+            setPagination={setPagination}
+          />
         </div>
       </div>
     </>

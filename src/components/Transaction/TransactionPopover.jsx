@@ -212,8 +212,6 @@ export default function TransactionPopover(props) {
     setTransactionStatus("");
     props.togglePopover("", null);
   };
-
-  console.log("BALBABLABL", props.data);
   return (
     <>
       <AnimatePresence>

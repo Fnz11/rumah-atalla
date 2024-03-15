@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
 import FashionProductSection from "../../components/ProductController/FashionProductSection";
@@ -18,9 +19,12 @@ import FashionHeadSection from "../../components/ProductController/FashionHeadSe
 import FoodHeadSection from "../../components/ProductController/FoodsHeadSection";
 import Checkbox from "../../components/Checkbox";
 import Empty from "../../components/Empty";
+import { useNavigate } from "react-router-dom";
+import Pagination from "../../components/Pagination";
 
 export default function ProductControl() {
   const DBURL = import.meta.env.VITE_APP_DB_URL;
+  const navigate = useNavigate();
 
   // const Products = [
   //   {
@@ -104,8 +108,63 @@ export default function ProductControl() {
 
   // PAGE
   const [page, setPage] = useState("fashions");
+  const [firstFashionData, setFirstFashionData] = useState([]);
+  const [firstFoodsData, setFirstFoodsData] = useState([]);
+  const [pagination, setPagination] = useState(null);
+  const [totalPage, setTotalPage] = useState(1);
+  const ITEMS_PER_PAGE = 10; // Jumlah item per halaman
+  const [isGetParam, setIsGetParam] = useState(false);
 
-  // FETCH
+  useEffect(() => {
+    let pageParam =
+      parseInt(new URLSearchParams(window.location.search).get("page")) || 1;
+    let typeParam =
+      new URLSearchParams(window.location.search).get("type") || "fashions";
+    console.log("ANUPARAM", pageParam, typeParam, page, pagination);
+    setPage(typeParam);
+    setPagination(pageParam);
+    fetchFoodsProducts();
+    fetchWebProducts();
+  }, []);
+
+  useEffect(() => {
+    if (!pagination) {
+      return;
+    }
+    let data = [];
+    if (page === "fashions") {
+      data = firstFashionData;
+    } else if (page === "foods") {
+      data = firstFoodsData;
+    }
+    let totalPages = Math.ceil(data.length / ITEMS_PER_PAGE);
+    if (firstFashionData.length % ITEMS_PER_PAGE === 0) {
+      totalPages--;
+    }
+    setTotalPage(totalPages);
+    if (pagination && page) {
+      console.log("ANUPARAMMM", pagination, page);
+      navigate(`?page=${pagination}&type=${page}`);
+      setIsGetParam(true);
+    }
+    const startIndex = (pagination - 1) * ITEMS_PER_PAGE;
+    const endIndex = startIndex + ITEMS_PER_PAGE;
+
+    const slicedData = data.slice(startIndex, endIndex);
+    console.log("PAPAPAG", startIndex, endIndex, slicedData);
+    if (page === "fashions") {
+      setFashionProducts(slicedData);
+    } else if (page === "foods") {
+      setFoodsProducts(slicedData);
+    }
+  }, [pagination, firstFashionData, page, isGetParam]);
+
+  useEffect(() => {
+    if (isGetParam) {
+      setPagination(1);
+    }
+  }, [page]);
+
   // FETCH PRODUCTS
   const [fashionProducts, setFashionProducts] = useState([]);
   const [webFashionProducts, setWebFashionProducts] = useState([]);
@@ -114,8 +173,9 @@ export default function ProductControl() {
     await axios
       .get(DBURL + "/products/")
       .then((res) => {
-        setWebFashionProducts(res.data);
-        setFashionProducts(res.data);
+        // setWebFashionProducts(res.data);
+        // setFashionProducts(res.data);
+        setFirstFashionData(res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -129,7 +189,7 @@ export default function ProductControl() {
     await axios
       .get(DBURL + "/foods")
       .then((res) => {
-        setFoodsProducts(res.data);
+        setFirstFoodsData(res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -531,6 +591,12 @@ export default function ProductControl() {
           ) : (
             <Empty />
           )}
+
+          <Pagination
+            totalPage={totalPage}
+            pagination={pagination}
+            setPagination={setPagination}
+          />
         </div>
       </AnimatePresence>
     </>

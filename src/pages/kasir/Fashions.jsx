@@ -630,7 +630,7 @@ export default function FashionsKasir() {
                 {popoverPage === 1 ? (
                   <div className="flex flex-col h-full gap-2">
                     {/* ITEM */}
-                    <div className="w-full h-[85%] overflow-y-scroll overflow-x-hidden">
+                    <div className="w-full h-[100%] overflow-y-scroll overflow-x-hidden">
                       {FashionCartItems.length > 0 && (
                         <>
                           {/* TITTLE */}

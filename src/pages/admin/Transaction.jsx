@@ -32,9 +32,12 @@ import toast from "react-hot-toast";
 import CustomToast from "../../components/CustomToast";
 import BlackScreenPopover from "../../components/BlackScreenPopover";
 import Empty from "../../components/Empty";
+import { useNavigate } from "react-router-dom";
+import Pagination from "../../components/Pagination";
 
 export default function Transactions() {
   const DBURL = import.meta.env.VITE_APP_DB_URL;
+  const navigate = useNavigate();
 
   // OWNER
   const user = JSON.parse(localStorage.getItem("user"));
@@ -218,7 +221,61 @@ export default function Transactions() {
   // FETCH TRANSACTIONS
   const [transactionsData, setTransactionsData] = useState([]);
   const [transactionsWeb, setTransactionsWeb] = useState([]);
+  const [firstData, setFirstData] = useState([]);
+  const [pagination, setPagination] = useState(null);
+  const [totalPage, setTotalPage] = useState(1);
+  const ITEMS_PER_PAGE = 10; // Jumlah item per halaman
+  const [isGetParam, setIsGetParam] = useState(false);
   const token = localStorage.getItem("token");
+
+  useEffect(() => {
+    let pageParam =
+      parseInt(new URLSearchParams(window.location.search).get("page")) || 1;
+    let typeParam =
+      new URLSearchParams(window.location.search).get("type") || "fashions";
+    console.log("ANUPARAM", pageParam, typeParam, page, pagination);
+    setPage(typeParam);
+    setPagination(pageParam);
+    fetchTransactions();
+    fetchPromos();
+  }, []);
+
+  useEffect(() => {
+    if (!pagination) {
+      return;
+    }
+    let data = [];
+    if (page === "fashions") {
+      data = firstData.filter((item) => item.type === "fashions");
+    } else if (page === "foods") {
+      data = firstData.filter((item) => item.type === "foods");
+    }
+    let totalPages = Math.ceil(data.length / ITEMS_PER_PAGE);
+    if (firstData.length % ITEMS_PER_PAGE === 0) {
+      totalPages--;
+    }
+    setTotalPage(totalPages);
+    if (pagination && page) {
+      console.log("ANUPARAMMM", pagination, page);
+      navigate(`?page=${pagination}&type=${page}`);
+      setIsGetParam(true);
+    }
+    const startIndex = (pagination - 1) * ITEMS_PER_PAGE;
+    const endIndex = startIndex + ITEMS_PER_PAGE;
+
+    const slicedData = data.reverse().slice(startIndex, endIndex).reverse();
+    console.log("PAPAPAG", startIndex, endIndex, slicedData);
+    setTransactionsWeb(slicedData);
+  }, [pagination, firstData, page, isGetParam]);
+
+  useEffect(() => {
+    if (isGetParam) {
+      setPagination(1);
+    }
+  }, [page]);
+
+  console.log("FIOFIFIFI", firstData);
+
   const fetchTransactions = async () => {
     if (transactionsWeb.length === 0) {
       setIsLoading(true);
@@ -231,7 +288,7 @@ export default function Transactions() {
         },
       })
       .then((res) => {
-        setTransactionsWeb(res.data);
+        setFirstData(res.data);
         console.log(res.data);
         setIsLoading(false);
       })
@@ -256,10 +313,6 @@ export default function Transactions() {
         console.log(err);
       });
   };
-  useEffect(() => {
-    fetchPromos();
-    fetchTransactions();
-  }, []);
 
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
@@ -518,7 +571,14 @@ export default function Transactions() {
       return groupedData;
     }
 
-    const groupedByWeek = groupDataByDateRange(transactionsData);
+    let data = [];
+    if (page === "foods") {
+      data = firstData.filter((item) => item.type === "foods");
+    } else {
+      data = firstData.filter((item) => item.type === "fashions");
+    }
+
+    const groupedByWeek = groupDataByDateRange(data);
     const chartDataValues = Object.entries(groupedByWeek)?.map(
       ([dateRange, data]) => ({
         date: dateRange,
@@ -1062,6 +1122,11 @@ export default function Transactions() {
               </div>
             </>
           )}
+          <Pagination
+            totalPage={totalPage}
+            pagination={pagination}
+            setPagination={setPagination}
+          />
         </div>
       </div>
     </>
