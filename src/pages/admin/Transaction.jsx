@@ -217,6 +217,7 @@ export default function Transactions() {
   );
 
   const [isLoading, setIsLoading] = useState(false);
+  const User = JSON.parse(localStorage.getItem("user"));
 
   // FETCH TRANSACTIONS
   const [transactionsData, setTransactionsData] = useState([]);
@@ -249,6 +250,9 @@ export default function Transactions() {
       data = firstData.filter((item) => item.type === "fashions");
     } else if (page === "foods") {
       data = firstData.filter((item) => item.type === "foods");
+    }
+    if (user.role !== "owner") {
+      data = data.filter((item) => item.kasir === user.username);
     }
     let totalPages = Math.ceil(data.length / ITEMS_PER_PAGE);
     if (firstData.length % ITEMS_PER_PAGE === 0) {
@@ -629,7 +633,6 @@ export default function Transactions() {
   };
 
   // ISADMIN
-  const User = JSON.parse(localStorage.getItem("user"));
 
   const dariDate = useRef(null);
   const sampaiDate = useRef(null);
@@ -896,81 +899,85 @@ export default function Transactions() {
               {/* DATE */}
               <div className="mt-4 flex flex-col">
                 <div className="flex w-full justify-between gap-3">
-                  <div>
-                    <div className="mb-2 text-base font-semibold">Kasir </div>
-                    <div className="relative w-fit flex items-center justify-center">
-                      <BlackScreenPopover
-                        isShow={openSelectKasirPopover}
-                        isBlack={false}
-                        isBlur={false}
-                        onClick={() => setOpenSelectKasirPopover(false)}
-                      />
-                      <div className="absolute bottom-[3.5rem]">
-                        <div
-                          className={`${
-                            openSelectKasirPopover
-                              ? "h-[11.5rem] opacity-100"
-                              : "h-0 opacity-0 invisible"
-                          } w-[12rem] transition-all flex flex-col items-center justify-center gap-5 sm:gap-2 truncate duration-200 ease-in bg-section-dark z-[1]  p-3 rounded-2xl shadow-2xl right-0`}
-                        >
-                          <span
-                            className={`w-full flex items-center ${
-                              selectedKasir === ""
-                                ? "bg-primaryThin text-white"
-                                : "text-[rgba(255,255,255,0.5)] hover:bg-primaryThin hover:text-white"
-                            }  justify-center group p-3 transition-all duration-200 ease-in cursor-pointer rounded-2xl `}
-                            onClick={() => {
-                              setSelectedKasir("");
-                              setOpenSelectKasirPopover(false);
-                            }}
+                  {User?.role === "owner" && (
+                    <div>
+                      <div className="mb-2 text-base font-semibold">Kasir </div>
+                      <div className="relative w-fit flex items-center justify-center">
+                        <BlackScreenPopover
+                          isShow={openSelectKasirPopover}
+                          isBlack={false}
+                          isBlur={false}
+                          onClick={() => setOpenSelectKasirPopover(false)}
+                        />
+                        <div className="absolute bottom-[3.5rem]">
+                          <div
+                            className={`${
+                              openSelectKasirPopover
+                                ? "h-[11.5rem] opacity-100"
+                                : "h-0 opacity-0 invisible"
+                            } w-[12rem] transition-all flex flex-col items-center justify-center gap-5 sm:gap-2 truncate duration-200 ease-in bg-section-dark z-[1]  p-3 rounded-2xl shadow-2xl right-0`}
                           >
-                            <i
-                              className={`fa-solid ${
-                                selectedKasir === ""
-                                  ? "fa-user-check"
-                                  : "fa-user"
-                              }  fa-lg sm:mr-2 `}
-                            ></i>
-                            <span className="max-sm:hidden">All Kasir</span>
-                          </span>
-                          {kasir.map((kasirName) => (
                             <span
                               className={`w-full flex items-center ${
-                                selectedKasir === kasirName
+                                selectedKasir === ""
                                   ? "bg-primaryThin text-white"
                                   : "text-[rgba(255,255,255,0.5)] hover:bg-primaryThin hover:text-white"
                               }  justify-center group p-3 transition-all duration-200 ease-in cursor-pointer rounded-2xl `}
-                              key={kasirName}
                               onClick={() => {
-                                setSelectedKasir(kasirName);
+                                setSelectedKasir("");
                                 setOpenSelectKasirPopover(false);
                               }}
                             >
                               <i
                                 className={`fa-solid ${
-                                  selectedKasir === kasirName
+                                  selectedKasir === ""
                                     ? "fa-user-check"
                                     : "fa-user"
                                 }  fa-lg sm:mr-2 `}
                               ></i>
-                              <span className="max-sm:hidden">{kasirName}</span>
+                              <span className="max-sm:hidden">All Kasir</span>
                             </span>
-                          ))}
+                            {kasir.map((kasirName) => (
+                              <span
+                                className={`w-full flex items-center ${
+                                  selectedKasir === kasirName
+                                    ? "bg-primaryThin text-white"
+                                    : "text-[rgba(255,255,255,0.5)] hover:bg-primaryThin hover:text-white"
+                                }  justify-center group p-3 transition-all duration-200 ease-in cursor-pointer rounded-2xl `}
+                                key={kasirName}
+                                onClick={() => {
+                                  setSelectedKasir(kasirName);
+                                  setOpenSelectKasirPopover(false);
+                                }}
+                              >
+                                <i
+                                  className={`fa-solid ${
+                                    selectedKasir === kasirName
+                                      ? "fa-user-check"
+                                      : "fa-user"
+                                  }  fa-lg sm:mr-2 `}
+                                ></i>
+                                <span className="max-sm:hidden">
+                                  {kasirName}
+                                </span>
+                              </span>
+                            ))}
+                          </div>
                         </div>
+                        <Button
+                          className={
+                            "max-sm:p-6 max-sm:min-w-[11rem] sm:min-w-[11rem] capitalize max-sm:rounded-xl sm:rounded-xl"
+                          }
+                          onClick={() => setOpenSelectKasirPopover(true)}
+                        >
+                          <i
+                            className={`fa-solid fa-user-check fa-lg sm:mr-2 `}
+                          ></i>
+                          {selectedKasir || "All Kasir"}
+                        </Button>
                       </div>
-                      <Button
-                        className={
-                          "max-sm:p-6 max-sm:min-w-[11rem] sm:min-w-[11rem] capitalize max-sm:rounded-xl sm:rounded-xl"
-                        }
-                        onClick={() => setOpenSelectKasirPopover(true)}
-                      >
-                        <i
-                          className={`fa-solid fa-user-check fa-lg sm:mr-2 `}
-                        ></i>
-                        {selectedKasir || "All Kasir"}
-                      </Button>
                     </div>
-                  </div>
+                  )}
                   <div className="w-fit">
                     <div className="mb-2 text-base font-semibold">Date</div>
 

@@ -97,7 +97,7 @@ export default function ShowMore(props) {
                           <span className="w-[35%] sm:w-[25%] flex">Promo</span>
                           <span className="sm:w-[75%] gap-1 flex">
                             :{" "}
-                            <span>
+                            <span className="flex ">
                               {props?.data?.productPromos?.length > 0
                                 ? props?.data?.productPromos?.map(
                                     (promo, index) => (
@@ -183,12 +183,12 @@ export default function ShowMore(props) {
                     </div>
                     <div className="w-full   sm:h-[60%] flex flex-col">
                       <div className="w-full max-sm:flex-col max-sm:justify-center max-sm:text-center bg-secondary px-5 py-3 rounded-2xl shadow-2xl flex text-white font-semibold">
-                        <h1 className="w-full sm:w-[30%] flex justify-center">
+                        <h1 className="w-full sm:w-[50%] flex justify-start">
                           Variant
                         </h1>
                         {/* <h1 className="w-[40%]">Description</h1> */}
-                        <h1 className="w-full sm:w-[70%] flex justify-center">
-                          Size
+                        <h1 className="w-full sm:w-[50%] flex justify-start">
+                          Price
                         </h1>
                       </div>
                       <div className="w-[101.7%] h-auto mt-2 flex flex-col pr-3">

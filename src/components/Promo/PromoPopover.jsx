@@ -612,22 +612,6 @@ export default function PromoPopover(props) {
                               }
                             }
                           }
-                          let rangePrice;
-                          let rangeDiscountPrice;
-                          if (
-                            lowestPrice === highestPrice ||
-                            lowestPrice === 0
-                          ) {
-                            if (formData.type === "diskon persentase") {
-                              rangeDiscountPrice = `${(
-                                (highestPrice * formData?.value) /
-                                100
-                              )?.toLocaleString()}`;
-                            }
-                            rangePrice = highestPrice?.toLocaleString();
-                          } else {
-                            rangePrice = `${lowestPrice?.toLocaleString()} - ${highestPrice?.toLocaleString()}`;
-                          }
                           return (
                             <div
                               onClick={() =>
@@ -671,10 +655,15 @@ export default function PromoPopover(props) {
                                   ) && (
                                     <span>
                                       Rp.{" "}
-                                      {(
-                                        (highestPrice * formData?.value) /
-                                        100
-                                      )?.toLocaleString()}
+                                      {formData.type === "diskon persentase" ||
+                                      formData.type === "cashback persentase"
+                                        ? (
+                                            (highestPrice * formData?.value) /
+                                            100
+                                          )?.toLocaleString()
+                                        : (
+                                            highestPrice - formData?.value
+                                          )?.toLocaleString()}
                                     </span>
                                   )}
                                   <br />
@@ -688,7 +677,7 @@ export default function PromoPopover(props) {
                                         : ""
                                     }`}
                                   >
-                                    Rp. {rangePrice}
+                                    Rp. {highestPrice.toLocaleString()}
                                   </span>
                                 </h1>
                               </div>
