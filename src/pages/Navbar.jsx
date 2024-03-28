@@ -100,12 +100,12 @@ export default function Navbar() {
                   <Link to={"/login"}>
                     <Button variant="">
                       Log In
-                      <span className="max-sm:hidden"> as a Kasir</span>
+                      <span className="max-sm:hidden ml-1"> as a Kasir</span>
                     </Button>
                   </Link>
                   <Link to={"/fashions"}>
                     <Button variant="red">
-                      <span className="max-sm:hidden">Buy </span>
+                      <span className="max-sm:hidden mr-1">Buy </span>
                       Products
                     </Button>
                   </Link>

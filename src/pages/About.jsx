@@ -13,68 +13,6 @@ import FashionKasirSection from "../components/Kasir/FashionKasirSection";
 import { Link } from "react-router-dom";
 
 export default function About() {
-  const products = [
-    {
-      id: 1,
-      imageSrc:
-        "https://fitinline.com/data/article/20211206/Baju-Kerja-Wanita-006.jpg",
-      imageAlt: "Product 1",
-      href: "#",
-      name: "Blouse Bunga",
-      color: "Pink",
-      price: "$29.99",
-    },
-    {
-      id: 2,
-      imageSrc:
-        "https://fitinline.com/data/article/20211206/Baju-Kerja-Wanita-006.jpg",
-      imageAlt: "Product 2",
-      href: "#",
-      name: "Gaun Maxi Floral",
-      color: "Biru",
-      price: "$39.99",
-    },
-    {
-      id: 3,
-      imageSrc:
-        "https://fitinline.com/data/article/20211206/Baju-Kerja-Wanita-006.jpg",
-      imageAlt: "Product 3",
-      href: "#",
-      name: "Rok Midi Polkadot",
-      color: "Putih",
-      price: "$24.99",
-    },
-    {
-      id: 4,
-      imageSrc:
-        "https://fitinline.com/data/article/20211206/Baju-Kerja-Wanita-006.jpg",
-      imageAlt: "Product 4",
-      href: "#",
-      name: "Blazer Formal",
-      color: "Hitam",
-      price: "$49.99",
-    },
-    {
-      id: 5,
-      imageSrc:
-        "https://fitinline.com/data/article/20211206/Baju-Kerja-Wanita-006.jpg",
-      imageAlt: "Product 5",
-      href: "#",
-      name: "Dress Polos",
-      color: "Merah",
-      price: "$34.99",
-    },
-    {
-      id: 6,
-      imageSrc:
-        "https://fitinline.com/data/article/20211206/Baju-Kerja-Wanita-006.jpg",
-      imageAlt: "Product 6",
-      href: "#",
-      name: "Blouse Stripe",
-      color: "Biru dan Putih",
-      price: "$27.99",
-    },
-  ];
   const DBURL = import.meta.env.VITE_APP_DB_URL;
   const [fashionProducts, setFashionProducts] = useState([]);
   const [isLoadingFetch, setIsLoadingFetch] = useState(false);

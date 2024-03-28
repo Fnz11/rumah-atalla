@@ -124,7 +124,7 @@ export default function SignIn() {
                 className="text-sm sm:text-base drop-shadow-sm font-semibold text-primaryNormal"
                 htmlFor="password"
               >
-                New Password
+                Password
               </label>
               <div className="w-full relative">
                 <div
