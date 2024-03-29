@@ -17,7 +17,6 @@ import SearchBar from "../../components/SearchBar";
 import ChangePageButton from "../../components/ChangePageButton";
 import FashionHeadSection from "../../components/ProductController/FashionHeadSection";
 import FoodHeadSection from "../../components/ProductController/FoodsHeadSection";
-import Checkbox from "../../components/Checkbox";
 import Empty from "../../components/Empty";
 import { useNavigate } from "react-router-dom";
 import Pagination from "../../components/Pagination";
@@ -25,86 +24,6 @@ import Pagination from "../../components/Pagination";
 export default function ProductControl() {
   const DBURL = import.meta.env.VITE_APP_DB_URL;
   const navigate = useNavigate();
-
-  // const Products = [
-  //   {
-  //     store: "tokopedia",
-  //     name: "Cardigan panjang",
-  //     date: "2023-04-21",
-  //     _id: "u8dy2rn3y432yd23yr8y98dry8j93",
-  //     stock: 45,
-  //     imageUrl:
-  //       "https://images.tokopedia.net/blog-tokopedia-com/uploads/2018/01/tren-busana-muslim-1.jpg",
-  //     status: "Public",
-  //     price: 90000,
-  //   },
-  //   {
-  //     store: "shopee",
-  //     name: "Gamis",
-  //     date: "2023-05-15",
-  //     _id: "32nrd7923ydr9y32y79r9d23rj9d2",
-  //     stock: 60,
-  //     imageUrl:
-  //       "https://asset-a.grid.id/crop/0x0:0x0/945x630/photo/2022/04/08/zd2-horzjpg-20220408101235.jpg",
-  //     status: "Archive",
-  //     price: 56000,
-  //   },
-  //   {
-  //     store: "tokopedia",
-  //     name: "Cadar Putih",
-  //     date: "2023-07-12",
-  //     _id: "328dr8023yrjd208r8238j0drj2j",
-  //     stock: 40,
-  //     imageUrl:
-  //       "https://i.pinimg.com/736x/e6/a3/dd/e6a3dd3d091edd5f1b8f41e4a19b2ba9.jpg",
-  //     status: "Archive",
-  //     price: 18000,
-  //   },
-  //   {
-  //     store: "shopee",
-  //     name: "Hijab",
-  //     date: "2023-08-29",
-  //     _id: "2d8rn89y23dj9r3drj239ydu23rj",
-  //     stock: 55,
-  //     imageUrl:
-  //       "https://cdn0-production-images-kly.akamaized.net/e8HQ3WFRqJWdcqPZT49iPkJEnsg=/800x450/smart/filters:quality(75):strip_icc():format(webp)/kly-media-production/medias/2513779/original/049144000_1543820131-Laudya_Cynthia_Bella__10_.jpg",
-  //     status: "Public",
-  //     price: 22000,
-  //   },
-  //   {
-  //     store: "tokopedia",
-  //     name: "Pakaian Muslim",
-  //     date: "2023-10-18",
-  //     _id: "283d408234j3j482d349d28304fw",
-  //     stock: 50,
-  //     imageUrl:
-  //       "https://ds393qgzrxwzn.cloudfront.net/cat1/img/images/0/8OLcsd3R1s.jpg",
-  //     status: "Public",
-  //     price: 89000,
-  //   },
-  //   {
-  //     store: "shopee",
-  //     name: "Gamis Muda",
-  //     date: "2023-11-02",
-  //     _id: "wefuuhwe9fhwef9uhwefiwehfuwhfh",
-  //     stock: 35,
-  //     imageUrl:
-  //       "https://thumb.viva.co.id/media/frontend/thumbs3/2023/09/16/6505d3ec9ef15-ilustrasi-fashion-muslim_665_374.jpeg",
-  //     status: "Archive",
-  //     price: 50000,
-  //   },
-  //   {
-  //     store: "tokopedia",
-  //     name: "Gamis Polos",
-  //     date: "2024-01-20",
-  //     _id: "wefuuhwe9fhwef9uhwefiwehfuwhfh",
-  //     stock: 48,
-  //     imageUrl:
-  //       "https://s4.bukalapak.com/img/98007502003/s-463-463/data.jpeg.webp",
-  //     status: "Archive",
-  //     price: 98000,
-  //   },
-  // ];
 
   // PAGE
   const [page, setPage] = useState("fashions");
@@ -115,104 +34,6 @@ export default function ProductControl() {
   const ITEMS_PER_PAGE = 10; // Jumlah item per halaman
   const [isGetParam, setIsGetParam] = useState(false);
 
-  useEffect(() => {
-    let pageParam =
-      parseInt(new URLSearchParams(window.location.search).get("page")) || 1;
-    let typeParam =
-      new URLSearchParams(window.location.search).get("type") || "fashions";
-    console.log("ANUPARAM", pageParam, typeParam, page, pagination);
-    setPage(typeParam);
-    setPagination(pageParam);
-    fetchFoodsProducts();
-    fetchWebProducts();
-  }, []);
-
-  useEffect(() => {
-    if (!pagination) {
-      return;
-    }
-    let data = [];
-    if (page === "fashions") {
-      data = firstFashionData;
-    } else if (page === "foods") {
-      data = firstFoodsData;
-    }
-    let totalPages = Math.ceil(data.length / ITEMS_PER_PAGE);
-    if (firstFashionData.length % ITEMS_PER_PAGE === 0) {
-      totalPages--;
-    }
-    setTotalPage(totalPages);
-    if (pagination && page) {
-      console.log("ANUPARAMMM", pagination, page);
-      navigate(`?page=${pagination}&type=${page}`);
-      setIsGetParam(true);
-    }
-    const startIndex = (pagination - 1) * ITEMS_PER_PAGE;
-    const endIndex = startIndex + ITEMS_PER_PAGE;
-
-    const slicedData = data.slice(startIndex, endIndex);
-    console.log("PAPAPAG", startIndex, endIndex, slicedData);
-    if (page === "fashions") {
-      setFashionProducts(slicedData);
-    } else if (page === "foods") {
-      setFoodsProducts(slicedData);
-    }
-  }, [pagination, firstFashionData, page, isGetParam]);
-
-  useEffect(() => {
-    if (isGetParam) {
-      setPagination(1);
-    }
-  }, [page]);
-
-  // FETCH PRODUCTS
-  const [fashionProducts, setFashionProducts] = useState([]);
-  const [webFashionProducts, setWebFashionProducts] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const fetchWebProducts = async () => {
-    await axios
-      .get(DBURL + "/products/")
-      .then((res) => {
-        // setWebFashionProducts(res.data);
-        // setFashionProducts(res.data);
-        setFirstFashionData(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  // FETCH FOODS
-  const [foodsProducts, setFoodsProducts] = useState([]);
-  const fetchFoodsProducts = async () => {
-    console.log("FEETTTTTTTFOOODD");
-    await axios
-      .get(DBURL + "/foods")
-      .then((res) => {
-        setFirstFoodsData(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  useEffect(() => {
-    fetchWebProducts();
-    fetchFoodsProducts();
-  }, []);
-
-  useEffect(() => {
-    console.log(fashionProducts, webFashionProducts, foodsProducts);
-    if (
-      fashionProducts.length > 0 &&
-      webFashionProducts.length > 0 &&
-      foodsProducts.length > 0
-    ) {
-      setIsLoading(false);
-    }
-  }, [fashionProducts, webFashionProducts, foodsProducts]);
-
-  //   FILTER
   const [searchValue, setSearchValue] = useState("");
   const [idValue, setidValue] = useState("");
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -243,49 +64,107 @@ export default function ProductControl() {
   };
 
   useEffect(() => {
-    if (page === "fashions") {
-      setFilteredProducts(
-        fashionProducts.filter(
-          (item) =>
-            item.name.toLowerCase().includes(searchValue.toLowerCase()) &&
-            (storeFilters[item.store] || false) &&
-            (item._id
-              .toString()
-              .toLowerCase()
-              .includes(idValue.toLowerCase()) ||
-              false)
-        )
-      );
-    } else {
-      setFilteredProducts(
-        foodsProducts.filter(
-          (item) =>
-            item.name.toLowerCase().includes(searchValue.toLowerCase()) &&
-            (foodsType[item.type] || false) &&
-            (item._id
-              .toString()
-              .toLowerCase()
-              .includes(idValue.toLowerCase()) ||
-              false)
-        )
-      );
+    let pageParam =
+      parseInt(new URLSearchParams(window.location.search).get("page")) || 1;
+    let typeParam =
+      new URLSearchParams(window.location.search).get("type") || "fashions";
+    setPage(typeParam);
+    setPagination(pageParam);
+    fetchFoodsProducts();
+    fetchWebProducts();
+  }, []);
+
+  useEffect(() => {
+    if (!pagination) {
+      return;
     }
+    let data = [];
+    if (page === "fashions") {
+      data = firstFashionData.filter(
+        (item) => storeFilters[item.store] || false
+      );
+    } else if (page === "foods") {
+      data = firstFoodsData.filter((item) => foodsType[item.type] || false);
+    }
+
+    data = data.filter(
+      (item) =>
+        item.name.toLowerCase().includes(searchValue.toLowerCase()) &&
+        (item._id.toString().toLowerCase().includes(idValue.toLowerCase()) ||
+          false)
+    );
+
+    let totalPages = Math.ceil(data.length / ITEMS_PER_PAGE);
+    if (
+      firstFashionData.length % ITEMS_PER_PAGE === 0 &&
+      firstFashionData.length - ITEMS_PER_PAGE > 0
+    ) {
+      totalPages--;
+    }
+    setTotalPage(totalPages);
+    if (pagination && page) {
+      navigate(`?page=${pagination}&type=${page}`);
+      setIsGetParam(true);
+    }
+    const startIndex = (pagination - 1) * ITEMS_PER_PAGE;
+    const endIndex = startIndex + ITEMS_PER_PAGE;
+
+    const slicedData = data.slice(startIndex, endIndex);
+    setFilteredProducts(slicedData);
   }, [
+    pagination,
+    firstFashionData,
     page,
+    isGetParam,
     searchValue,
     idValue,
     storeFilters,
     foodsType,
-    foodsProducts,
-    fashionProducts,
   ]);
+
+  useEffect(() => {
+    if (isGetParam) {
+      setPagination(1);
+    }
+  }, [page]);
+
+  // FETCH PRODUCTS
+  const [isLoading, setIsLoading] = useState(true);
+  const fetchWebProducts = async () => {
+    await axios
+      .get(DBURL + "/products/")
+      .then((res) => {
+        setFirstFashionData(res.data);
+      })
+      .catch((err) => {});
+  };
+
+  // FETCH FOODS
+  const fetchFoodsProducts = async () => {
+    await axios
+      .get(DBURL + "/foods")
+      .then((res) => {
+        setFirstFoodsData(res.data);
+      })
+      .catch((err) => {});
+  };
+
+  useEffect(() => {
+    fetchWebProducts();
+    fetchFoodsProducts();
+  }, []);
+
+  useEffect(() => {
+    if (firstFashionData.length > 0 && firstFoodsData.length > 0) {
+      setIsLoading(false);
+    }
+  }, [firstFashionData, firstFoodsData]);
 
   // POPOVER
   const [showPopover, setShowPopover] = useState("");
   const [popoverType, setPopoverType] = useState("");
   const [dataPopover, setDataPopover] = useState({});
   const togglePopover = ({ param, item, type }) => {
-    console.log(param, item, type);
     setPopoverType(type);
     setDataPopover(item);
     setShowPopover(param);
@@ -316,7 +195,6 @@ export default function ProductControl() {
 
       const fileName =
         page === "foods" ? "FoodsProducts.xlsx" : "FashionProducts.xlsx";
-      console.log("LINK", response);
       a.download = fileName;
 
       // Appending the <a> element to the document body, triggering the download, and removing the element
@@ -366,7 +244,7 @@ export default function ProductControl() {
               <div className="flex flex-col sm:flex-row w-full gap-2 max-sm:gap-4">
                 {/* STORE */}
                 {page === "fashions" && (
-                  <div className="flex flex-row gap-2 w-full">
+                  <div className="flex flex-wrap flex-row gap-2 w-full">
                     {Object.keys(storeFilters).map((store) => {
                       return (
                         <Button
@@ -465,7 +343,7 @@ export default function ProductControl() {
                 <div className="flex max-sm:flex-col gap-1 ">
                   <Button
                     variant="green"
-                    className={"max-sm:min-w-[3rem]"}
+                    className={"h-fit max-sm:min-w-[3rem]"}
                     onClick={handleDownload}
                   >
                     <i className="fa-solid fa-file-arrow-down mr-2"></i>
@@ -473,7 +351,7 @@ export default function ProductControl() {
                   </Button>
                   <Button
                     variant="secondary"
-                    className={"max-sm:min-w-[3rem]"}
+                    className={"h-fit max-sm:min-w-[3rem]"}
                     onClick={() =>
                       togglePopover({
                         param: "add",
@@ -580,7 +458,7 @@ export default function ProductControl() {
                 )}
               </div>
             </>
-          ) : filteredProducts?.length === 0 && isLoading ? (
+          ) : isLoading ? (
             <>
               {[...Array(10)].map((i) => (
                 <>

@@ -33,7 +33,6 @@ export default function Navbar() {
         } else {
           fetchUserData();
         }
-        console.log(err);
       });
   };
 

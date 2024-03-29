@@ -453,9 +453,9 @@ export default function PromoPopover(props) {
                                 className="w-full opacity-0 absolute h-full cursor-pointer"
                                 // className="block w-full bg-white focus:outline-white p-3 text-sm text-primaryDark border rounded-lg"
                               />
-                              {formData.imageUrl ? (
+                              {formData.imageUrl.url ? (
                                 <img
-                                  src={formData.imageUrl?.url || ""}
+                                  src={formData.imageUrl?.url}
                                   alt="Image Preview"
                                   className="block h-full w-full object-cover "
                                 />

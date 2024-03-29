@@ -10,7 +10,6 @@ import Title2 from "../components/Title2";
 
 export default function ForgetPassword() {
   const DBURL = import.meta.env.VITE_APP_DB_URL;
-  console.log("DBURL", DBURL);
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -26,14 +25,12 @@ export default function ForgetPassword() {
         email: email,
       })
       .then((res1) => {
-        console.log("Email sent!", res1.data);
         toast.custom((t) => (
           <CustomToast t={t} message="Email sent!" type="success" />
         ));
         setIsSuccess(true);
       })
       .catch((error) => {
-        console.log(error);
         setIsError(true);
         toast.custom((t) => (
           <CustomToast t={t} message="Error sending email" type="failed" />

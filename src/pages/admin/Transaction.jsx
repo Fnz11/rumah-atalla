@@ -17,12 +17,9 @@ import {
   ResponsiveContainer,
   LabelList,
 } from "recharts";
-import format from "date-fns/format";
-import idLocale from "date-fns/locale/id";
 import Button from "../../components/Button";
 import Title from "../../components/Title";
 import Title2 from "../../components/Title2";
-import Checkbox from "../../components/Checkbox";
 import SearchBar from "../../components/SearchBar";
 import ChangePageButton from "../../components/ChangePageButton";
 import TransactionFashionHeadSection from "../../components/Transaction/TransactionFashionHeadSection";
@@ -41,148 +38,6 @@ export default function Transactions() {
 
   // OWNER
   const user = JSON.parse(localStorage.getItem("user"));
-
-  // const transactions = [
-  //   {
-  //     kasir: "mamaraffi",
-  //     id: 1,
-  //     store: "web",
-  //     buyer: "John Doe",
-  //     products: [
-  //       { productId: "657aba8acb516d87717e8170", qty: 2, price: 10000 },
-  //     ],
-  //     _id: "293R92ND938N2DRNUR000000001",
-  //     qty: 3,
-  //     status: "successed",
-  //     totalAmount: "150000",
-  //   },
-  //   {
-  //     kasir: "mamaraffi",
-
-  //     id: 2,
-  //     store: "shopee",
-  //     buyer: "Alice Smith",
-  //     products: [
-  //       { productId: "657aba8acb516d87717e8170", qty: 2, price: 10000 },
-  //     ],
-  //     _id: "293R92ND938N2DRNUR000000002",
-  //     qty: 3,
-  //     status: "pending",
-  //     totalAmount: "90000",
-  //   },
-  //   {
-  //     kasir: "mamaraffi",
-
-  //     id: 3,
-  //     store: "tokopedia",
-  //     buyer: "Bob Johnson",
-  //     products: [
-  //       { productId: "657aba8acb516d87717e8170", qty: 2, price: 10000 },
-  //     ],
-  //     _id: "293R92ND938N2DRNUR000000003",
-  //     qty: 3,
-  //     status: "canceled",
-  //     totalAmount: "210000",
-  //   },
-  //   {
-  //     kasir: "mamaraffi",
-
-  //     id: 4,
-  //     store: "web",
-  //     buyer: "Eva Brown",
-  //     products: [
-  //       { productId: "657aba8acb516d87717e8170", qty: 2, price: 10000 },
-  //     ],
-  //     _id: "293R92ND938N2DRNUR000000004",
-  //     qty: 3,
-  //     status: "pending",
-  //     totalAmount: "75000",
-  //   },
-  //   {
-  //     kasir: "mamaraffi",
-
-  //     id: 5,
-  //     store: "shopee",
-  //     buyer: "Michael Davis",
-  //     products: [
-  //       { productId: "657aba8acb516d87717e8170", qty: 2, price: 10000 },
-  //     ],
-  //     _id: "293R92ND938N2DRNUR000000005",
-  //     qty: 3,
-  //     status: "pending",
-  //     totalAmount: "130005",
-  //   },
-  //   {
-  //     kasir: "mamaraffi",
-
-  //     id: 6,
-  //     store: "tokopedia",
-  //     buyer: "Olivia Wilson",
-  //     products: [
-  //       { productId: "657aba8acb516d87717e8170", qty: 2, price: 10000 },
-  //     ],
-  //     _id: "293R92ND938N2DRNUR000000006",
-  //     qty: 3,
-  //     status: "pending",
-  //     totalAmount: "180000",
-  //   },
-  //   {
-  //     kasir: "mamaraffi",
-
-  //     id: 7,
-  //     store: "web",
-  //     buyer: "Sophia Martinez",
-  //     products: [
-  //       { productId: "657aba8acb516d87717e8170", qty: 2, price: 10000 },
-  //     ],
-  //     _id: "293R92ND938N2DRNUR000000007",
-  //     qty: 3,
-  //     status: "successed",
-  //     totalAmount: "160005",
-  //   },
-  //   {
-  //     kasir: "mamaraffi",
-
-  //     id: 8,
-  //     store: "shopee",
-  //     buyer: "William Anderson",
-  //     products: [
-  //       { productId: "657aba8acb516d87717e8170", qty: 2, price: 10000 },
-  //     ],
-  //     _id: "293R92ND938N2DRNUR000000008",
-  //     qty: 3,
-  //     status: "canceled",
-  //     totalAmount: "100005",
-  //   },
-  //   {
-  //     kasir: "mamaraffi",
-
-  //     id: 9,
-  //     store: "tokopedia",
-  //     buyer: "Emma Garcia",
-  //     products: [
-  //       { productId: "657aba8acb516d87717e8170", qty: 2, price: 10000 },
-  //     ],
-  //     _id: "293R92ND938N2DRNUR000000009",
-  //     qty: 3,
-  //     status: "successed",
-  //     totalAmount: "240000",
-  //   },
-  //   {
-  //     kasir: "mamaraffi",
-
-  //     id: 10,
-  //     store: "web",
-  //     buyer: "Isabella Thompson",
-  //     products: [
-  //       { productId: "657aba8acb516d87717e8170", qty: 2, price: 10000 },
-  //     ],
-  //     _id: "293R92ND938N2DRNUR000000010",
-  //     qty: 3,
-  //     status: "pending",
-  //     totalAmount: "120000",
-  //   },
-  // ];
 
   // PAGE
   const [page, setPage] = useState("fashions");
@@ -203,9 +58,7 @@ export default function Transactions() {
         });
         setKasir(kasirName);
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch((err) => {});
   };
   useEffect(() => {
     fetchKasir();
@@ -234,121 +87,17 @@ export default function Transactions() {
       parseInt(new URLSearchParams(window.location.search).get("page")) || 1;
     let typeParam =
       new URLSearchParams(window.location.search).get("type") || "fashions";
-    console.log("ANUPARAM", pageParam, typeParam, page, pagination);
     setPage(typeParam);
     setPagination(pageParam);
     fetchTransactions();
     fetchPromos();
   }, []);
 
-  useEffect(() => {
-    if (!pagination) {
-      return;
-    }
-    let data = [];
-    if (page === "fashions") {
-      data = firstData.filter((item) => item.type === "fashions");
-    } else if (page === "foods") {
-      data = firstData.filter((item) => item.type === "foods");
-    }
-    if (user.role !== "owner") {
-      data = data.filter((item) => item.kasir === user.username);
-    }
-    let totalPages = Math.ceil(data.length / ITEMS_PER_PAGE);
-    if (firstData.length % ITEMS_PER_PAGE === 0) {
-      totalPages--;
-    }
-    setTotalPage(totalPages);
-    if (pagination && page) {
-      console.log("ANUPARAMMM", pagination, page);
-      navigate(`?page=${pagination}&type=${page}`);
-      setIsGetParam(true);
-    }
-    const startIndex = (pagination - 1) * ITEMS_PER_PAGE;
-    const endIndex = startIndex + ITEMS_PER_PAGE;
-
-    const slicedData = data.reverse().slice(startIndex, endIndex).reverse();
-    console.log("PAPAPAG", startIndex, endIndex, slicedData);
-    setTransactionsWeb(slicedData);
-  }, [pagination, firstData, page, isGetParam]);
-
-  useEffect(() => {
-    if (isGetParam) {
-      setPagination(1);
-    }
-  }, [page]);
-
-  console.log("FIOFIFIFI", firstData);
-
-  const fetchTransactions = async () => {
-    if (transactionsWeb.length === 0) {
-      setIsLoading(true);
-    }
-
-    await axios
-      .get(DBURL + "/transactions/", {
-        headers: {
-          Authorization: token,
-        },
-      })
-      .then((res) => {
-        setFirstData(res.data);
-        console.log(res.data);
-        setIsLoading(false);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  // FETCH PROMO
-  const [promos, setPromos] = useState([]);
-  const fetchPromos = async () => {
-    await axios
-      .get(DBURL + "/promos/", {
-        headers: {
-          Authorization: `${localStorage.getItem("token")}`,
-        },
-      })
-      .then((res) => {
-        setPromos(res.data.filter((item) => item.for === "fashions"));
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
-
-  useEffect(() => {
-    let allTransactions = [...transactionsWeb];
-    if (startDate && endDate) {
-      allTransactions = allTransactions.filter((transaction) => {
-        const transactionDate = new Date(transaction.createdAt);
-        return (
-          transactionDate >= new Date(startDate) &&
-          transactionDate <= new Date(endDate + "T23:59:59")
-        );
-      });
-    }
-    if (user?.role !== "owner") {
-      setTransactionsData(
-        allTransactions.filter((item) => item.kasir === user.username)
-      );
-    } else {
-      setTransactionsData(allTransactions);
-      setFilteredFashionTransaction(allTransactions);
-    }
-  }, [startDate, endDate, transactionsWeb]);
-
   //   FILTER
   const [selectedKasir, setSelectedKasir] = useState("");
   const [openSelectKasirPopover, setOpenSelectKasirPopover] = useState(false);
-
-  const [searchValue, setSearchValue] = useState("");
-  const [idValue, setidValue] = useState("");
-
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
   const [storeFilters, setStoreFilters] = useState({
     tokopedia: true,
     shopee: true,
@@ -359,7 +108,8 @@ export default function Transactions() {
     successed: true,
     canceled: true,
   });
-
+  const [searchValue, setSearchValue] = useState("");
+  const [idValue, setidValue] = useState("");
   const handleStoreFilterChange = (store) => {
     setStoreFilters((prevFilters) => ({
       ...prevFilters,
@@ -378,6 +128,139 @@ export default function Transactions() {
   const [totalPendingTransactions, setTotalPendingTransactions] = useState(0);
   const [dailyTransactions, setDailyTransactions] = useState([]);
 
+  useEffect(() => {
+    if (!pagination) {
+      return;
+    }
+    let data = firstData;
+    // FILTER
+    if (page === "fashions") {
+      data = data.filter(
+        (item) =>
+          item.type === "fashions" && (storeFilters[item.store] || false)
+      );
+    } else if (page === "foods") {
+      data = data.filter((item) => item.type === "foods");
+    }
+    if (user.role !== "owner") {
+      data = data.filter((item) => item.kasir === user.username);
+    }
+    if (startDate && endDate) {
+      data = data.filter((transaction) => {
+        const transactionDate = new Date(transaction.createdAt);
+        return (
+          transactionDate >= new Date(startDate) &&
+          transactionDate <= new Date(endDate + "T23:59:59")
+        );
+      });
+    }
+
+    data = data.filter(
+      (item) =>
+        item.buyer?.toLowerCase().includes(searchValue?.toLowerCase()) &&
+        (statusFilters[item.status] || false) &&
+        (selectedKasir === "" || selectedKasir === item.kasir) &&
+        (item._id.toString().toLowerCase().includes(idValue.toLowerCase()) ||
+          false)
+    );
+
+    let totalPages = Math.ceil(data.length / ITEMS_PER_PAGE);
+    if (
+      firstData.length % ITEMS_PER_PAGE === 0 &&
+      firstData.length - ITEMS_PER_PAGE > 0
+    ) {
+      totalPages--;
+    }
+    setTotalPage(totalPages);
+    if (pagination && page) {
+      navigate(`?page=${pagination}&type=${page}`);
+      setIsGetParam(true);
+    }
+
+    const startIndex = (pagination - 1) * ITEMS_PER_PAGE;
+    const endIndex = startIndex + ITEMS_PER_PAGE;
+
+    const slicedData = data.reverse().slice(startIndex, endIndex).reverse();
+    // TOTAL STATUS TRANSACTION
+    setTotalCanceledTransactions(
+      slicedData.filter(
+        (item) =>
+          item.status === "canceled" &&
+          item.type != "foods" &&
+          (storeFilters[item.store] || false)
+      ).length
+    );
+    setTotalSuccededTransactions(
+      slicedData.filter(
+        (item) =>
+          item.status === "successed" &&
+          item.type != "foods" &&
+          (storeFilters[item.store] || false)
+      ).length
+    );
+    setTotalPendingTransactions(
+      slicedData.filter(
+        (item) =>
+          item.status === "pending" &&
+          item.type != "foods" &&
+          (storeFilters[item.store] || false)
+      ).length
+    );
+    setTransactionsWeb(slicedData);
+    setSortedTransactions(slicedData);
+    setFilteredFashionTransaction(slicedData);
+  }, [
+    pagination,
+    firstData,
+    isGetParam,
+    page,
+    storeFilters,
+    statusFilters,
+    selectedKasir,
+    searchValue,
+    idValue,
+    startDate,
+    endDate,
+  ]);
+
+  useEffect(() => {
+    if (isGetParam) {
+      setPagination(1);
+    }
+  }, [page]);
+
+  const fetchTransactions = async () => {
+    if (transactionsWeb.length === 0) {
+      setIsLoading(true);
+    }
+
+    await axios
+      .get(DBURL + "/transactions/", {
+        headers: {
+          Authorization: token,
+        },
+      })
+      .then((res) => {
+        setFirstData(res.data);
+        setIsLoading(false);
+      })
+      .catch((err) => {});
+  };
+
+  // FETCH PROMO
+  const [promos, setPromos] = useState([]);
+  const fetchPromos = async () => {
+    await axios
+      .get(DBURL + "/promos/", {
+        headers: {
+          Authorization: `${localStorage.getItem("token")}`,
+        },
+      })
+      .then((res) => {
+        setPromos(res.data.filter((item) => item.for === "fashions"));
+      })
+      .catch((err) => {});
+  };
   useEffect(() => {
     setSortedTransactions(
       transactionsData.map(
@@ -406,101 +289,6 @@ export default function Transactions() {
 
     setDailyTransactions(todayTransaction);
   }, [transactionsData]);
-
-  useEffect(() => {
-    if (page === "fashions") {
-      setFilteredFashionTransaction(
-        sortedTransactions.filter(
-          (item) =>
-            item.type === "fashions" &&
-            item.buyer?.toLowerCase().includes(searchValue?.toLowerCase()) &&
-            (storeFilters[item.store] || false) &&
-            (statusFilters[item.status] || false) &&
-            (selectedKasir === "" || selectedKasir === item.kasir) &&
-            (item._id
-              .toString()
-              .toLowerCase()
-              .includes(idValue.toLowerCase()) ||
-              false)
-        )
-      );
-
-      setTotalCanceledTransactions(
-        transactionsData.filter(
-          (item) =>
-            item.status === "canceled" &&
-            item.type != "foods" &&
-            (storeFilters[item.store] || false)
-        ).length
-      );
-      setTotalSuccededTransactions(
-        transactionsData.filter(
-          (item) =>
-            item.status === "successed" &&
-            item.type != "foods" &&
-            (storeFilters[item.store] || false)
-        ).length
-      );
-      setTotalPendingTransactions(
-        transactionsData.filter(
-          (item) =>
-            item.status === "pending" &&
-            item.type != "foods" &&
-            (storeFilters[item.store] || false)
-        ).length
-      );
-    } else {
-      setFilteredFashionTransaction(
-        sortedTransactions.filter(
-          (item) =>
-            item.type === "foods" &&
-            item.buyer?.toLowerCase().includes(searchValue?.toLowerCase()) &&
-            (statusFilters[item.status] || false) &&
-            (selectedKasir === "" || selectedKasir === item.kasir) &&
-            (storeFilters[item.store] || false) &&
-            (item._id
-              .toString()
-              .toLowerCase()
-              .includes(idValue.toLowerCase()) ||
-              false)
-        )
-      );
-
-      setTotalCanceledTransactions(
-        transactionsData.filter(
-          (item) =>
-            item.status === "canceled" &&
-            item.type === "foods" &&
-            (storeFilters[item.store] || false)
-        ).length
-      );
-      setTotalSuccededTransactions(
-        transactionsData.filter(
-          (item) =>
-            item.status === "successed" &&
-            item.type === "foods" &&
-            (storeFilters[item.store] || false)
-        ).length
-      );
-      setTotalPendingTransactions(
-        transactionsData.filter(
-          (item) =>
-            item.status === "pending" &&
-            item.type === "foods" &&
-            (storeFilters[item.store] || false)
-        ).length
-      );
-    }
-  }, [
-    page,
-    searchValue,
-    idValue,
-    storeFilters,
-    transactionsData,
-    sortedTransactions,
-    statusFilters,
-    selectedKasir,
-  ]);
 
   // POPOVER
   const [showPopover, setShowPopover] = useState(false);
@@ -590,7 +378,7 @@ export default function Transactions() {
       })
     );
     setChartData(chartDataValues);
-  }, [transactionsData, page]);
+  }, [transactionsData, transactionsWeb, page]);
 
   // DOWNLOAD DATA
   const handleDownload = async () => {
@@ -786,12 +574,12 @@ export default function Transactions() {
               </div>
 
               {/* CHECKBOX */}
-              <div className="flex  flex-row w-full text-sm mt-4">
+              <div className="flex  max-2xl:flex-wrap max-md:items-center flex-row w-full text-sm mt-4">
                 <div className="w-full ">
                   <div className="mb-2 text-base font-semibold">
                     Transaction Status
                   </div>
-                  <div className="flex flex-row gap-2 w-fit">
+                  <div className="flex flex-wrap gap-2 w-fit">
                     {Object.keys(statusFilters).map((status) => {
                       let color = "";
                       if (status === "canceled") {
@@ -841,7 +629,7 @@ export default function Transactions() {
                     <div className="mb-2 text-base font-semibold">
                       Store Filter
                     </div>
-                    <div className="flex flex-row gap-2 w-fit">
+                    <div className="flex flex-wrap gap-2 w-fit">
                       {Object.keys(storeFilters).map((store) => {
                         return (
                           <Button
@@ -898,7 +686,7 @@ export default function Transactions() {
 
               {/* DATE */}
               <div className="mt-4 flex flex-col">
-                <div className="flex w-full justify-between gap-3">
+                <div className="flex w-full flex-wrap justify-between gap-3">
                   {User?.role === "owner" && (
                     <div>
                       <div className="mb-2 text-base font-semibold">Kasir </div>
@@ -913,7 +701,7 @@ export default function Transactions() {
                           <div
                             className={`${
                               openSelectKasirPopover
-                                ? "h-[11.5rem] opacity-100"
+                                ? "h-[17rem] md:h-[15rem] opacity-100"
                                 : "h-0 opacity-0 invisible"
                             } w-[12rem] transition-all flex flex-col items-center justify-center gap-5 sm:gap-2 truncate duration-200 ease-in bg-section-dark z-[1]  p-3 rounded-2xl shadow-2xl right-0`}
                           >
@@ -933,9 +721,9 @@ export default function Transactions() {
                                   selectedKasir === ""
                                     ? "fa-user-check"
                                     : "fa-user"
-                                }  fa-lg sm:mr-2 `}
+                                }  fa-lg mr-2 `}
                               ></i>
-                              <span className="max-sm:hidden">All Kasir</span>
+                              <span className="">All Kasir</span>
                             </span>
                             {kasir.map((kasirName) => (
                               <span
@@ -955,18 +743,16 @@ export default function Transactions() {
                                     selectedKasir === kasirName
                                       ? "fa-user-check"
                                       : "fa-user"
-                                  }  fa-lg sm:mr-2 `}
+                                  }  fa-lg mr-2 `}
                                 ></i>
-                                <span className="max-sm:hidden">
-                                  {kasirName}
-                                </span>
+                                <span className="">{kasirName}</span>
                               </span>
                             ))}
                           </div>
                         </div>
                         <Button
                           className={
-                            "max-sm:p-6 max-sm:min-w-[11rem] sm:min-w-[11rem] capitalize max-sm:rounded-xl sm:rounded-xl"
+                            " max-sm:min-w-[11rem] sm:min-w-[11rem] capitalize max-sm:rounded-xl sm:rounded-xl"
                           }
                           onClick={() => setOpenSelectKasirPopover(true)}
                         >
@@ -981,7 +767,7 @@ export default function Transactions() {
                   <div className="w-fit">
                     <div className="mb-2 text-base font-semibold">Date</div>
 
-                    <div className="flex items-center justify-end gap-3">
+                    <div className="flex flex-wrap items-center justify-end gap-3">
                       <Button
                         onClick={() => dariDate.current.focus()}
                         className="flex w-fit whitespace-nowrap justify-center items-center gap-2 max-sm:rounded-xl h-12 sm:rounded-xl"

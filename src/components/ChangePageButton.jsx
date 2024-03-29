@@ -30,7 +30,7 @@ export default function ChangePageButton({
           } w-full h-full z-[1]  transition-all duration-300`}
         ></div>
         <h1
-          className={`text-3xl z-[2] relative text-white capitalize font-medium ${
+          className={`text-lg md:text-3xl z-[2] relative text-white capitalize font-medium ${
             page === text
               ? "scale-[1.05] group-hover:scale-[1]"
               : "group-hover:scale-[1.05]"

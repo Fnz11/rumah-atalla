@@ -20,7 +20,6 @@ import Pagination from "../../components/Pagination";
 
 export default function PromoControl() {
   const DBURL = import.meta.env.VITE_APP_DB_URL;
-  console.log(DBURL + "/promos/");
 
   // OWNER
   const navigate = useNavigate();
@@ -39,71 +38,6 @@ export default function PromoControl() {
   const [isGetParam, setIsGetParam] = useState(false);
   const ITEMS_PER_PAGE = 10; // Jumlah item per halaman
 
-  useEffect(() => {
-    let pageParam =
-      parseInt(new URLSearchParams(window.location.search).get("page")) || 1;
-    let typeParam =
-      new URLSearchParams(window.location.search).get("type") || "fashions";
-    console.log("ANUPARAM", pageParam, typeParam, page, pagination);
-    setPage(typeParam);
-    setPagination(pageParam);
-    fetchPromos();
-  }, []);
-
-  useEffect(() => {
-    if (!pagination) {
-      return;
-    }
-    let data = [];
-    if (page === "fashions") {
-      data = firstData.filter((item) => item.for === "fashions");
-    } else if (page === "foods") {
-      data = firstData.filter((item) => item.for === "foods");
-    }
-    let totalPages = Math.ceil(data.length / ITEMS_PER_PAGE);
-    if (firstData.length % ITEMS_PER_PAGE === 0) {
-      totalPages--;
-    }
-    setTotalPage(totalPages);
-    if (pagination && page) {
-      console.log("ANUPARAMMM", pagination, page);
-      navigate(`?page=${pagination}&type=${page}`);
-      setIsGetParam(true);
-    }
-    const startIndex = (pagination - 1) * ITEMS_PER_PAGE;
-    const endIndex = startIndex + ITEMS_PER_PAGE;
-
-    const slicedData = data.reverse().slice(startIndex, endIndex).reverse();
-    setPromos(slicedData);
-  }, [pagination, firstData, page, isGetParam]);
-
-  useEffect(() => {
-    if (isGetParam) {
-      setPagination(1);
-    }
-  }, [page]);
-
-  // FETCH
-  const [Promos, setPromos] = useState([]);
-  console.log("FIFIFIR", Promos);
-
-  const [isLoading, setIsLoading] = useState(true);
-  const fetchPromos = async () => {
-    await axios
-      .get(DBURL + "/promos/", {
-        headers: {
-          Authorization: `${localStorage.getItem("token")}`,
-        },
-      })
-      .then((res) => {
-        setFirstData(res.data);
-        setIsLoading(false);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
   //   FILTER
   const [searchValue, setSearchValue] = useState("");
   const [filteredPromos, setFilteredPromos] = useState([]);
@@ -121,14 +55,72 @@ export default function PromoControl() {
   };
 
   useEffect(() => {
-    setFilteredPromos(
-      Promos.filter(
-        (item) =>
-          item.name.toLowerCase().includes(searchValue.toLowerCase()) &&
-          (typeFilters[item.type] || false)
-      )
+    let pageParam =
+      parseInt(new URLSearchParams(window.location.search).get("page")) || 1;
+    let typeParam =
+      new URLSearchParams(window.location.search).get("type") || "fashions";
+    setPage(typeParam);
+    setPagination(pageParam);
+    fetchPromos();
+  }, []);
+
+  useEffect(() => {
+    if (!pagination) {
+      return;
+    }
+    let data = [];
+    if (page === "fashions") {
+      data = firstData.filter((item) => item.for === "fashions");
+    } else if (page === "foods") {
+      data = firstData.filter((item) => item.for === "foods");
+    }
+
+    data = data.filter(
+      (item) =>
+        item.name.toLowerCase().includes(searchValue.toLowerCase()) &&
+        (typeFilters[item.type] || false)
     );
-  }, [searchValue, typeFilters, Promos]);
+
+    let totalPages = Math.ceil(data.length / ITEMS_PER_PAGE);
+    if (
+      firstData.length % ITEMS_PER_PAGE === 0 &&
+      firstData.length - ITEMS_PER_PAGE > 0
+    ) {
+      totalPages--;
+    }
+    setTotalPage(totalPages);
+    if (pagination && page) {
+      navigate(`?page=${pagination}&type=${page}`);
+      setIsGetParam(true);
+    }
+    const startIndex = (pagination - 1) * ITEMS_PER_PAGE;
+    const endIndex = startIndex + ITEMS_PER_PAGE;
+
+    const slicedData = data.reverse().slice(startIndex, endIndex).reverse();
+
+    setFilteredPromos(slicedData);
+  }, [pagination, firstData, page, isGetParam, typeFilters, searchValue]);
+
+  useEffect(() => {
+    if (isGetParam) {
+      setPagination(1);
+    }
+  }, [page]);
+
+  const [isLoading, setIsLoading] = useState(true);
+  const fetchPromos = async () => {
+    await axios
+      .get(DBURL + "/promos/", {
+        headers: {
+          Authorization: `${localStorage.getItem("token")}`,
+        },
+      })
+      .then((res) => {
+        setFirstData(res.data);
+        setIsLoading(false);
+      })
+      .catch((err) => {});
+  };
 
   // POPOVER
   const [showPopover, setShowPopover] = useState("");
@@ -164,7 +156,6 @@ export default function PromoControl() {
         page === "foods" ? "FoodsPromos.xlsx" : "FashionsPromos.xlsx";
 
       a.download = fileName;
-      console.log("LINK", response);
       // Appending the <a> element to the document body, triggering the download, and removing the element
       document.body.appendChild(a);
       a.click();
@@ -205,7 +196,9 @@ export default function PromoControl() {
                   key={type}
                   onClick={() => handleTypeFilterChange(type)}
                   variant={typeFilters[type] ? "secondary" : "transparent"}
-                  className={"capitalize max-sm:rounded-xl h-12 sm:rounded-xl"}
+                  className={
+                    "capitalize max-sm:rounded-xl max-md:text-xs h-12 sm:rounded-xl"
+                  }
                 >
                   {type}
                   {type === "diskon persentase" ||
@@ -230,7 +223,7 @@ export default function PromoControl() {
                 className={"max-sm:min-w-[3rem]"}
                 onClick={handleDownload}
               >
-                <i className="fa-solid fa-file-arrow-down mr-2"></i>
+                <i className="fa-solid fa-file-arrow-down sm:mr-2"></i>
                 <span className="max-sm:hidden">Download</span>
               </Button>
               <Button
@@ -244,7 +237,7 @@ export default function PromoControl() {
                   })
                 }
               >
-                <i className="fa-solid fa-plus mr-2"></i>
+                <i className="fa-solid fa-plus sm:mr-2"></i>
                 <span className="max-sm:hidden">Add</span>
               </Button>
             </div>

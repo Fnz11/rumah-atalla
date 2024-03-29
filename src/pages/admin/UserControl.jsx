@@ -40,11 +40,13 @@ export default function UserControl() {
 
   // FETCH
   const [isLoading, setIsLoading] = useState(false);
-  const [userData, setUserData] = useState([]);
   const [firstData, setFirstData] = useState([]);
   const [pagination, setPagination] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
   const ITEMS_PER_PAGE = 10; // Jumlah item per halaman
+
+  const [filteredUsers, setFilteredUsers] = useState([]);
+  const [searchValue, setSearchValue] = useState("");
 
   useEffect(() => {
     const page =
@@ -57,9 +59,13 @@ export default function UserControl() {
     if (!pagination) {
       return;
     }
+    let data = firstData;
+    data = data.filter((item) =>
+      item.username.toLowerCase().includes(searchValue.toLowerCase())
+    );
 
-    let totalPages = Math.ceil(firstData.length / ITEMS_PER_PAGE);
-    if (firstData.length % ITEMS_PER_PAGE == 0) {
+    let totalPages = Math.ceil(data.length / ITEMS_PER_PAGE);
+    if (data.length % ITEMS_PER_PAGE == 0 && data.length - ITEMS_PER_PAGE > 0) {
       totalPages--;
     }
     setTotalPage(totalPages);
@@ -67,11 +73,9 @@ export default function UserControl() {
     navigate(`?page=${pagination}`);
     const startIndex = (pagination - 1) * ITEMS_PER_PAGE;
     const endIndex = startIndex + ITEMS_PER_PAGE;
-    const slicedData = firstData.slice(startIndex, endIndex);
-    setUserData(slicedData);
-  }, [pagination, firstData]);
-
-  console.log("PAPAG", pagination, firstData, userData);
+    const slicedData = data.slice(startIndex, endIndex);
+    setFilteredUsers(slicedData);
+  }, [pagination, firstData, searchValue]);
 
   const fetchUser = async () => {
     setIsLoading(true);
@@ -82,23 +86,15 @@ export default function UserControl() {
         },
       })
       .then((res) => {
-        console.log("RERES", res.data);
         setFirstData(res.data);
       })
-      .catch((err) => {
-        console.log(err);
-      })
+      .catch((err) => {})
       .finally(() => {
         setIsLoading(false);
       });
   };
 
   //   FILTER
-  const [searchValue, setSearchValue] = useState("");
-  // const [filteredUsers, setFilteredUsers] = useState([]);
-  const filteredUsers = userData.filter((item) =>
-    item.username.toLowerCase().includes(searchValue.toLowerCase())
-  );
 
   // POPOVER
   const [showPopover, setShowPopover] = useState("");
@@ -124,16 +120,6 @@ export default function UserControl() {
               item?.transactions?.canceled,
           };
         }
-        // if (!result[dateRange]) {
-        //   result[dateRange] = {
-        //     transaction: [],
-        //     Pending: 0,
-        //     Successed: 0,
-        //     Canceled: 0,
-        //     Total: 0,
-        //   };
-        // }
-        // result[dateRange].transaction.push(item);
         return result;
       }, {});
       return groupedData;
@@ -148,7 +134,7 @@ export default function UserControl() {
     );
 
     setChartData(chartDataValues);
-  }, [userData]);
+  }, [firstData]);
 
   // DOWNLOAD DATA
   const handleDownload = async () => {
@@ -167,7 +153,6 @@ export default function UserControl() {
       a.href = downloadUrl;
 
       a.download = "UsersData.xlsx";
-      console.log("LINK", response);
       // Appending the <a> element to the document body, triggering the download, and removing the element
       document.body.appendChild(a);
       a.click();

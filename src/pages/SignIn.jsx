@@ -10,14 +10,12 @@ import Title2 from "../components/Title2";
 
 export default function SignIn() {
   const DBURL = import.meta.env.VITE_APP_DB_URL;
-  console.log("DBURL", DBURL);
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [userData, setUserData] = useState(null);
 
   const handleLogin = async () => {
     setIsLoading(true);
@@ -27,14 +25,12 @@ export default function SignIn() {
         password: password,
       })
       .then((res1) => {
-        console.log("Login berhasil!", res1.data);
         axios.defaults.headers.common[
           "Authorization"
         ] = `Bearer ${res1.data.token}`;
         axios
           .post(DBURL + "/users/check/" + res1.data.token)
           .then((res) => {
-            console.log(res.data.decodedToken);
             localStorage.setItem("token", res1.data.token);
             localStorage.setItem("user", JSON.stringify(res.data.decodedToken));
             setIsLoading(false);
@@ -59,11 +55,8 @@ export default function SignIn() {
       .get(DBURL + "/users/" + User?.userId)
       .then((res) => {
         navigate("/admin/dashboard");
-        setUserData(res.data);
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch((err) => {});
   };
 
   useEffect(() => {
@@ -169,7 +162,7 @@ export default function SignIn() {
               </span>
             </div>
             <div className="flex flex-col w-fit justify-between ml-auto mt-3">
-              <Button onClick={handleLogin}>
+              <Button disabledParam={isLoading} onClick={handleLogin}>
                 Log In
                 <i
                   className={`fa-solid fa-arrow-up fa-lg rotate-[45deg] ml-2`}

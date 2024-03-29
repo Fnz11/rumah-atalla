@@ -1,14 +1,9 @@
 /* eslint-disable no-unused-vars */
-import "./App.css";
 import * as React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import FashionProducts from "./pages/FashionProducts";
 import Navbar from "./pages/Navbar";
 import About from "./pages/About";
-import Foods from "./pages/Foods";
-import Carts from "./pages/Cart";
-import Product from "./pages/Product";
-// import Home from "./pages/Home";
 import Transactions from "./pages/admin/Transaction";
 import Account from "./pages/admin/Account";
 import ProductControl from "./pages/admin/ProductControl";
@@ -35,26 +30,10 @@ const router = createBrowserRouter([
         path: "/",
         element: <About />,
       },
-      // {
-      //   path: "/about",
-      //   element: <About />,
-      // },
       {
         path: "/fashions",
         element: <FashionProducts />,
       },
-      // {
-      //   path: "/foods",
-      //   element: <Foods />,
-      // },
-      // {
-      //   path: "/cart",
-      //   element: <Carts />,
-      // },
-      // {
-      //   path: "/product",
-      //   element: <Product />,
-      // },
       {
         path: "/admin/transactions",
         element: <Transactions />,
@@ -115,7 +94,6 @@ function App() {
         vapidKey: VITE_APP_VAPID_KEY,
       });
 
-      //We can send token to server
       axios
         .get(VITE_APP_DB_URL + "/users/" + userId, {
           headers: { Authorization: userToken },
@@ -134,17 +112,11 @@ function App() {
                 headers: { Authorization: userToken },
               }
             )
-            .then((res) => {
-              console.log("Successfully added new token", token);
-            })
-            .catch((err) => {
-              console.log(err);
-            });
+            .then((res) => {})
+            .catch((err) => {});
         });
-      console.log("Token generated : ", token, userToken, userId);
     } else if (permission === "denied") {
       //notifications are blocked
-      console.log("You denied for the notification");
     }
   }
 

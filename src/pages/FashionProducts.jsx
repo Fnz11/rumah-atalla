@@ -19,6 +19,8 @@ import SearchBar from "../components/SearchBar";
 import FashionKasirSectionSkeleton from "../components/Kasir/FashionKasirSectionSkeleton";
 import FashionKasirSection from "../components/Kasir/FashionKasirSection";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import CustomToast from "../components/CustomToast";
 
 export default function FashionProducts() {
   const DBURL = import.meta.env.VITE_APP_DB_URL;
@@ -39,9 +41,7 @@ export default function FashionProducts() {
         setFashionProducts(res.data);
         setIsLoadingFetch(false);
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch((err) => {});
   };
   // FETCH PROMO
   const [promos, setPromos] = useState([]);
@@ -55,14 +55,25 @@ export default function FashionProducts() {
       .then((res) => {
         setPromos(res.data.filter((item) => item.for === "fashions"));
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch((err) => {});
+  };
+
+  // WA Number
+  const [WANumber, setWANumber] = useState("");
+  const getWANumber = async () => {
+    await axios
+      .get(DBURL + "/users/")
+      .then((res) => {
+        const owner = res.data.find((user) => user.role === "owner");
+        setWANumber(owner.number);
+      })
+      .catch((err) => {});
   };
 
   useEffect(() => {
     fetchPromos();
     fetchFashionProducts();
+    getWANumber();
   }, []);
 
   // TOTAL
@@ -75,18 +86,33 @@ export default function FashionProducts() {
   // CART
   const [productsForm, setProductsForm] = useState([]);
   const [FashionCartItems, setFashionCartItems] = useState([]);
-  const handleFashionCartItems = (item) => {
-    addToCart(item);
-  };
-  const addToCart = (item) => {
+  const addToCart = (item, value = null) => {
+    //  ITEM IS PRODUCT DATA, VALUE IS QTY VALUE
+
+    // FIND THE PRODUCT IN CARTITEMS
     const cartIndex = FashionCartItems.findIndex(
       (product) => product?.idOnCart === item?.idOnCart
     );
+
+    // MAKE UPDATED CART ITEMS
     let updatedFashionCartItems = [...FashionCartItems];
+
+    // CHECK IF THE PRODUCT IS EXIST ON THE CART OR NOT, IF YES THEN
     if (cartIndex >= 0) {
-      updatedFashionCartItems.splice(cartIndex, 1);
-      setFashionCartItems(updatedFashionCartItems);
+      // CHECK VALUE PARAM, IF THE VALUE IS 0 THEN REMOVE IT ON THE CART ITEMS
+      if (value === 0) {
+        updatedFashionCartItems[cartIndex].qty = 0;
+        updatedFashionCartItems.splice(cartIndex, 1);
+        setFashionCartItems(updatedFashionCartItems);
+        return;
+      }
+      // IF NOT, THEN CHANGE THE QTY VALUE OF THE ITEM ON CART
+      updatedFashionCartItems[cartIndex].qty = value;
+      setFashionCartItems(FashionCartItems);
       return;
+    }
+    if (value) {
+      item.qty = value;
     }
     setFashionCartItems([...FashionCartItems, item]);
   };
@@ -96,7 +122,6 @@ export default function FashionProducts() {
 
   // LOADING
   const [isLoading, setIsLoading] = useState(false);
-
   const [formData, setFormData] = useState({
     buyer: "",
     products: [],
@@ -115,9 +140,19 @@ export default function FashionProducts() {
   }, [productsForm, buyer]);
 
   const handleBuy = async () => {
-    // setIsLoading(true);
-    console.log("BUUYY", formData);
-    const whatsappNumber = "+6282138540196";
+    if (formData.buyer === "" || !formData.buyer) {
+      toast.custom((t) => (
+        <CustomToast t={t} message="Please enter your name" type="failed" />
+      ));
+      return;
+    }
+    if (!WANumber || WANumber === "") {
+      toast.custom((t) => (
+        <CustomToast t={t} message="Error buy products" type="failed" />
+      ));
+      return;
+    }
+    const whatsappNumber = WANumber;
     let message = `Halo, Saya ${formData.buyer} ingin memesan produk sebagai berikut:\n`;
     formData.products.forEach((product, index) => {
       let isDiscount = product.price !== product.discount;
@@ -148,7 +183,6 @@ export default function FashionProducts() {
       message += `\nNormal: Rp ${formData.totalAmount.toLocaleString()}\n`;
     }
     message += `\n*Total: Rp ${formData.totalWithDiscount.toLocaleString()}*\n`;
-    console.log("MESMES", message);
     window.open(
       `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`,
       "_blank"
@@ -161,7 +195,6 @@ export default function FashionProducts() {
   const handleChange = (value, type, indexOnCart) => {
     const updatedFashionCartItems = [...FashionCartItems];
     if (type === "qty") {
-      console.log(value, FashionCartItems, indexOnCart);
       updatedFashionCartItems[indexOnCart].qty = value.value1;
     } else if (type === "productType") {
       updatedFashionCartItems[indexOnCart].idOnCart = value.value3;
@@ -221,21 +254,23 @@ export default function FashionProducts() {
         cashback: totalCashback,
       };
     });
-    console.log("NENENENENEW", newFashionCartItems);
-    setProductsForm(newFashionCartItems);
+    return newFashionCartItems;
   };
 
   useEffect(() => {
-    converToProductForm();
+    const newFashionCartItems = converToProductForm();
+    setProductsForm(newFashionCartItems);
   }, [FashionCartItems]);
 
   const togglePopover = () => {
+    const newFashionCartItems = converToProductForm();
+    setProductsForm(newFashionCartItems);
     setShowPopover(!showPopover);
   };
 
   // TOTAL
   useEffect(() => {
-    const newFashionProduct = fashionProducts.map((product) => {
+    const newFashionProducts = fashionProducts.map((product) => {
       let discountNominal = 0;
       let discountPersentase = 0;
       let cashbackNominal = 0;
@@ -252,7 +287,6 @@ export default function FashionProducts() {
         ) {
           included = true;
         }
-        console.log("INCLUD KAHH" + promo.name, included);
         if (included) {
           productPromos.push(promo);
           if (promo.type === "diskon persentase") {
@@ -296,8 +330,7 @@ export default function FashionProducts() {
         variants: newVariants,
       };
     });
-    // console.log("NEPROD", newFashionProduct);
-    setFashionProducts(newFashionProduct);
+    setFashionProducts(newFashionProducts);
   }, [promos, triger]);
 
   //   FILTER
@@ -320,7 +353,6 @@ export default function FashionProducts() {
     const openedProductData = filteredFashions.find(
       (product) => product.name === openedProduct
     );
-    console.log("OPOPOO", openedProduct, openedProduct);
     if (
       openedProduct &&
       openedProductData &&
@@ -339,7 +371,6 @@ export default function FashionProducts() {
   const [showMore, setShowMore] = useState(false);
   const [showMoreData, setShowMoreData] = useState(null);
   const toggleShowMore = ({ data }) => {
-    console.log("OPENED", data);
     setShowMore(!showMore);
     if (showMore) {
       setShowMoreData(null);
@@ -402,7 +433,7 @@ export default function FashionProducts() {
                             handleChange={handleChange}
                             productsForm={productsForm}
                             FashionCartItems={FashionCartItems}
-                            handleFashionCartItems={handleFashionCartItems}
+                            handleFashionCartItems={addToCart}
                           />
                         </div>
                       ))}
