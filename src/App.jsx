@@ -20,6 +20,7 @@ import ResetPassword from "./pages/ResetPassword";
 import { getToken } from "firebase/messaging";
 import { messaging } from "./lib/FirebaseConfigure";
 import axios from "axios";
+import Invoice from "./pages/Invoice";
 
 const router = createBrowserRouter([
   {
@@ -67,6 +68,10 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <SignIn />,
+  },
+  {
+    path: "/invoice/:id",
+    element: <Invoice />,
   },
   {
     path: "/forget-password",

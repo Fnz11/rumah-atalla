@@ -89,14 +89,18 @@ export default function FoodsKasirSection({ props, addToCart, CartItems }) {
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         key={props._id}
-        className={` ${props?.stock === 0 ? "cursor-not-allowed rounded-b-xl" : "md:rounded-bl-2xl"} ${
+        className={` ${
+          props?.stock === 0
+            ? "cursor-not-allowed rounded-b-xl"
+            : "md:rounded-bl-2xl rounded-t-2xl"
+        } ${
           CartItems.find((item) => item._id === props._id)
             ? " border-primaryThin shadow-lg group hover:shadow-xl"
             : " shadow-lg group hover:shadow-xl border-transparent"
         } ${
           quantity < props.stock &&
           "cursor-pointer active:scale-[0.995] active:opacity-[0.2]"
-        } h-fit border-4 select-none group relative bg-section rounded-t-2xl  transition-all  text-[0.6rem] sm:text-sm mb-14 md:mb-10`}
+        } h-fit border-4 select-none group relative bg-section rounded-t-2xl  transition-all  text-[0.6rem] sm:text-sm md:mb-10`}
       >
         <div
           onClick={() => handleAddToCart({ type: "inc" })}
@@ -144,11 +148,49 @@ export default function FoodsKasirSection({ props, addToCart, CartItems }) {
               Rp. {props.price?.toLocaleString()}
             </p>
           </div>
+          <div
+            className={`md:hidden flex max-md:flex-col-reverse mt-3 items-center justify-center px-[1rem] w-full  rounded-bl-3xl rounded-br-3xl  z-[1]  gap-[0.5rem] ${
+              props?.stock === 0 && "hidden"
+            } `}
+          >
+            <div className="flex gap-[0.1rem]">
+              <button
+                onClick={() => handleAddToCart({ type: "change", value: 0 })}
+                className={`px-3 py-2 text-white bg-section-dark rounded-md ${
+                  quantity === 0 && "opacity-[0.6]"
+                } transition-all duration-200 ease-in max-md:w-full md:mr-2 `}
+              >
+                <i className="fa-solid fa-rotate-right scale-[0.9]"></i>
+              </button>
+              <button
+                onClick={() => handleAddToCart({ type: "dec" })}
+                className={`px-3 py-2 text-white bg-section-dark rounded-md ${
+                  quantity === 0 && "opacity-[0.6]"
+                } transition-all duration-200 ease-in `}
+              >
+                -
+              </button>
+              <input
+                type="text"
+                className={`px-2 py-2 text-center text-white bg-section-dark rounded-md w-10  `}
+                value={quantity}
+                onChange={handleQuantity}
+              />
+              <button
+                onClick={() => handleAddToCart({ type: "inc" })}
+                className={`px-3 py-2 text-white bg-section-dark rounded-md ${
+                  quantity === props.stock && "opacity-[0.6]"
+                } transition-all duration-200 ease-in `}
+              >
+                +
+              </button>
+            </div>
+          </div>
         </div>
 
         {/* INC */}
         <div
-          className={`max-md:w-[105.8%] flex max-md:flex-col-reverse items-center justify-center px-[1rem] md:px-[1.5rem] pt-[0.4rem] pb-[1rem] rounded-bl-3xl rounded-br-3xl bg-white absolute z-[1]  shadow-xl gap-[0.1rem] ${
+          className={`max-md:hidden flex max-md:flex-col-reverse items-center justify-center px-[1rem] md:px-[1.5rem] pt-[0.4rem] pb-[1rem] rounded-bl-3xl rounded-br-3xl bg-white absolute z-[1]  shadow-xl gap-[0.1rem] ${
             CartItems.find((item) => item._id === props._id)
               ? "  border-primaryThin shadow-lg group   hover:shadow-xl "
               : "border-transparent  shadow-lg group hover:shadow-xl"

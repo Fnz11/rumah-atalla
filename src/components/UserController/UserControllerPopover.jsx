@@ -76,8 +76,9 @@ export default function UserControllerPopover(props) {
       reader.readAsDataURL(file);
     }
   };
-
-  console.log(userData);
+  useEffect(() => {
+    console.log("This is an image data", userData.imageUrl);
+  }, [userData.imageUrl]);
 
   // LOADING
   const [isLoading, setIsLoading] = useState(false);

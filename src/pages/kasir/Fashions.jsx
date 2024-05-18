@@ -601,6 +601,128 @@ export default function FashionsKasir() {
     }));
   }, [paymentVia]);
 
+  // BARCODE
+  const [barcode, setBarcode] = useState("");
+  const [tempBarcode, setTempBarcode] = useState("");
+  const [lastInputTime, setLastInputTime] = useState(null);
+
+  useEffect(() => {
+    function handleKeyDown(event) {
+      const currentTime = new Date().getTime();
+      const timeSinceLastInput = currentTime - lastInputTime;
+      const isShortInterval = lastInputTime && timeSinceLastInput < 100; // Adjust this interval as needed
+
+      if (isShortInterval || tempBarcode.length === 0) {
+        setTempBarcode(tempBarcode + event.key);
+      } else {
+        setBarcode(""); // Reset barcode if input is not continuous
+        setTempBarcode("");
+      }
+
+      setLastInputTime(currentTime);
+
+      // Limit barcode input to 10 characters
+      console.log("BABABAAAA", tempBarcode, barcode);
+      if (tempBarcode.length >= 10) {
+        setBarcode(tempBarcode);
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [lastInputTime, barcode, tempBarcode]);
+
+  console.log(barcode, tempBarcode, "BARCODE", lastInputTime);
+
+  useEffect(() => {
+    if (!barcode || barcode.length < 10) return;
+    const parts = barcode.split(".");
+
+    const id = parts[0];
+    const indexVariant = parts[1];
+    const indexSize = parts[2];
+
+    const productScanned = fashionProducts.find((item) => item._id === id);
+    fashionProducts.map((item) => {
+      console.log("PPPPPPADA", item._id, id, parts);
+      if (item._id === id) {
+        console.log("PPPPPP", id);
+      }
+    });
+    if (productScanned) {
+      setBarcode("");
+      setTempBarcode("");
+      const idOnCart = id + "?variant=" + indexVariant + ",size=" + indexSize;
+
+      // Check if item is already in cart
+      const isAdded = FashionCartItems?.some((product) => {
+        if (product?.idOnCart === idOnCart) {
+          return true;
+        }
+      });
+      const newSize = {
+        ...productScanned?.variants[indexVariant]?.size[indexSize],
+        indexSize,
+      };
+      const newVariant = {
+        ...productScanned?.variants[indexVariant],
+        indexVariant,
+      };
+      console.log("Barcode scanned:", barcode, id, indexVariant, indexSize);
+
+      if (newSize.stock == 0) {
+        toast.custom((t) => (
+          <CustomToast
+            t={t}
+            type="failed"
+            message="Failed to add to cart, stock needed"
+          />
+        ));
+        setBarcode("");
+        return;
+      }
+
+      let productData = {
+        _id: productScanned?._id?.toString(),
+        idOnCart: idOnCart,
+        name: productScanned?.name,
+        variants: productScanned?.variants,
+        variant: newVariant,
+        size: newSize,
+        sizes: productScanned?.variants[indexVariant]?.size,
+        qty: 1,
+        discountNominal: productScanned?.discountNominal,
+        discountPersentase: productScanned?.discountPersentase,
+        cashbackNominal: productScanned?.cashbackNominal,
+        cashbackPersentase: productScanned?.cashbackPersentase,
+        productPromos: productScanned?.productPromos,
+        price: productScanned?.variants[indexVariant]?.size[indexSize]?.price,
+      };
+
+      if (
+        !isAdded &&
+        productScanned?.variants[indexVariant] &&
+        productScanned?.variants[indexVariant]?.size[indexSize]
+      ) {
+        setFashionCartItems((prevItems) => [...prevItems, productData]);
+        toast.custom((t) => (
+          <CustomToast
+            t={t}
+            type="success"
+            message={`${productData.name} - ${productData.variant.name} - ${productData.size.size} added to cart`}
+          />
+        ));
+      }
+
+      return;
+    }
+  }, [barcode]);
+
+  console.log("INICART", FashionCartItems);
+
   return (
     <>
       {/* POPOVER */}
@@ -909,7 +1031,13 @@ export default function FashionsKasir() {
         addToCart={addToCart}
         data={showMoreData}
       />
-
+      <input
+        type="text"
+        className="fixed top-0 right-0 z-[10]"
+        value={barcode}
+        onChange={(e) => setBarcode(e.target.value)}
+        placeholder="Scan barcode here"
+      />
       <div className=" w-full  pb-20 pt-10  min-h-screen text-primaryDark">
         {/* BUY BUTTON */}
         <BuyButton

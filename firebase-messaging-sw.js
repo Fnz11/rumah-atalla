@@ -6,8 +6,7 @@ import { registerMessaging } from "firebase/messaging";
 const messaging = getMessaging();
 
 getToken(messaging, {
-  vapidKey:
-    "BFn7WimjcSHwWnLjW0ff-DJG2r9ecuEs7GNNjw7sOcs1Zn_LIkS7DemsBNuECqBZScUbNLXXdFpvRNY2e1yXNV0",
+  vapidKey: import.meta.env.VITE_APP_VAPID_KEY,
 })
   .then((currentToken) => {
     if (currentToken) {

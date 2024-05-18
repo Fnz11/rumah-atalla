@@ -20,7 +20,7 @@ export default function FashionProductPopover(props) {
   // PREV DATA
   const [formData, setFormData] = useState({
     name: "",
-    productId: "",
+    _id: "",
     brand: "",
     imageUrl: [],
     description: "",
@@ -45,7 +45,7 @@ export default function FashionProductPopover(props) {
     if (props.data && props.showPopover === "edit") {
       setFormData({
         name: props.data.name,
-        productId: props.data.productId,
+        _id: props.data._id,
         category: props.data.category,
         imageUrl: props.data.imageUrl,
         description: props.data.description,
@@ -431,6 +431,19 @@ export default function FashionProductPopover(props) {
       });
   };
 
+  const encode = (text) => {
+   return text
+  };
+
+  const decode = (text) => {
+    const binaryString = atob(text);
+    const bytes = new Uint8Array(binaryString.length);
+    for (let i = 0; i < binaryString.length; i++) {
+      bytes[i] = binaryString.charCodeAt(i);
+    }
+    const decodedId = new TextDecoder().decode(bytes);
+  };
+
   return (
     <>
       <ConfirmDelete
@@ -494,15 +507,6 @@ export default function FashionProductPopover(props) {
                           onChange={handleInputChange}
                           name="name"
                           placeholder="name"
-                        />
-
-                        {/* ID */}
-                        <TextField
-                          value={formData?.productId}
-                          onChange={handleInputChange}
-                          name="productId"
-                          onName="Product ID"
-                          placeholder="0x42085729593..."
                         />
 
                         {/* DOUBLE */}
@@ -846,10 +850,10 @@ export default function FashionProductPopover(props) {
                             </h1>
                           </div>
                           <div className="w-[101.7%] h-auto mt-2 overflow-y-scroll flex flex-col">
-                            {formData?.variants?.map((item, index) => (
+                            {formData?.variants?.map((item, index1) => (
                               <div
-                                key={index}
-                                className="w-full bg-white mb-4 px-5 py-3 rounded-2xl shadow-lg flex text-primaryDark font-semibold text-[0.8rem] max-sm:flex-col"
+                                key={index1}
+                                className="w-full bg-white mb-4 px-5 py-6 rounded-2xl shadow-lg flex text-primaryDark font-semibold text-[0.8rem] max-sm:flex-col"
                               >
                                 <h1 className="w-full justify-center sm:w-[30%] h-full flex  items-center text-center truncate">
                                   {item?.name}
@@ -857,18 +861,41 @@ export default function FashionProductPopover(props) {
                                 <h1
                                   className={`w-full max-sm:justify-center sm:w-[70%] h-full flex items-center justify-center font-medium flex-col gap-2  py-3`}
                                 >
-                                  {item?.size?.map((size) => (
-                                    <div
-                                      key={size?.size}
-                                      className="flex gap-1 font-semibold"
-                                    >
-                                      <div>{size?.size}</div> -
-                                      <div>{size?.stock} pcs</div> -
-                                      <div className="text-secondary font-semibold">
-                                        Rp. {size?.price?.toLocaleString()}
+                                  {item?.size?.map((size, index2) => {
+                                    const barcode = encode(
+                                      formData._id?.toString() +
+                                        "." +
+                                        index1 +
+                                        "." +
+                                        index2
+                                    );
+                                    console.log("BABABABAB", barcode);
+                                    const link =
+                                      "https://barcode.orcascan.com/?type=code128&data=" +
+                                      barcode;
+                                    return (
+                                      <div
+                                        key={size?.size}
+                                        className="flex items-center justify-center gap-1 font-semibold"
+                                      >
+                                        <div>{size?.size}</div> -
+                                        <div>{size?.stock} pcs</div> -
+                                        <div className="text-secondary font-semibold">
+                                          Rp. {size?.price?.toLocaleString()}
+                                        </div>
+                                        {props.showPopover === "edit" && (
+                                          <a
+                                            href={link}
+                                            target="_blank"
+                                            rel="noreferrer"
+                                            className={`px-3 py-2 text-white bg-section-dark rounded-md transition-all duration-200 ease-in ml-2 `}
+                                          >
+                                            <i className="fa-solid fa-barcode"></i>
+                                        </a>
+                                        )}
                                       </div>
-                                    </div>
-                                  ))}
+                                    );
+                                  })}
                                 </h1>
                               </div>
                             ))}

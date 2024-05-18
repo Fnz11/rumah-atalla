@@ -335,9 +335,7 @@ export default function FashionKasirPopover({
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.2 }}
-                    onClick={() =>
-                      handleFashionCartItems({ idOnCart: props?.idOnCart })
-                    }
+                    onClick={() => handleFashionCartItems(props, 0)}
                     className="text-white cursor-pointer flex flex-col hover:scale-[0.95] transition-all duration-300 items-center justify-center bg-section-dark h-10 w-20 absolute -left-[5.2rem] rounded-full"
                   >
                     Delete?
