@@ -55,7 +55,7 @@ export default function FashionKasirSection({
           isIncluded
             ? "border-4 border-primaryThin opacity-[0.6] scale-[0.95] shadow-lg group hover:shadow-xl"
             : " shadow-lg group hover:shadow-xl"
-        } rounded-2xl m-1 group relative  bg-section inset-[0.1rem] hover:inset-0 overflow-hidden transition-all `}
+        } rounded-2xl m-1 group relative h-fit bg-section inset-[0.1rem] hover:inset-0 overflow-hidden transition-all `}
       >
         <div className=" w-full relative overflow-hidden rounded-b-2xl bg-gray-200 group-hover:opacity-[0.85]  transition-all aspect-square">
           <div className="absolute h-full w-full z-[1] flex items-end">

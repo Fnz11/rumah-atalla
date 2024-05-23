@@ -147,8 +147,6 @@ export default function FashionsKasir() {
     }));
   }, [productsForm, buyer]);
 
-  console.log("FOFORM", productsForm);
-
   const [printableTransactionData, setPrintableTransactionData] =
     useState(null);
 
@@ -226,8 +224,6 @@ export default function FashionsKasir() {
     }
     setFashionCartItems(updatedFashionCartItems);
   };
-
-  console.log("testt", FashionCartItems);
 
   useEffect(() => {
     if (FashionCartItems.length <= 0 && showPopover) {
@@ -488,7 +484,7 @@ export default function FashionsKasir() {
         {transaction.paymentVia && transaction.paymentVia !== "Cash" && (
           <>
             <div className="flex justify-between w-full">
-              <span>Atas Nama Rekening:</span>
+              <span>No Rekening:</span>
               <span>{transaction.atasNamaRekening}</span>
             </div>
             <div className="flex justify-between w-full">
@@ -635,8 +631,6 @@ export default function FashionsKasir() {
     };
   }, [lastInputTime, barcode, tempBarcode]);
 
-  console.log(barcode, tempBarcode, "BARCODE", lastInputTime);
-
   useEffect(() => {
     if (!barcode || barcode.length < 10) return;
     const parts = barcode.split(".");
@@ -646,12 +640,6 @@ export default function FashionsKasir() {
     const indexSize = parts[2];
 
     const productScanned = fashionProducts.find((item) => item._id === id);
-    fashionProducts.map((item) => {
-      console.log("PPPPPPADA", item._id, id, parts);
-      if (item._id === id) {
-        console.log("PPPPPP", id);
-      }
-    });
     if (productScanned) {
       setBarcode("");
       setTempBarcode("");
@@ -721,7 +709,22 @@ export default function FashionsKasir() {
     }
   }, [barcode]);
 
-  console.log("INICART", FashionCartItems);
+  // ==================== FILTER ====================
+
+  // Show product state
+  const [fashionCartShow, setFashionCartShow] = useState([]);
+
+  // Query state
+  const [querySearch, setQuerySearch] = useState("");
+
+  // Handle filter
+  useEffect(() => {
+    setFashionCartShow(
+      FashionCartItems.filter((item) =>
+        item.name.toLowerCase().includes(querySearch.toLowerCase())
+      )
+    );
+  }, [FashionCartItems, querySearch]);
 
   return (
     <>
@@ -747,8 +750,16 @@ export default function FashionsKasir() {
                 <LogoPopover />
               </div>
 
+              {/* Search */}
+              {popoverPage === 1 && (
+                <SearchBar
+                  onChange={(e) => setQuerySearch(e.target.value)}
+                  value={querySearch}
+                  placeholder={"Search"}
+                />
+              )}
               {/* CONTENT */}
-              <div className="h-[70%] ">
+              <div className={`${popoverPage == 1 ? "h-[60%]" : "h-[75%]"}`}>
                 {popoverPage === 1 ? (
                   <div className="flex flex-col h-full gap-2">
                     {/* ITEM */}
@@ -757,10 +768,11 @@ export default function FashionsKasir() {
                         <>
                           {/* TITTLE */}
                           <Title title={"Fashions"} className={"my-5"} />
+
                           {/* TOP */}
                           <FashionHeadPopover />
 
-                          {FashionCartItems.map((item, index) => (
+                          {fashionCartShow.map((item, index) => (
                             <div key={item?._id}>
                               <FashionKasirPopover
                                 item={item}
@@ -846,7 +858,7 @@ export default function FashionsKasir() {
                             onChange={(e) => setBuyer(e.target.value)}
                           />
                           <TextField
-                            name={"Atas Nama Rekening"}
+                            name={"No Rekening"}
                             value={formData?.atasNamaRekening}
                             onChange={(e) =>
                               setFormData((prevData) => ({

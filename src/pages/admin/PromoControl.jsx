@@ -253,7 +253,7 @@ export default function PromoControl() {
               text={"foods"}
             />
             <ChangePageButton
-              image="https://img.freepik.com/premium-photo/group-young-beautiful-muslim-women-fashionable-dress-with-hijab-using-mobile-phone-while-taking-selfie-picture-front-black-chalkboard-representing-modern-islam-fashion-technology-ramad_530697-51545.jpg"
+              image="https://blue.kumparan.com/image/upload/fl_progressive,fl_lossy,c_fill,q_auto:best,w_640/v1512805613/qv73mma9aj6slytzyguj.jpg"
               setPage={() => setPage("fashions")}
               height={"10rem"}
               page={page}

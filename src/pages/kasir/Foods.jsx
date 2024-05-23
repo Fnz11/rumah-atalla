@@ -434,7 +434,7 @@ export default function FoodsKasir() {
         {transaction.paymentVia && transaction.paymentVia !== "Cash" && (
           <>
             <div className="flex justify-between w-full">
-              <span>Atas Nama Rekening:</span>
+              <span>No Rekening:</span>
               <span>{transaction.atasNamaRekening}</span>
             </div>
             <div className="flex justify-between w-full">
@@ -537,6 +537,25 @@ export default function FoodsKasir() {
       setPrintableContent(null);
     }
   }, [isPrint]);
+
+  // ==================== FILTER ====================
+
+  // Show product state
+  const [cartShow, setCartShow] = useState([]);
+
+  // Query state
+  const [querySearch, setQuerySearch] = useState("");
+
+  // Handle filter
+  useEffect(() => {
+    setCartShow(
+      cartItems.filter((item) =>
+        item.name.toLowerCase().includes(querySearch.toLowerCase())
+      )
+    );
+  }, [cartItems, querySearch]);
+
+  console.log(cartItems, cartShow, querySearch, "💖💖💖");
   return (
     <>
       {/* POPOVER */}
@@ -564,24 +583,32 @@ export default function FoodsKasir() {
                 <LogoPopover />
               </div>
 
+              {/* SEARCH */}
+              {popoverPage == 1 && (
+                <SearchBar
+                  value={querySearch}
+                  onChange={(e) => setQuerySearch(e.target.value)}
+                  placeholder={"Search"}
+                />
+              )}
               {/* FORM */}
-              <div className="h-[70%]">
+              <div className={`${popoverPage == 1 ? "h-[60%]" : "h-[75%]"}`}>
                 {popoverPage === 1 ? (
                   <>
                     {/* ITEM */}
                     <div className="w-full h-[100%] overflow-y-scroll overflow-x-hidden">
                       {cartItems.length > 0 && (
                         <>
-                          {cartItems.findIndex(
-                            (item) => item.type == "foods"
-                          ) >= 0 && (
+                          {cartShow.findIndex((item) => item.type == "foods") >=
+                            0 && (
                             <>
                               {/* TITLE */}
                               <Title className={"my-3"} title="Foods" />
+
                               {/* TOP */}
                               <FoodsHeadPopover />
 
-                              {cartItems.map((item, index) => {
+                              {cartShow.map((item, index) => {
                                 if (item.type == "drinks") return;
                                 return (
                                   <div key={item._id}>
@@ -607,7 +634,7 @@ export default function FoodsKasir() {
                               {/* TOP */}
                               <FoodsHeadPopover />
 
-                              {cartItems.map((item, index) => {
+                              {cartShow.map((item, index) => {
                                 if (item.type == "foods") return;
                                 return (
                                   <div key={item._id}>
@@ -697,7 +724,7 @@ export default function FoodsKasir() {
                             onChange={(e) => setBuyer(e.target.value)}
                           />
                           <TextField
-                            name={"Atas Nama Rekening"}
+                            name={"No Rekening"}
                             value={formData?.atasNamaRekening}
                             onChange={(e) =>
                               setFormData((prevData) => ({
